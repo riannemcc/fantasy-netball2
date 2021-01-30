@@ -1,0 +1,13 @@
+.rulesList {
+    padding: 40px;
+    background-color: pink;
+    list-style-type: square;
+    text-align: left;
+    font-size: 18px;
+    color: black;
+}
+
+.rulesextra {
+    padding: 20px;
+    text-align: left;
+}
