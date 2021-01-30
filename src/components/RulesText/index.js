@@ -1,0 +1,1 @@
+export { RulesText } from './RulesText'
