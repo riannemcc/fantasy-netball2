@@ -17,3 +17,6 @@ export default function Profile() {
 
   return <AuthenticatedComponent user={session.user} />;
 }
+
+// show leaderboard here?
+// upcoming games?
