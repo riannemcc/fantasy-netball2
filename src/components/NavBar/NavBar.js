@@ -11,17 +11,17 @@ export const NavBar = () => {
 
   return (
     <>
-      <nav className="flex items-center flex-wrap bg-green-700 p-3 ">
+      <nav className="flex items-center flex-wrap bg-black p-3 ">
         <Link href="/">
           <a className="inline-flex items-center p-2 mr-4 ">
             {/* <Ballbnw /> */}
-            <span class="text-xl text-white font-bold uppercase tracking-wide">
+            <span class="text-xl text-pink font-bold uppercase tracking-wide">
               Fantasy Netball
             </span>
           </a>
         </Link>
         <button
-          class=" inline-flex p-3 hover:bg-green-900 rounded lg:hidden text-white ml-auto hover:text-white outline-none"
+          class=" inline-flex p-3 hover:bg-pink-900 rounded lg:hidden text-pink ml-auto hover:text-white outline-none"
           onClick={handleClick}
         >
           <svg
@@ -47,27 +47,27 @@ export const NavBar = () => {
         >
           <div className="lg:inline-flex lg:flex-row lg:ml-auto lg:w-auto w-full lg:items-center items-start  flex flex-col lg:h-auto">
             <Link href="/">
-              <a className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:bg-green-600 hover:text-white ">
+              <a className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-pink font-bold items-center justify-center hover:bg-green-600 hover:text-white ">
                 Home
               </a>
             </Link>
             <Link href="/stats">
-              <a className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:bg-green-600 hover:text-white">
+              <a className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-pink font-bold items-center justify-center hover:bg-green-600 hover:text-white">
                 Stats
               </a>
             </Link>
             <Link href="/leaderboard">
-              <a className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:bg-green-600 hover:text-white">
+              <a className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-pink font-bold items-center justify-center hover:bg-green-600 hover:text-white">
                 Leaderboard
               </a>
             </Link>
             <Link href="/team-selection">
-              <a className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:bg-green-600 hover:text-white">
+              <a className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-pink font-bold items-center justify-center hover:bg-green-600 hover:text-white">
                 Team Selection
               </a>
             </Link>
             <Link href="/rules">
-              <a className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:bg-green-600 hover:text-white">
+              <a className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-pink font-bold items-center justify-center hover:bg-green-600 hover:text-white">
                 Rules
               </a>
             </Link>

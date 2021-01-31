@@ -3,9 +3,8 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { NavBar } from "../src/components/NavBar";
 import { Provider } from "next-auth/client";
-// import { AppProps } from 'next/app'
 
-import "../styles/main.css";
+import "../styles/tailwind.css";
 
 const MyApp = ({ Component, pageProps }) => {
   const { basePath } = useRouter();

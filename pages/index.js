@@ -15,7 +15,7 @@ export default function Page() {
           Not signed in <br />
           <button
             onClick={signIn}
-            class="bg-red-400 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full"
+            class="bg-pink hover:bg-pink-700 text-white font-bold py-2 px-4 rounded-full"
           >
             Sign in
           </button>
@@ -26,7 +26,7 @@ export default function Page() {
           Signed in as {session.user.email} <br />
           <button
             onClick={signOut}
-            class="bg-red-400 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full"
+            class="bg-pink hover:bg-pink-700 text-white font-bold py-2 px-4 rounded-full"
           >
             Sign out
           </button>
