@@ -21,8 +21,6 @@ const MyApp = ({ Component, pageProps }) => {
         </Head>
         <main>
           <NavBar />
-          <h1 className="title">Welcome to Macca's Fantasy Netball</h1>
-          {/* <Layout /> */}
         </main>
         <Component {...pageProps} />
       </Provider>

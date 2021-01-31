@@ -1,4 +1,8 @@
-<main>
-<h1 className="title">
-  Welcome to Macca's Fantasy Netball
-</h1>
+.container {
+  height: 100%;
+  width: 100%;
+}
+
+.image {
+  left: 10;
+}

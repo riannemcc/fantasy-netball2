@@ -13,13 +13,23 @@ export default function Page() {
       {!session && (
         <>
           Not signed in <br />
-          <button onClick={signIn}>Sign in</button>
+          <button
+            onClick={signIn}
+            class="bg-red-400 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full"
+          >
+            Sign in
+          </button>
         </>
       )}
       {session && (
         <>
           Signed in as {session.user.email} <br />
-          <button onClick={signOut}>Sign out</button>
+          <button
+            onClick={signOut}
+            class="bg-red-400 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full"
+          >
+            Sign out
+          </button>
         </>
       )}
       <HomePage />
