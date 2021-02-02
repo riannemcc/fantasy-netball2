@@ -82,7 +82,8 @@ https://dev.to/andrewespejo/how-to-design-a-simple-and-beautiful-navbar-using-ne
 TO DO:
 
 - fix purge so in tailwind.config so it does what it's meant to. Last time tried to change to js files, stopped all tailwing styles from building in production
-- See if sign in/out button can be added to navbar or HomePage
-- work out whether homepage components should be added to profile, or vice versa
 - use tailwind to position homepage image
 - move out some of the lements from the pages into separate components
+- why is next auth email sign in making you click link multiple times
+- facebook login dosnt work
+- burger menu isn't lcosing once you cklick option

@@ -6,8 +6,8 @@ import styles from "./HomePage.module.css";
 export const HomePage = () => {
   return (
     <div class="flex flex-row w-11/12">
-      <div className={styles.container} class="flex flex-col ml-28 ">
-        <h1 class="font-sans font-bold text-6xl text-black text-center  mt-20 object-center">
+      <div className={styles.container} class="flex flex-col ml-4">
+        <h1 class="font-sans font-bold text-6xl text-black text-center mt-20 object-center">
           Superleague
           <br />
           Fantasy Netball
