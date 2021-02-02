@@ -3,6 +3,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { NavBar } from "../src/components/NavBar";
 import { Provider } from "next-auth/client";
+import { Footer } from "../src/components/Footer";
 
 import "../styles/tailwind.css";
 
@@ -18,10 +19,11 @@ const MyApp = ({ Component, pageProps }) => {
           <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
           <meta name="description" content="Fantasy Netball" />
         </Head>
+        <NavBar />
         <main>
-          <NavBar />
+          <Component {...pageProps} />
         </main>
-        <Component {...pageProps} />
+        <Footer />
       </Provider>
     </>
   );
