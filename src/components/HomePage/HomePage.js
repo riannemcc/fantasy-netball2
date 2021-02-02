@@ -5,16 +5,18 @@ import styles from "./HomePage.module.css";
 
 export const HomePage = () => {
   return (
-    <>
-      <div className={styles.container}>
-        <h1
-          className="title"
-          class="font-sans font-bold text-3xl text-black text-center"
-        >
-          Superleague Fantasy Netball
+    <div class="flex flex-row w-11/12">
+      <div className={styles.container} class="flex flex-col ml-28 ">
+        <h1 class="font-sans font-bold text-6xl text-black text-center  mt-20 object-center">
+          Superleague
+          <br />
+          Fantasy Netball
         </h1>
-        <Image src="/netball.png" alt="netball" width="550" height="550" />
+        <h2 class="font-sans font-bold text-3xl text-gray-600 text-center mt-20">
+          Choose your team. Watch them play. Win some points.
+        </h2>
       </div>
-    </>
+      <Image src="/netballcrop.png" alt="netball" width="550" height="550" />
+    </div>
   );
 };

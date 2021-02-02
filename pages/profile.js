@@ -15,7 +15,13 @@ export default function Profile() {
 
   if (!session) return <UnauthenticatedComponent />;
 
-  return <AuthenticatedComponent user={session.user} />;
+  return (
+    <div>
+      <AuthenticatedComponent user={session.user} />
+      WHAT SHOULD GO ON THE PROFILE? TEAM NAME LINK TO TEAM SELECTION
+      LEADERBOARD - TOP 10? UPCOMING GAMES? HIGHEST SCORING PLAYER
+    </div>
+  );
 }
 
 // show leaderboard here?

@@ -78,3 +78,11 @@ Alternatively, you can deploy using our template by clicking on the Deploy butto
 
 https://blog.logrocket.com/using-authentication-in-next-js/
 https://dev.to/andrewespejo/how-to-design-a-simple-and-beautiful-navbar-using-nextjs-and-tailwindcss-26p1
+
+TO DO:
+
+- fix purge so in tailwind.config so it does what it's meant to. Last time tried to change to js files, stopped all tailwing styles from building in production
+- See if sign in/out button can be added to navbar or HomePage
+- work out whether homepage components should be added to profile, or vice versa
+- use tailwind to position homepage image
+- move out some of the lements from the pages into separate components

@@ -10,6 +10,7 @@ export default function Page() {
 
   return (
     <>
+      <HomePage />
       {!session && (
         <>
           Not signed in <br />
@@ -23,7 +24,7 @@ export default function Page() {
       )}
       {session && (
         <>
-          Signed in as {session.user.email} <br />
+          {/* Signed in as {session.user.email} <br /> */}
           <button
             onClick={signOut}
             class="bg-pink hover:bg-pink-700 text-white font-bold py-2 px-4 rounded-full"
@@ -32,7 +33,6 @@ export default function Page() {
           </button>
         </>
       )}
-      <HomePage />
     </>
   );
 }
