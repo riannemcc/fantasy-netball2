@@ -1,33 +1,6 @@
-## Example app using MongoDB
+## FANTASY NETBALL
 
-[MongoDB](https://www.mongodb.com/) is a general purpose, document-based, distributed database built for modern application developers and for the cloud era. This example will show you how to connect to and use MongoDB as your backend for your Next.js app.
-
-If you want to learn more about MongoDB, visit the following pages:
-
-- [MongoDB Atlas](https://mongodb.com/atlas)
-- [MongoDB Documentation](https://docs.mongodb.com/)
-
-## Deploy your own
-
-Once you have access to the environment variables you'll need, deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example):
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-mongodb&project-name=with-mongodb&repository-name=with-mongodb&env=MONGODB_URI,MONGODB_DB&envDescription=Required%20to%20connect%20the%20app%20with%20MongoDB)
-
-## How to use
-
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
-
-```bash
-npx create-next-app --example with-mongodb with-mongodb-app
-# or
-yarn create next-app --example with-mongodb with-mongodb-app
-```
-
-## Configuration
-
-### Set up a MongoDB database
-
-Set up a MongoDB database either locally or with [MongoDB Atlas for free](https://mongodb.com/atlas).
+##
 
 ### Set up environment variables
 
@@ -41,6 +14,15 @@ Set each variable on `.env.local`:
 
 - `MONGODB_URI` - Your MongoDB connection string. If you are using [MongoDB Atlas](https://mongodb.com/atlas) you can find this by clicking the "Connect" button for your cluster.
 - `MONGODB_DB` - The name of the MongoDB database you want to use.
+- `NEXTAUTH_URL`
+- `DATABASE_URL`
+- `EMAIL_FROM`
+- `EMAIL_USERNAME`
+- `EMAIL_PASSWORD`
+- `GOOGLE_ID`
+- `GOOGLE_SECRET`
+- `FACEBOOK_ID`
+- `FACEBOOK_SECRET`
 
 ### Run Next.js in development mode
 
@@ -59,10 +41,6 @@ Your app should be up and running on [http://localhost:3000](http://localhost:30
 You will either see a message stating "You are connected to MongoDB" or "You are NOT connected to MongoDB". Ensure that you have provided the correct `MONGODB_URI` and `MONGODB_DB` environment variables.
 
 When you are successfully connected, you can refer to the [MongoDB Node.js Driver docs](https://mongodb.github.io/node-mongodb-native/3.4/tutorials/collections/) for further instructions on how to query your database.
-
-## Deploy on Vercel
-
-You can deploy this app to the cloud with [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
 
 #### Deploy Your Local Project
 
@@ -83,7 +61,12 @@ TO DO:
 
 - fix purge so in tailwind.config so it does what it's meant to. Last time tried to change to js files, stopped all tailwing styles from building in production
 - use tailwind to position homepage image
-- move out some of the lements from the pages into separate components
-- why is next auth email sign in making you click link multiple times
-- facebook login dosnt work
-- burger menu isn't lcosing once you cklick option
+- move out some of the elements from the pages into separate components
+- burger menu isn't closing once you click option
+
+CURRENT ISSUES:
+
+- next-auth -> doesn't recognise email sign in link first time - it redirects straight back to log in page rather than going to profile, have to do it multiple times.
+  -> facebook log in doesn't work, unstable app?
+- passport auth -> you can sign up and log in, but profile doesn;'t recognise session
+- need to understand how to add a field to user document in mongodb, for team selection

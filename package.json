@@ -12,14 +12,23 @@
   "dependencies": {
     "@svgr/webpack": "^5.5.0",
     "autoprefixer": "^10.2.4",
+    "bcryptjs": "^2.4.3",
+    "connect-mongo": "^3.2.0",
+    "express-session": "^1.17.1",
     "mongodb": "^3.5.9",
     "next": "latest",
     "next-auth": "^3.1.0",
+    "next-connect": "^0.9.1",
+    "next-session": "^3.4.0",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
     "postcss": "^8.2.4",
     "postcss-cli": "^8.3.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "tailwindcss": "^2.0.2"
+    "swr": "^0.4.1",
+    "tailwindcss": "^2.0.2",
+    "validator": "^13.5.2"
   },
   "license": "MIT"
 }

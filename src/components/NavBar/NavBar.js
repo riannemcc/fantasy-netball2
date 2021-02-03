@@ -20,7 +20,7 @@ export const NavBar = () => {
         </a>
       </Link>
       <button
-        class=" inline-flex p-3 hover:bg-pink-900 rounded lg:hidden text-pink ml-auto hover:text-white outline-none"
+        class="inline-flex p-3 hover:bg-pink-900 rounded lg:hidden text-pink ml-auto hover:text-white outline-none"
         onClick={handleClick}
       >
         <svg
