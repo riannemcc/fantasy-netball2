@@ -13,7 +13,6 @@ export const NavBar = () => {
     <nav className="flex items-center flex-wrap bg-black p-3 ">
       <Link href="/">
         <a className="inline-flex items-center p-2 mr-4 ">
-          {/* <Ballbnw /> */}
           <span class="text-xl text-pink font-bold uppercase tracking-wide">
             Fantasy Netball
           </span>
@@ -38,7 +37,6 @@ export const NavBar = () => {
           />
         </svg>
       </button>
-      {/*Note that in this div we will use a ternary operator to decide whether or not to display the content of the div  */}
       <div
         className={`${
           active ? "" : "hidden"

@@ -18,11 +18,12 @@ export default function Profile() {
   return (
     <div>
       <AuthenticatedComponent user={session.user} />
-      WHAT SHOULD GO ON THE PROFILE? TEAM NAME LINK TO TEAM SELECTION
-      LEADERBOARD - TOP 10? UPCOMING GAMES? HIGHEST SCORING PLAYER
+      WHAT SHOULD GO ON THE PROFILE?
+      <span>TEAM NAME</span>
+      <span>LINK TO TEAM SELECTION</span>
+      <span>LEADERBOARD - TOP 10?</span>
+      <span>UPCOMING GAMES?</span>
+      <span>HIGHEST SCORING PLAYER</span>
     </div>
   );
 }
-
-// show leaderboard here?
-// upcoming games?
