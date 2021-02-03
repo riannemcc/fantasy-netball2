@@ -12,7 +12,7 @@ export const NavBar = () => {
   return (
     <nav className="flex items-center flex-wrap bg-black p-3 ">
       <Link href="/">
-        <a className="inline-flex items-center p-2 mr-4 ">
+        <a class="inline-flex items-center p-2 mr-4 ">
           <span class="text-xl text-pink font-bold uppercase tracking-wide">
             Fantasy Netball
           </span>
