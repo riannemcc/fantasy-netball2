@@ -90,10 +90,11 @@ export default function TeamSelection({ players = [] }) {
               defenceSub,
             ];
             insertTeam(team, teamName);
+            event.target.reset();
           }}
         >
           <label
-            for="teamname"
+            htmlFor="teamname"
             class="font-sans font-bold text-xl text-black m-2"
           >
             Team name:
@@ -106,54 +107,50 @@ export default function TeamSelection({ players = [] }) {
             class="border-2 border-black w-4/12 ml-2"
             required
           />
-          <div>
-            {positions.map((position) => {
-              return (
-                <div class="w-auto m-6 flex-row">
-                  <label
-                    for={position}
-                    class="font-sans font-bold text-xl text-black text-center w-2/12"
-                  >
-                    {position}
-                  </label>
-                  <select
-                    name={position}
-                    id={position}
-                    class="w-8/12 ml-6 border-2 border-black"
-                    required
-                  >
-                    <option value="">--Please choose an option--</option>
-                    {position === "GS" ||
-                    position === "GA" ||
-                    position === "Sub 1"
-                      ? shooters.map((shooter) => {
-                          return <option value={shooter}>{shooter}</option>;
-                        })
-                      : null}
-                    {position === "WA" ||
-                    position === "C" ||
-                    position === "WD" ||
-                    position === "Sub 2"
-                      ? centreCourt.map((centerCourter) => {
-                          return (
-                            <option value={centerCourter}>
-                              {centerCourter}
-                            </option>
-                          );
-                        })
-                      : null}
-                    {position === "GD" ||
-                    position === "GK" ||
-                    position === "Sub 3"
-                      ? defenders.map((defender) => {
-                          return <option value={defender}>{defender}</option>;
-                        })
-                      : null}
-                  </select>
-                </div>
-              );
-            })}
-          </div>
+          {positions.map((position) => {
+            return (
+              <div class="w-auto m-6 flex-row">
+                <label
+                  for={position}
+                  class="font-sans font-bold text-xl text-black text-center w-2/12"
+                >
+                  {position}
+                </label>
+                <select
+                  name={position}
+                  id={position}
+                  class="w-8/12 ml-6 border-2 border-black"
+                  required
+                >
+                  <option value="">--Please choose an option--</option>
+                  {position === "GS" ||
+                  position === "GA" ||
+                  position === "Sub 1"
+                    ? shooters.map((shooter) => {
+                        return <option value={shooter}>{shooter}</option>;
+                      })
+                    : null}
+                  {position === "WA" ||
+                  position === "C" ||
+                  position === "WD" ||
+                  position === "Sub 2"
+                    ? centreCourt.map((centerCourter) => {
+                        return (
+                          <option value={centerCourter}>{centerCourter}</option>
+                        );
+                      })
+                    : null}
+                  {position === "GD" ||
+                  position === "GK" ||
+                  position === "Sub 3"
+                    ? defenders.map((defender) => {
+                        return <option value={defender}>{defender}</option>;
+                      })
+                    : null}
+                </select>
+              </div>
+            );
+          })}
           <button
             type="submit"
             class="bg-pink hover:bg-pink-700 text-white font-bold py-2 px-4 rounded-full self-center"
