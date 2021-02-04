@@ -3,26 +3,15 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { connectToDatabase } from "../util/mongodb";
 
-const UnauthenticatedComponent = dynamic(() =>
-  import("../src/components/unathenticated")
-);
-const AuthenticatedComponent = dynamic(() =>
-  import("../src/components/authenticated")
-);
-
 export default function Profile({ players, users }) {
   const [session, loading] = useSession();
 
   if (typeof window !== "undefined" && loading) return <p>Loading...</p>;
 
-  if (!session) return <UnauthenticatedComponent />;
-
   // use session.user to match users bd collection, and extract team name
   // object of all games with dates, if date has passed, do not show game
   return (
     <div>
-      <AuthenticatedComponent user={session.user} />
-
       {/* <h2>{user.teamname && user.teamname}</h2> */}
       <Link href="/team-selection">
         <a class="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-pink font-bold items-center justify-center">

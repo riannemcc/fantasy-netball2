@@ -2,6 +2,8 @@ import React from "react";
 import { connectToDatabase } from "../util/mongodb";
 
 export default function Leaderboard({ users }) {
+  const calculateUsersPoints = () => {};
+
   return (
     <div>
       <h1 class="text-xl text-black font-bold uppercase m-2">
