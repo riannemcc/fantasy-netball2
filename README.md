@@ -82,7 +82,6 @@ TO DO:
 - fix purge so in tailwind.config so it does what it's meant to. Last time tried to change to js files, stopped all tailwing styles from building in production
 - use tailwind to position homepage image
 - move out some of the elements from the pages into separate components
-- clear team selection form on submit
 - order leaderboard by descending points
 - First time player scores points, need to add points field to db
 - admin part of site to add points, change players etc?
@@ -93,6 +92,5 @@ CURRENT ISSUES:
   -> facebook log in doesn't work, unstable app?
   -> Twitter log in doeesn't work
 - passport auth -> you can sign up and log in, but profile doesn;'t recognise session
-- need to understand how to add a field to user document in mongodb, for team selection
 - How does log in work on prod? - do I need to add env variables to vercel?
 - Do I need to add prod url to oauth client IDs? (https://console.developers.google.com/apis/credentials/oauthclient)
