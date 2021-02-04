@@ -1,14 +1,7 @@
 import React from "react";
 import { connectToDatabase } from "../util/mongodb";
 
-export default function TeamSelection({ players = [], users }) {
-  const selectTeam = async () => {
-    const res = await fetch("http://localhost:3000/api/users", {
-      method: "post",
-      body: JSON.stringify(results),
-    });
-  };
-
+export default function TeamSelection({ players = [] }) {
   const shooters = players
     .filter((player) => {
       return (
@@ -101,7 +94,7 @@ export default function TeamSelection({ players = [], users }) {
         >
           <label
             for="teamname"
-            class="font-sans font-bold text-xl text-black text-center m-2"
+            class="font-sans font-bold text-xl text-black m-2"
           >
             Team name:
           </label>
@@ -110,16 +103,16 @@ export default function TeamSelection({ players = [], users }) {
             id="teamname"
             name="teamname"
             label="Team name"
-            class="border-2 border-black w-8/12 ml-2"
+            class="border-2 border-black w-4/12 ml-2"
             required
           />
           <div>
             {positions.map((position) => {
               return (
-                <div class="w-80 m-6 flex-row">
+                <div class="w-auto m-6 flex-row">
                   <label
                     for={position}
-                    class="font-sans font-bold text-xl text-black text-center"
+                    class="font-sans font-bold text-xl text-black text-center w-2/12"
                   >
                     {position}
                   </label>
@@ -173,7 +166,7 @@ export default function TeamSelection({ players = [], users }) {
   );
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const { db } = await connectToDatabase();
 
   const players = await db
@@ -191,8 +184,6 @@ export async function getStaticProps() {
 }
 
 async function insertTeam(team, teamName) {
-  console.log("team", team);
-  console.log("teamName", teamName);
   try {
     const res = await fetch("/api/users", {
       method: "POST",

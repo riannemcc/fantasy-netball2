@@ -79,12 +79,14 @@ TO DO:
 
 - work out users points - map over user.team, remove team name, get that player in db and return their points. Have count for all points.
 - add users points to db
-- create leaderboard with user points
 - fix purge so in tailwind.config so it does what it's meant to. Last time tried to change to js files, stopped all tailwing styles from building in production
 - use tailwind to position homepage image
 - move out some of the elements from the pages into separate components
 - burger menu isn't closing once you click option
 - clear team selection form on submit
+- order leaderboard by descending points
+- First time player scores points, need to add points field to db
+- admin part of site to add points, change players etc?
 
 CURRENT ISSUES:
 
