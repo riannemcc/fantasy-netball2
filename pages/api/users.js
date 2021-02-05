@@ -14,12 +14,18 @@ handler.post(async (req, res) => {
   const session = await getSession({ req });
   if (session.user) {
     let data = req.body;
-    await req.db
-      .collection("users")
-      .updateOne(
-        { email: session.user.email },
-        { $set: { teamname: data.teamName, team: data.team } }
-      );
+    await req.db.collection("users").updateOne(
+      { email: session.user.email },
+      {
+        $set: {
+          teamname: data.teamName,
+          team: data.team,
+          points: 0,
+          captain: data.captain,
+          viceCaptain: data.viceCaptain,
+        },
+      }
+    );
     res.json({
       message: "ok",
     });

@@ -77,14 +77,13 @@ https://dev.to/andrewespejo/how-to-design-a-simple-and-beautiful-navbar-using-ne
 
 TO DO:
 
-- work out users points - map over user.team, remove team name, get that player in db and return their points. Have count for all points.
 - add users points to db
 - fix purge so in tailwind.config so it does what it's meant to. Last time tried to change to js files, stopped all tailwing styles from building in production
 - use tailwind to position homepage image
 - move out some of the elements from the pages into separate components
 - order leaderboard by descending points
-- First time player scores points, need to add points field to db
 - admin part of site to add points, change players etc?
+- hide/disable player sin dropdown menus that have already been selected for another position
 
 CURRENT ISSUES:
 
@@ -94,3 +93,5 @@ CURRENT ISSUES:
 - passport auth -> you can sign up and log in, but profile doesn;'t recognise session
 - How does log in work on prod? - do I need to add env variables to vercel?
 - Do I need to add prod url to oauth client IDs? (https://console.developers.google.com/apis/credentials/oauthclient)
+- Do I need to add user points after calculated in leaderboard, to the db?
+- Should user's team be displayed on the leaderboard?

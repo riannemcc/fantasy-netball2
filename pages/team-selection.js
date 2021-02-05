@@ -1,52 +1,70 @@
 import React from "react";
 import { connectToDatabase } from "../util/mongodb";
+import { useState, useCallback } from "react";
 
 export default function TeamSelection({ players = [] }) {
-  const shooters = players
-    .filter((player) => {
-      return (
-        (player.position && player.position.includes("GS")) ||
-        (player.position && player.position.includes("GA"))
-      );
-    })
-    .map((shooter) => {
-      return `${shooter.name} - ${shooter.team}`;
-    });
+  const [team, setTeam] = useState({
+    GS: "",
+    GA: "",
+    WA: "",
+    C: "",
+    WD: "",
+    GD: "",
+    GK: "",
+    sub1: "",
+    sub2: "",
+    sub3: "",
+  });
+  const [teamName, setTeamName] = useState("");
+  const [captain, setCaptain] = useState("");
+  const [viceCaptain, setViceCaptain] = useState("");
 
-  const centreCourt = players
-    .filter((player) => {
-      return (
-        (player.position && player.position.includes("WA")) ||
-        (player.position && player.position.includes("C")) ||
-        (player.position && player.position.includes("WD"))
-      );
-    })
-    .map((cenntreCourt) => {
-      return `${cenntreCourt.name} - ${cenntreCourt.team}`;
-    });
+  const getPlayerById = (playerId) =>
+    players.find((player) => player._id === playerId);
 
-  const defenders = players
-    .filter((player) => {
-      return (
-        (player.position && player.position.includes("GD")) ||
-        (player.position && player.position.includes("GK"))
-      );
-    })
-    .map((defender) => {
-      return `${defender.name} - ${defender.team}`;
-    });
+  const handleTeamPlayerSelect = useCallback(
+    (positionKey, playerId) => {
+      setTeam((currentTeam) => ({
+        ...currentTeam,
+        [positionKey]: playerId,
+      }));
+    },
+    [setTeam]
+  );
+
+  const shooters = players.filter((player) => {
+    return (
+      (player.position && player.position.includes("GS")) ||
+      (player.position && player.position.includes("GA"))
+    );
+  });
+
+  const centreCourt = players.filter((player) => {
+    return (
+      (player.position && player.position.includes("WA")) ||
+      (player.position && player.position.includes("C")) ||
+      (player.position && player.position.includes("WD"))
+    );
+  });
+
+  const defenders = players.filter((player) => {
+    return (
+      (player.position && player.position.includes("GD")) ||
+      (player.position && player.position.includes("GK"))
+    );
+  });
 
   const positions = [
-    "GS",
-    "GA",
-    "WA",
-    "C",
-    "WD",
-    "GD",
-    "GK",
-    "Sub 1",
-    "Sub 2",
-    "Sub 3",
+    { key: "GS", display: "GS" },
+    { key: "GA", display: "GA" },
+    { key: "WA", display: "WA" },
+    { key: "C", display: "C" },
+    { key: "WD", display: "WD" },
+    { key: "GD", display: "GD" },
+    { key: "GK", display: "GK" },
+    { key: "sub1", display: "Sub 1" },
+    { key: "sub2", display: "Sub 2" },
+    { key: "sub3", display: "Sub 3" },
   ];
 
   return (
@@ -62,35 +80,16 @@ export default function TeamSelection({ players = [] }) {
         <form
           id="formy"
           class="flex flex-col"
-          onSubmit={(event) => {
+          onSubmit={async (event) => {
             event.preventDefault();
-            const data = new FormData(event.target);
-            const shooters1 = data.get("GS");
-            const shooters2 = data.get("GA");
-            const centreCourt1 = data.get("WA");
-            const centreCourt2 = data.get("C");
-            const centreCourt3 = data.get("WD");
-            const defenders1 = data.get("GD");
-            const defenders2 = data.get("GK");
-            const shooterSub = data.get("Sub 1");
-            const centreCourtSub = data.get("Sub 2");
-            const defenceSub = data.get("Sub 3");
-            const teamName = data.get("teamname");
 
-            const team = [
-              shooters1,
-              shooters2,
-              centreCourt1,
-              centreCourt2,
-              centreCourt3,
-              defenders1,
-              defenders2,
-              shooterSub,
-              centreCourtSub,
-              defenceSub,
-            ];
-            insertTeam(team, teamName);
-            event.target.reset();
+            try {
+              await insertTeam(team, teamName, captain, viceCaptain);
+              alert("Success");
+            } catch (error) {
+              console.error(error);
+              alert("Error");
+            }
           }}
         >
           <label
@@ -106,56 +105,111 @@ export default function TeamSelection({ players = [] }) {
             label="Team name"
             class="border-2 border-black w-4/12 ml-2"
             required
+            value={teamName}
+            onChange={(event) => setTeamName(event.target.value)}
           />
-          {positions.map((position) => {
+          {positions.map(({ key, display }) => {
             return (
               <div class="w-auto m-6 flex-row">
                 <label
-                  for={position}
+                  htmlFor={key}
                   class="font-sans font-bold text-xl text-black text-center w-2/12"
                 >
-                  {position}
+                  {display}
                 </label>
                 <select
-                  name={position}
-                  id={position}
+                  name={key}
+                  id={key}
                   class="w-8/12 ml-6 border-2 border-black"
                   required
+                  value={team[key] || ""}
+                  onChange={(event) => {
+                    handleTeamPlayerSelect(key, event.target.value);
+                  }}
                 >
                   <option value="">--Please choose an option--</option>
-                  {position === "GS" ||
-                  position === "GA" ||
-                  position === "Sub 1"
+                  {key === "GS" || key === "GA" || key === "sub1"
                     ? shooters.map((shooter) => {
-                        return <option value={shooter}>{shooter}</option>;
-                      })
-                    : null}
-                  {position === "WA" ||
-                  position === "C" ||
-                  position === "WD" ||
-                  position === "Sub 2"
-                    ? centreCourt.map((centerCourter) => {
                         return (
-                          <option value={centerCourter}>{centerCourter}</option>
+                          <option value={shooter._id}>{shooter.name}</option>
                         );
                       })
                     : null}
-                  {position === "GD" ||
-                  position === "GK" ||
-                  position === "Sub 3"
+                  {key === "WA" || key === "C" || key === "WD" || key === "sub2"
+                    ? centreCourt.map((centerCourter) => {
+                        return (
+                          <option value={centerCourter._id}>
+                            {centerCourter.name}
+                          </option>
+                        );
+                      })
+                    : null}
+                  {key === "GD" || key === "GK" || key === "sub3"
                     ? defenders.map((defender) => {
-                        return <option value={defender}>{defender}</option>;
+                        return (
+                          <option value={defender._id}>{defender.name}</option>
+                        );
                       })
                     : null}
                 </select>
               </div>
             );
           })}
+
+          <div class="w-auto m-6 flex-row">
+            <label
+              htmlFor="captain"
+              class="font-sans font-bold text-xl text-black text-center w-2/12"
+            >
+              Captain
+            </label>
+            <select
+              name="captain"
+              id="captain"
+              class="w-8/12 ml-6 border-2 border-black"
+              required
+              value={captain}
+              onChange={(event) => setCaptain(event.target.value)}
+            >
+              <option value="">--Please choose an option--</option>
+              {Object.values(team).map((playerId) => {
+                const player = getPlayerById(playerId);
+                if (player) {
+                  return <option value={playerId}>{player.name}</option>;
+                }
+                return null;
+              })}
+            </select>
+            <label
+              htmlFor="viceCaptain"
+              class="font-sans font-bold text-xl text-black text-center w-2/12"
+            >
+              Vice Captain
+            </label>
+            <select
+              name="viceCaptain"
+              id="viceCaptain"
+              class="w-8/12 ml-6 border-2 border-black"
+              required
+              value={viceCaptain}
+              onChange={(event) => setViceCaptain(event.target.value)}
+            >
+              <option value="">--Please choose an option--</option>
+              {Object.values(team).map((playerId) => {
+                const player = getPlayerById(playerId);
+                if (player) {
+                  return <option value={playerId}>{player.name}</option>;
+                }
+                return null;
+              })}
+            </select>
+          </div>
+
           <button
             type="submit"
             class="bg-pink hover:bg-pink-700 text-white font-bold py-2 px-4 rounded-full self-center"
           >
-            Submit team
+            Confirm team
           </button>
         </form>
       </div>
@@ -180,7 +234,7 @@ export async function getServerSideProps() {
   };
 }
 
-async function insertTeam(team, teamName) {
+async function insertTeam(team, teamName, captain, viceCaptain) {
   try {
     const res = await fetch("/api/users", {
       method: "POST",
@@ -189,7 +243,7 @@ async function insertTeam(team, teamName) {
         "Content-Type": "application/json",
       },
       referrerPolicy: "no-referrer",
-      body: JSON.stringify({ team, teamName }),
+      body: JSON.stringify({ team, teamName, captain, viceCaptain }),
     });
     const json = await res.json();
     console.log("res: ", json);
@@ -200,7 +254,7 @@ async function insertTeam(team, teamName) {
 
 //RULES
 // You can only have 3 shooters on your team
-// You can only have 4 centre court player son your team
+// You can only have 4 centre court players on your team
 // You can only have 3 defenders on your team
 // You can only select one player as a captain
 // You can only select one player as a vice captain, that cannot be the same person as the captain
