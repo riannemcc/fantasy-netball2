@@ -52,7 +52,7 @@ export default function Stats({ players }) {
   );
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const { db } = await connectToDatabase();
 
   const players = await db
