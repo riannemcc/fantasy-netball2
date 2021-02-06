@@ -37,6 +37,14 @@ const options = {
     jwt: true,
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
+  callbacks: {
+    redirect: async (url, _) => {
+      if (url === "/api/auth/signin") {
+        return Promise.resolve("/profile");
+      }
+      return Promise.resolve("/api/auth/signin");
+    },
+  },
 };
 
 export default (req, res) => NextAuth(req, res, options);
