@@ -23,5 +23,8 @@
     "react-dom": "^16.13.1",
     "tailwindcss": "^2.0.2"
   },
+  "peerOptionalDependencies": {
+    "mongodb": "^3.6.0"
+  },
   "license": "MIT"
 }
