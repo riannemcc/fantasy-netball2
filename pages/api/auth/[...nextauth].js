@@ -1,9 +1,8 @@
 import NextAuth from "next-auth";
 import Providers from "next-auth/providers";
 
-const options = {
-  site: process.env.NEXTAUTH_URL,
-  debug: true,
+export default NextAuth({
+  debug: process.env.NODE_ENV === "development" ? true : false,
   providers: [
     Providers.Email({
       server: {
@@ -54,14 +53,5 @@ const options = {
       }
       return session;
     },
-
-    redirect: async (url, _) => {
-      if (url === "/api/auth/signin") {
-        return Promise.resolve("/profile");
-      }
-      return Promise.resolve("/api/auth/signin");
-    },
   },
-};
-
-export default (req, res) => NextAuth(req, res, options);
+});
