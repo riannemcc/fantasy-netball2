@@ -1,5 +1,6 @@
 import React from "react";
 import Moment from "react-moment";
+import moment from "moment";
 
 const games = [
   {
@@ -119,8 +120,6 @@ const games = [
   },
 ];
 
-const currentDate = new Date();
-
 export const GameSchedule = () => {
   return (
     <div>
@@ -134,7 +133,7 @@ export const GameSchedule = () => {
         </thead>
         <tbody>
           {games.map(({ time, teamOne, teamTwo }) =>
-            time > currentDate ? (
+            moment(time).isAfter(currentDate) ? (
               <tr>
                 <td class="border px-4 py-2">
                   {<Moment format="DD/MM/YYYY">{time}</Moment>}
