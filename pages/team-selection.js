@@ -130,9 +130,7 @@ export default function TeamSelection({ players = [] }) {
                   <option value="">--Please choose an option--</option>
                   {key === "GS" || key === "GA" || key === "sub1"
                     ? shooters.map((shooter) => {
-                        return Object.values(team).includes(
-                          shooter._id
-                        ) ? null : (
+                        return (
                           <option value={shooter._id}>{shooter.name}</option>
                         );
                       })
