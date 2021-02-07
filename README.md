@@ -77,13 +77,12 @@ https://dev.to/andrewespejo/how-to-design-a-simple-and-beautiful-navbar-using-ne
 
 TO DO:
 
-- add users points to db
 - fix purge so in tailwind.config so it does what it's meant to. Last time tried to change to js files, stopped all tailwing styles from building in production
 - use tailwind to position homepage image
 - move out some of the elements from the pages into separate components
-- order leaderboard by descending points
 - admin part of site to add points, change players etc?
 - hide/disable player sin dropdown menus that have already been selected for another position
+- once team has been submitted, prevent from amending
 
 CURRENT ISSUES:
 

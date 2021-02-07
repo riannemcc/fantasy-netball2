@@ -120,6 +120,8 @@ const games = [
   },
 ];
 
+const currentDate = new Date();
+
 export const GameSchedule = () => {
   return (
     <div>
