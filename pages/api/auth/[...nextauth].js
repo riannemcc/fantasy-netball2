@@ -6,7 +6,7 @@ export default NextAuth({
   providers: [
     Providers.Email({
       server: {
-        port: 465,
+        port: 587,
         host: "smtp.gmail.com",
         secure: true,
         auth: {
@@ -52,6 +52,13 @@ export default NextAuth({
         session.userName = user.name;
       }
       return session;
+    },
+
+    redirect: async (url, _) => {
+      if (url === "/api/auth/signin") {
+        return Promise.resolve("/profile");
+      }
+      return Promise.resolve("/api/auth/signin");
     },
   },
 });
