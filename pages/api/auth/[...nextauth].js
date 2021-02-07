@@ -26,18 +26,35 @@ const options = {
     Providers.Twitter({
       clientId: process.env.TWITTER_ID,
       clientSecret: process.env.TWITTER_SECRET,
+      state: false,
     }),
     Providers.Facebook({
       clientId: process.env.FACEBOOK_ID,
       clientSecret: process.env.FACEBOOK_SECRET,
+      state: false,
     }),
   ],
   database: process.env.DATABASE_URL,
-  session: {
-    jwt: true,
-    maxAge: 30 * 24 * 60 * 60, // 30 days
-  },
+  // session: {
+  //   jwt: true,
+  //   maxAge: 30 * 24 * 60 * 60, // 30 days
+  // },
+
   callbacks: {
+    // jwt: async (token, user) => {
+    //   if (user) {
+    //     token.uid = user.id;
+    //   }
+    //   return Promise.resolve(token);
+    // },
+    session: async (session, user) => {
+      if (user) {
+        session.userId = user.id;
+        session.userName = user.name;
+      }
+      return session;
+    },
+
     redirect: async (url, _) => {
       if (url === "/api/auth/signin") {
         return Promise.resolve("/profile");
