@@ -1,6 +1,10 @@
 export const LeaderboardTable = ({ users, players, tenRows }) => {
   let userPoints = 5;
-  users.map((user) => {
+
+  const usersWithTeams = users.filter((user) => {
+    return user.team;
+  });
+  usersWithTeams.map((user) => {
     const team = user.team;
     Object.values(team).map((userPlayerId) => {
       players.map((player) => {
@@ -12,7 +16,7 @@ export const LeaderboardTable = ({ users, players, tenRows }) => {
   });
 
   let userWk1Points = 6;
-  users.map((user) => {
+  usersWithTeams.map((user) => {
     const team = user.team;
     Object.values(team).map((userPlayer) => {
       players.map((player) => {
@@ -30,7 +34,7 @@ export const LeaderboardTable = ({ users, players, tenRows }) => {
     let comparison = 0;
     if (userA > userB) {
       comparison = 1;
-    } else if (userAA < userB) {
+    } else if (userA < userB) {
       return comparison * -1;
     }
     return comparison;

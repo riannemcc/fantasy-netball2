@@ -3,6 +3,7 @@ import Providers from "next-auth/providers";
 
 const options = {
   site: process.env.NEXTAUTH_URL,
+  debug: true,
   providers: [
     Providers.Email({
       server: {
@@ -28,10 +29,9 @@ const options = {
       clientSecret: process.env.TWITTER_SECRET,
       state: false,
     }),
-    Providers.Facebook({
-      clientId: process.env.FACEBOOK_ID,
-      clientSecret: process.env.FACEBOOK_SECRET,
-      state: false,
+    Providers.GitHub({
+      clientId: process.env.GITHUB_ID,
+      clientSecret: process.env.GITHUB_SECRET,
     }),
   ],
   database: process.env.DATABASE_URL,

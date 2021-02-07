@@ -25,7 +25,9 @@ export default function Profile({ players, users, currentUser }) {
       <h2 className="text-xl text-black font-bold uppercase m-2">
         Top 10 Fantasy Teams
       </h2>
-      <LeaderboardTable users={users} players={players} tenRows />
+      {currentUser.team ? (
+        <LeaderboardTable users={users} players={players} tenRows />
+      ) : null}
       <h2 className="text-xl text-black font-bold uppercase m-2">
         Upcoming Games
       </h2>
