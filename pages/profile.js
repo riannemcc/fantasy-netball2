@@ -14,9 +14,13 @@ export default function Profile({ players, users, currentUser }) {
   if (typeof window !== "undefined" && loading) return <p>Loading...</p>;
   return (
     <div className="self-center flex flex-col">
-      <div className="w-6/12 bg-pink m-6 p-4 flex flex-col">
-        <h2 className="text-xl text-black font-bold uppercase m-2 self-center ">
-          Your team: {currentUser.teamname && currentUser.teamname}
+      <div className="m-4 flex flex-row">
+        <span className="text-xl text-black font-bold ">Your Team</span>
+        <div className="border-t-2 flex-1 ml-2 leading-9 text-base font-semibold mt-3 border-pink opcity-10" />
+      </div>
+      <div className="w-auto bg-pink m-6 p-4 flex flex-col">
+        <h2 className="text-xl text-black font-bold m-2 self-center ">
+          {currentUser.teamname && currentUser.teamname}
         </h2>
         <div className="m-2 self-center ">
           <UserTeamTable currentUser={currentUser} players={players} />
@@ -29,10 +33,11 @@ export default function Profile({ players, users, currentUser }) {
           </a>
         </Link>
       )}
-      <div className="w-6/12 bg-gray-300 m-6 p-4 flex flex-col">
-        <h2 className="text-xl text-black font-bold uppercase mt-8 mb-4 self-center flex flex-col">
-          Top 10 Fantasy Teams
-        </h2>
+      <div className="m-4 flex flex-row">
+        <div className="border-t-2 flex-1 mr-2 ml-2 leading-9 text-base font-semibold mt-3 border-pink opcity-10" />
+        <h2 className="text-xl text-black font-bold ">Top 10 Fantasy Teams</h2>
+      </div>
+      <div className="w-auto bg-gray-300 m-6 p-4 flex flex-col">
         {currentUser.team ? (
           <LeaderboardTable users={users} players={players} tenRows />
         ) : null}
@@ -40,7 +45,7 @@ export default function Profile({ players, users, currentUser }) {
       <div className="text-xl text-black font-bold uppercase mt-8 mb-4 self-center flex flex-col">
         <HighestScoring players={players} />
       </div>
-      <div className="w-6/12 bg-pink m-6 p-4 flex flex-col ">
+      <div className="w-auto bg-pink m-6 p-4 flex flex-col ">
         <h2 className="text-xl text-black font-bold uppercase mt-8 mb-4 self-center flex flex-col">
           Upcoming Games
         </h2>
