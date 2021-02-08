@@ -1,16 +1,20 @@
 import NextAuth from "next-auth";
 import Providers from "next-auth/providers";
 
-export default NextAuth({
+const options = {
   debug: process.env.NODE_ENV === "development" ? true : false,
   providers: [
     Providers.Email({
       server: {
-        port: 587,
+        port: 465,
         host: "smtp.gmail.com",
+        secure: true,
         auth: {
           user: process.env.EMAIL_USERNAME,
           pass: process.env.EMAIL_PASSWORD,
+        },
+        tls: {
+          rejectUnauthorized: false,
         },
       },
       from: process.env.EMAIL_FROM,
@@ -57,4 +61,6 @@ export default NextAuth({
       return Promise.resolve("/api/auth/signin");
     },
   },
-});
+};
+
+export default (req, res) => NextAuth(req, res, options);
