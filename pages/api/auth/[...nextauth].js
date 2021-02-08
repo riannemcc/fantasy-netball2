@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import Providers from "next-auth/providers";
 
 const options = {
-  debug: process.env.NODE_ENV === "development" ? true : false,
+  // debug: process.env.NODE_ENV === "development" ? true : false,
   providers: [
     Providers.Email({
       server: {

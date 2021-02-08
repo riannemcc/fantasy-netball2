@@ -1,6 +1,7 @@
 import React from "react";
 import { connectToDatabase } from "../util/mongodb";
 import { useState, useCallback } from "react";
+import Router from "next/router";
 
 export default function TeamSelection({ players = [] }) {
   const [team, setTeam] = useState({
@@ -86,6 +87,7 @@ export default function TeamSelection({ players = [] }) {
             try {
               await insertTeam(team, teamName, captain, viceCaptain);
               alert("Success");
+              Router.push("/profile");
             } catch (error) {
               console.error(error);
               alert("Error");
@@ -110,7 +112,7 @@ export default function TeamSelection({ players = [] }) {
           />
           {positions.map(({ key, display }) => {
             return (
-              <div class="w-auto m-6 flex-row">
+              <div className="w-auto m-6 flex-row">
                 <label
                   htmlFor={key}
                   class="font-sans font-bold text-xl text-black text-center w-2/12"
@@ -156,54 +158,52 @@ export default function TeamSelection({ players = [] }) {
             );
           })}
 
-          <div class="w-auto m-6 flex-row">
-            <label
-              htmlFor="captain"
-              class="font-sans font-bold text-xl text-black text-center w-2/12"
-            >
-              Captain
-            </label>
-            <select
-              name="captain"
-              id="captain"
-              class="w-8/12 ml-6 border-2 border-black"
-              required
-              value={captain}
-              onChange={(event) => setCaptain(event.target.value)}
-            >
-              <option value="">--Please choose an option--</option>
-              {Object.values(team).map((playerId) => {
-                const player = getPlayerById(playerId);
-                if (player) {
-                  return <option value={playerId}>{player.name}</option>;
-                }
-                return null;
-              })}
-            </select>
-            <label
-              htmlFor="viceCaptain"
-              class="font-sans font-bold text-xl text-black text-center w-2/12"
-            >
-              Vice Captain
-            </label>
-            <select
-              name="viceCaptain"
-              id="viceCaptain"
-              class="w-8/12 ml-6 border-2 border-black"
-              required
-              value={viceCaptain}
-              onChange={(event) => setViceCaptain(event.target.value)}
-            >
-              <option value="">--Please choose an option--</option>
-              {Object.values(team).map((playerId) => {
-                const player = getPlayerById(playerId);
-                if (player) {
-                  return <option value={playerId}>{player.name}</option>;
-                }
-                return null;
-              })}
-            </select>
-          </div>
+          <label
+            htmlFor="captain"
+            class="font-sans font-bold text-xl text-black m-6"
+          >
+            Captain
+          </label>
+          <select
+            name="captain"
+            id="captain"
+            className="w-8/12 ml-6 border-2 border-black"
+            required
+            value={captain}
+            onChange={(event) => setCaptain(event.target.value)}
+          >
+            <option value="">--Please choose an option--</option>
+            {Object.values(team).map((playerId) => {
+              const player = getPlayerById(playerId);
+              if (player) {
+                return <option value={playerId}>{player.name}</option>;
+              }
+              return null;
+            })}
+          </select>
+          <label
+            htmlFor="viceCaptain"
+            className="font-sans font-bold text-xl text-black m-6"
+          >
+            Vice Captain
+          </label>
+          <select
+            name="viceCaptain"
+            id="viceCaptain"
+            class="w-8/12 ml-6 mb-6 border-2 border-black"
+            required
+            value={viceCaptain}
+            onChange={(event) => setViceCaptain(event.target.value)}
+          >
+            <option value="">--Please choose an option--</option>
+            {Object.values(team).map((playerId) => {
+              const player = getPlayerById(playerId);
+              if (player) {
+                return <option value={playerId}>{player.name}</option>;
+              }
+              return null;
+            })}
+          </select>
 
           <button
             type="submit"
