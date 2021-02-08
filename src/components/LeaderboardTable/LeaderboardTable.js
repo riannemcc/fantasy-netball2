@@ -43,7 +43,7 @@ export const LeaderboardTable = ({ users, players, tenRows }) => {
 
   return (
     <div>
-      <table className="ml-2">
+      <table className="ml-2 shadow-lg bg-gray-100">
         <thead>
           <tr>
             <th class="border px-4 py-2">Team</th>
@@ -66,8 +66,8 @@ export const LeaderboardTable = ({ users, players, tenRows }) => {
                 user.teamname ? (
                   <tr>
                     <td class="border px-4 py-2">{user.teamname}</td>
-                    <td class="border px-4 py-2">{userPoints}</td>
-                    <td class="border px-4 py-2">{userWk1Points}</td>
+                    <td class="border px-4 py-2">{user.points}</td>
+                    <td class="border px-4 py-2">{user.wk1points}</td>
                   </tr>
                 ) : null
               )}

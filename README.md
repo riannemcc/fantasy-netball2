@@ -77,11 +77,9 @@ https://dev.to/andrewespejo/how-to-design-a-simple-and-beautiful-navbar-using-ne
 
 TO DO:
 
-- fix point sin stats table - everyone has the same
-
+- add numbers to each line of leaderboard
 - fix purge so in tailwind.config so it does what it's meant to. Last time tried to change to js files, stopped all tailwing styles from building in production
 - use tailwind to position homepage image
-- move out some of the elements from the pages into separate components
 - admin part of site to add points, change players etc?
 - hide/disable player sin dropdown menus that have already been selected for another position
 - once team has been submitted, prevent from amending
@@ -89,12 +87,9 @@ TO DO:
 
 CURRENT ISSUES:
 
-- next-auth -> doesn't recognise email sign in link first time - it redirects straight back to log in page rather than going to profile, have to do it multiple times.
-  -> facebook log in doesn't work, unstable app?
-  -> Twitter log in doeesn't work
-- passport auth -> you can sign up and log in, but profile doesn;'t recognise session
+-> facebook log in doesn't work, unstable app?
+
 - Do I need to add user points after calculated in leaderboard, to the db?
-- Should user's team be displayed on the leaderboard?
 
 Twitter dev portal - https://developer.twitter.com/en/portal/projects/1358524108414324744/apps/20057815/settings
 Google dev portal - https://console.developers.google.com/apis/credentials/oauthclient/233392081114-lbufp9v20c9lha32er4bsdtbg8fn8smk.apps.googleusercontent.com?authuser=1&project=fantasy-netball-303412

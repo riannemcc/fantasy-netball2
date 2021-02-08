@@ -29,7 +29,7 @@ export const UserTeamTable = ({ players, currentUser }) => {
 
   return (
     <div>
-      <table className="ml-2">
+      <table className="ml-2 shadow-lg bg-gray-100">
         <thead>
           <tr>
             <th class="border px-4 py-2">Position</th>
