@@ -13,7 +13,7 @@ const MyApp = ({ Component, pageProps }) => {
   return (
     <>
       <Head>
-        <title>Superleague Fantasy Netball</title>
+        <title>Fantasy Netball</title>
         <link rel="icon" href="/favicon.ico" />
         <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="description" content="Fantasy Netball" />
