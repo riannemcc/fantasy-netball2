@@ -1,31 +1,30 @@
 export const LeaderboardTable = ({ users, players, tenRows }) => {
-  let userPoints = 5;
-
   const usersWithTeams = users.filter((user) => {
     return user.team;
   });
-  usersWithTeams.map((user) => {
-    const team = user.team;
-    Object.values(team).map((userPlayerId) => {
-      players.map((player) => {
-        userPlayerId === player._id ? player.points : null;
-        userPoints = userPoints + player.points;
-        return userPoints;
-      });
-    });
-  });
+  // let userPoints = 0;
+  // usersWithTeams.map((user) => {
+  //   const team = user.team;
+  //   Object.values(team).map((userPlayerId) => {
+  //     players.map((player) => {
+  //       userPlayerId === player._id ? player.points : null;
+  //       userPoints = userPoints + player.points;
+  //       return userPoints;
+  //     });
+  //   });
+  // });
 
-  let userWk1Points = 6;
-  usersWithTeams.map((user) => {
-    const team = user.team;
-    Object.values(team).map((userPlayer) => {
-      players.map((player) => {
-        userPlayer === player._id ? player.wk1points : null;
-        userWk1Points = userWk1Points + player.wk1points;
-        return userWk1Points;
-      });
-    });
-  });
+  // let userWk1Points = 0;
+  // usersWithTeams.map((user) => {
+  //   const team = user.team;
+  //   Object.values(team).map((userPlayer) => {
+  //     players.map((player) => {
+  //       userPlayer === player._id ? player.wk1points : null;
+  //       userWk1Points = userWk1Points + player.wk1points;
+  //       return userWk1Points;
+  //     });
+  //   });
+  // });
 
   function compare(a, b) {
     const userA = a.points;
@@ -33,18 +32,18 @@ export const LeaderboardTable = ({ users, players, tenRows }) => {
 
     let comparison = 0;
     if (userA > userB) {
-      comparison = 1;
+      comparison = -1;
     } else if (userA < userB) {
-      return comparison * -1;
+      return comparison * 1;
     }
     return comparison;
   }
 
-  const top10users = users.sort(compare).slice(0, 10);
+  const top10users = usersWithTeams.sort(compare).slice(0, 10);
 
   return (
     <div>
-      <table class="table-auto ml-2">
+      <table className="ml-2">
         <thead>
           <tr>
             <th class="border px-4 py-2">Team</th>
@@ -58,8 +57,8 @@ export const LeaderboardTable = ({ users, players, tenRows }) => {
                 user.teamname ? (
                   <tr>
                     <td class="border px-4 py-2">{user.teamname}</td>
-                    <td class="border px-4 py-2">{userPoints}</td>
-                    <td class="border px-4 py-2">{userWk1Points}</td>
+                    <td class="border px-4 py-2">{user.points}</td>
+                    <td class="border px-4 py-2">{user.wk1points}</td>
                   </tr>
                 ) : null
               )

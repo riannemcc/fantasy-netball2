@@ -38,8 +38,8 @@ export default function Stats({ players }) {
                   player.team === team ? (
                     <tr>
                       <td class="border px-4 py-2">{player.name}</td>
-                      <td class="border px-4 py-2">POINTS</td>
-                      <td class="border px-4 py-2">20</td>
+                      <td class="border px-4 py-2">{player.points}</td>
+                      <td class="border px-4 py-2">{player.wk1points}</td>
                     </tr>
                   ) : null
                 )}
