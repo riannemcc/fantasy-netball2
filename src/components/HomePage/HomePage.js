@@ -13,7 +13,7 @@ export const HomePage = () => {
           Fantasy Netball
         </h1>
         <div className="flex flex-col justify-center items-center">
-          <Image src="/logo.png" alt="netball" width="100" height="100" />
+          <Image src="/logoalt.png" alt="netball" width="140" height="140" />
         </div>
         <h2 class="font-sans font-bold text-3xl text-gray-600 text-center mt-5 mb-6">
           Choose your team. Watch them play. Win some points.
