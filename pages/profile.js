@@ -11,21 +11,24 @@ export default function Profile({ players, users, currentUser }) {
   const [session, loading] = useSession();
 
   if (typeof window !== "undefined" && loading) return <p>Loading...</p>;
+
   return (
     <div className="self-center flex flex-col">
       {currentUser.team ? (
         <>
           <div className="m-4 flex flex-row">
             <span className="text-xl text-black font-bold ">Your Team</span>
-            <div className="border-t-2 flex-1 ml-2 leading-9 text-base font-semibold mt-3 border-pink opacity-10" />
+            <div className="border-t-2 flex-1 ml-2 leading-9 text-base font-semibold mt-3 border-pink opacity-80" />
           </div>
-          <div className="w-auto bg-pink shadow-xl m-6 p-4 flex flex-col">
-            <h2 className="text-xl text-black font-bold m-2 self-center ">
+          <div className="w-auto bg-pink shadow mx-4 mb-6 px-4 flex flex-col items-center">
+            <h2 className="text-xl text-white font-bold m-2 self-center ">
               {currentUser.teamname && currentUser.teamname}
             </h2>
-            <div className="m-2 self-center ">
-              <UserTeamTable currentUser={currentUser} players={players} />
-            </div>
+            <UserTeamTable
+              className="-mb-4"
+              currentUser={currentUser}
+              players={players}
+            />
           </div>
         </>
       ) : (
@@ -43,28 +46,31 @@ export default function Profile({ players, users, currentUser }) {
         </>
       )}
       <div className="m-4 flex flex-row">
-        <div className="border-t-2 flex-1 mr-2 ml-2 leading-9 text-base font-semibold mt-3 border-pink opcity-10" />
+        <div className="border-t-2 flex-1 mr-2 ml-2 leading-9 text-base font-semibold mt-3.5 border-pink opacity-80" />
         <h2 className="text-xl text-black font-bold ">Top 10 Fantasy Teams</h2>
       </div>
+
       <div className="w-auto bg-gray-300 m-6 p-4 flex flex-col">
         {currentUser.team ? (
           <LeaderboardTable users={users} players={players} tenRows />
         ) : null}
       </div>
+
       <div className="m-4 flex flex-row">
         <span className="text-xl text-black font-bold ">
           Highest Scoring Player
         </span>
-        <div className="border-t-2 flex-1 ml-2 mr-2 leading-9 text-base font-semibold mt-3 border-pink opcity-10" />
+        <div className="border-t-2 flex-1 ml-2 mr-2 leading-9 text-base font-semibold mt-3.5 border-pink opacity-80" />
       </div>
       <div className="text-xl text-black font-bold uppercase mt-8 mb-4 self-center flex flex-col">
         <HighestScoring players={players} />
       </div>
+
       <div className="m-4 flex flex-row">
-        <div className="border-t-2 flex-1 ml-2 mr-2 leading-9 text-base font-semibold mt-3 border-pink opcity-10" />
+        <div className="border-t-2 flex-1 ml-2 mr-2 leading-9 text-base font-semibold mt-3.5 border-pink opacity-80" />
         <span className="text-xl text-black font-bold ">Upcoming Games</span>
       </div>
-      <div className="shadow-xl w-auto bg-gray-300 m-6 p-4 flex flex-col ">
+      <div className="w-auto bg-gray-300 m-10 p-4 flex flex-col">
         <GameSchedule />
       </div>
     </div>

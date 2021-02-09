@@ -1,7 +1,5 @@
 import React from "react";
 
-import styles from "./RulesText.module.css";
-
 export const RulesText = () => {
   return (
     <div>

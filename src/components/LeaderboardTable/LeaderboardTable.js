@@ -43,34 +43,45 @@ export const LeaderboardTable = ({ users, players, tenRows }) => {
 
   return (
     <div>
-      <table className="ml-2 shadow-lg bg-gray-100">
+      <table className="m-2 bg-gray-100 shadow border">
         <thead>
           <tr>
-            <th class="border px-4 py-2">Team</th>
-            <th class="border px-4 py-2">Total Points</th>
-            <th class="border px-4 py-2">Week One Points</th>
+            <th class="border border-black px-4 py-2"></th>
+            <th class="border border-black px-4 py-2">Team</th>
+            <th class="border border-black px-4 py-2">Total Points</th>
+            <th class="border border-black px-4 py-2">Week One Points</th>
           </tr>
         </thead>
         <tbody>
           {tenRows
-            ? top10users.map((user) =>
-                user.teamname ? (
+            ? top10users
+                .filter((user) => !!user.teamname)
+                .map((user, index) => (
                   <tr>
-                    <td class="border px-4 py-2">{user.teamname}</td>
-                    <td class="border px-4 py-2">{user.points}</td>
-                    <td class="border px-4 py-2">{user.wk1points}</td>
+                    <td class="border border-black px-4 py-2">{index + 1}</td>
+                    <td class="border border-black px-4 py-2">
+                      {user.teamname}
+                    </td>
+                    <td class="border border-black px-4 py-2">{user.points}</td>
+                    <td class="border border-black px-4 py-2">
+                      {user.wk1points}
+                    </td>
                   </tr>
-                ) : null
-              )
-            : users.map((user) =>
-                user.teamname ? (
+                ))
+            : users
+                .filter((user) => !!user.teamname)
+                .map((user, index) => (
                   <tr>
-                    <td class="border px-4 py-2">{user.teamname}</td>
-                    <td class="border px-4 py-2">{user.points}</td>
-                    <td class="border px-4 py-2">{user.wk1points}</td>
+                    <td class="border border-black px-4 py-2">{index + 1}</td>
+                    <td class="border border-black px-4 py-2">
+                      {user.teamname}
+                    </td>
+                    <td class="border border-black px-4 py-2">{user.points}</td>
+                    <td class="border border-black px-4 py-2">
+                      {user.wk1points}
+                    </td>
                   </tr>
-                ) : null
-              )}
+                ))}
         </tbody>
       </table>
     </div>

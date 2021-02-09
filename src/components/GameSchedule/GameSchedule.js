@@ -125,25 +125,25 @@ const currentDate = new Date();
 export const GameSchedule = () => {
   return (
     <div>
-      <table class="table-auto ml-2 shadow-lg bg-gray-100">
+      <table className="m-2 bg-gray-100 shadow border">
         <thead>
           <tr>
-            <th class="border px-4 py-2 text-left ">Date</th>
-            <th class="border px-4 py-2 text-left ">Time</th>
-            <th class="border px-4 py-2 text-left ">Teams</th>
+            <th class="border border-black px-4 py-2 text-left ">Date</th>
+            <th class="border border-black px-4 py-2 text-left ">Time</th>
+            <th class="border border-black px-4 py-2 text-left ">Teams</th>
           </tr>
         </thead>
         <tbody>
           {games.map(({ time, teamOne, teamTwo }) =>
             moment(time).isAfter(currentDate) ? (
               <tr>
-                <td class="border px-2 py-2 text-left ">
+                <td class="border border-black px-2 py-2 text-left ">
                   {<Moment format="DD/MM">{time}</Moment>}
                 </td>
-                <td class="border px-4 py-2 text-left ">
+                <td class="border border-black px-4 py-2 text-left ">
                   {<Moment format="HH:mm">{time}</Moment>}
                 </td>
-                <td class="border px-4 py-2 text-left ">
+                <td class="border border-black px-4 py-2 text-left ">
                   {teamOne} vs. {teamTwo}
                 </td>
               </tr>

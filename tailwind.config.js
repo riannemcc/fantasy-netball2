@@ -34,6 +34,9 @@ module.exports = {
       colors: {
         "main-pink": "#e90052",
       },
+      backgroundImage: (theme) => ({
+        netballer: "url('/netballcrop.png')",
+      }),
     },
     spacing: {
       px: "1px",
