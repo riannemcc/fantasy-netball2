@@ -77,7 +77,7 @@ export default function TeamSelection({ players = [] }) {
           court and 1 defender)
         </p>
       </div>
-      <div>
+      <div className="bg-gray-300 m-2 pb-4">
         <form
           id="formy"
           class="flex flex-col"
@@ -96,7 +96,7 @@ export default function TeamSelection({ players = [] }) {
         >
           <label
             htmlFor="teamname"
-            class="font-sans font-bold text-xl text-black m-2"
+            class="font-sans font-bold text-xl text-black m-4"
           >
             Team name:
           </label>
@@ -105,7 +105,7 @@ export default function TeamSelection({ players = [] }) {
             id="teamname"
             name="teamname"
             label="Team name"
-            class="border-2 border-black w-4/12 ml-2"
+            class="border-2 border-black w-6/12 ml-4"
             required
             value={teamName}
             onChange={(event) => setTeamName(event.target.value)}
