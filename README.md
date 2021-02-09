@@ -84,12 +84,12 @@ TO DO:
 - hide/disable player sin dropdown menus that have already been selected for another position
 - once team has been submitted, prevent from amending
 - once players have been awarded points, update each user's points in db
+- straighten up team selection form or come up with better design
+- re-poisiton tables on desktop view for profile page
 
 CURRENT ISSUES:
 
--> facebook log in doesn't work, unstable app?
-
-- Do I need to add user points after calculated in leaderboard, to the db?
+- Where to gather stats, calculate points, update db etc
 
 Twitter dev portal - https://developer.twitter.com/en/portal/projects/1358524108414324744/apps/20057815/settings
 Google dev portal - https://console.developers.google.com/apis/credentials/oauthclient/233392081114-lbufp9v20c9lha32er4bsdtbg8fn8smk.apps.googleusercontent.com?authuser=1&project=fantasy-netball-303412

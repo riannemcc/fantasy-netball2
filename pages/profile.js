@@ -9,7 +9,6 @@ import { UserTeamTable } from "../src/components/UserTeamTable";
 
 export default function Profile({ players, users, currentUser }) {
   const [session, loading] = useSession();
-  console;
 
   if (typeof window !== "undefined" && loading) return <p>Loading...</p>;
   return (
