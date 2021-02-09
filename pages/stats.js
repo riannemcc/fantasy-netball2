@@ -17,15 +17,16 @@ export default function Stats({ players }) {
   ];
   return (
     <div>
-      <h1 class="text-xl text-black font-bold uppercase m-2">
-        VNSL players stats
-      </h1>
+      <div className="m-4 flex flex-row">
+        <h1 className="text-xl text-black font-bold ">Player stats</h1>
+        <div className="border-t-2 flex-1 ml-2 leading-9 text-base font-semibold mt-3.5 border-pink opacity-1" />
+      </div>
 
       {teams.map((team) => {
         return (
           <>
-            <h2 class="text-xl text-black font-bold mt-6 mb-2 ml-2">{team}</h2>
-            <table class="table-auto ml-2">
+            <h2 class="text-xl text-black font-bold mt-6 mb-2 ml-4 ">{team}</h2>
+            <table class="table-auto ml-4 mr-2 w-auto shadow-lg bg-gray-100">
               <thead>
                 <tr>
                   <th class="border px-4 py-2">Player</th>
