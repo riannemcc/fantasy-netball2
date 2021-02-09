@@ -14,7 +14,7 @@ const MyApp = ({ Component, pageProps }) => {
     <>
       <Head>
         <title>Fantasy Netball</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/logo.png" />
         <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="description" content="Fantasy Netball" />
       </Head>

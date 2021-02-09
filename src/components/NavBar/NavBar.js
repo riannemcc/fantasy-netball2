@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { SessionButton } from "../SessionButton";
 import { useSession } from "next-auth/client";
+import Image from "next/image";
 
 export const NavBar = () => {
   const [active, setActive] = useState(false);
@@ -12,12 +13,13 @@ export const NavBar = () => {
   };
 
   return (
-    <nav className="flex items-center flex-wrap bg-black p-3 ">
+    <nav className="flex items-center flex-wrap bg-black">
       <Link href="/">
-        <a class="inline-flex items-center p-2 mr-4 ">
-          <span class="text-xl text-pink font-bold uppercase tracking-wide">
+        <a class="inline-flex items-center mr-4 ">
+          <Image src="/logo.png" alt="netball" width="80" height="80" />
+          {/* <span class="text-xl text-pink font-bold uppercase tracking-wide">
             Fantasy Netball
-          </span>
+          </span> */}
         </a>
       </Link>
       <button
