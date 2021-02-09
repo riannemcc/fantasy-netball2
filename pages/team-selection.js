@@ -69,7 +69,7 @@ export default function TeamSelection({ players = [] }) {
   ];
 
   return (
-    <div>
+    <div className="flex flex-col justify-center items-center">
       <div class="font-sans font-bold text-xl text-black text-center m-2">
         <h2> Select your Team</h2>
         <p>
@@ -77,7 +77,7 @@ export default function TeamSelection({ players = [] }) {
           court and 1 defender)
         </p>
       </div>
-      <div className="bg-gray-300 m-2 pb-4">
+      <div className="bg-gray-300 m-2 pb-4 border-black border-2 w-11/12">
         <form
           id="formy"
           class="flex flex-col"

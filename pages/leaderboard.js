@@ -5,9 +5,10 @@ import { LeaderboardTable } from "../src/components/LeaderboardTable";
 export default function Leaderboard({ users, players }) {
   return (
     <>
-      <h1 class="text-xl text-black font-bold uppercase m-2">
-        Superleage Fantasy Netball Leaderboard
-      </h1>
+      <div className="m-4 flex flex-row">
+        <h1 class="text-xl text-black font-bold">Leaderboard</h1>
+        <div className="border-t-2 flex-1 ml-2 leading-9 text-base font-semibold mt-3.5 border-pink opacity-1" />
+      </div>
       <LeaderboardTable users={users} players={players} tenRows={false} />
     </>
   );
