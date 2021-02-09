@@ -13,13 +13,13 @@ export const NavBar = () => {
   };
 
   return (
-    <nav className="flex items-center flex-wrap bg-black p-3 ">
+    <nav className="flex items-center flex-wrap bg-black">
       <Link href="/">
         <a class="inline-flex items-center mr-4 ">
-          <Image src="/logo.png" alt="netball" width="50" height="50" />
-          <span class="text-xl text-pink font-bold uppercase tracking-wide">
+          <Image src="/logo.png" alt="netball" width="80" height="80" />
+          {/* <span class="text-xl text-pink font-bold uppercase tracking-wide">
             Fantasy Netball
-          </span>
+          </span> */}
         </a>
       </Link>
       <button
