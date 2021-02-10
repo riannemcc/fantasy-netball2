@@ -6,6 +6,8 @@ function checkForDuplicates(array) {
   return new Set(array).size !== array.length;
 }
 
+const MAX_TEAMMATES_ALLOWED = 2;
+
 const positions = [
   { key: "GS", display: "GS" },
   { key: "GA", display: "GA" },
@@ -29,6 +31,18 @@ export default function TeamSelection({ players = [] }) {
   const [teamName, setTeamName] = React.useState("");
   const [captain, setCaptain] = React.useState("");
   const [viceCaptain, setViceCaptain] = React.useState("");
+  const [selectedPlayersTeams, setSelectedPlayersTeams] = React.useState([]);
+
+  React.useEffect(() => {
+    const selectedPlayerIds = Object.values(team);
+    setSelectedPlayersTeams(
+      players
+        .filter(
+          (player) => selectedPlayerIds.includes(player._id) && player.team
+        )
+        .map((player) => player.team)
+    );
+  }, [players, team]);
 
   const getPlayerById = React.useCallback(
     (playerId) => players.find((player) => player._id === playerId),
@@ -128,18 +142,32 @@ export default function TeamSelection({ players = [] }) {
                         player.position.includes(key)
                     )
                     .map((player) => {
-                      const showAlreadySelected =
+                      const isSelectedInAnotherPosition =
                         Object.values(team).includes(player._id) &&
                         team[key] !== player._id;
+
+                      const isMaximumTeammatesSelected =
+                        selectedPlayersTeams.filter(
+                          (team) => player.team === team
+                        ).length >= MAX_TEAMMATES_ALLOWED &&
+                        team[key] !== player._id;
+
                       return (
                         <option
                           key={`player-${player._id}`}
                           value={player._id}
-                          disabled={showAlreadySelected}
+                          disabled={
+                            isSelectedInAnotherPosition ||
+                            isMaximumTeammatesSelected
+                          }
                         >{`${player.team ? `[${player.team}]: ` : ""}${
                           player.name
                         }${
-                          showAlreadySelected ? " (Already selected)" : ""
+                          isSelectedInAnotherPosition
+                            ? " (Already selected)"
+                            : isMaximumTeammatesSelected
+                            ? ` (Maximum ${MAX_TEAMMATES_ALLOWED} players from a team)`
+                            : ""
                         }`}</option>
                       );
                     })}
