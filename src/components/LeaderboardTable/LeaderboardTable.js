@@ -2,6 +2,10 @@ export const LeaderboardTable = ({ users, players, tenRows }) => {
   const usersWithTeams = users.filter((user) => {
     return user.team;
   });
+
+  //function which calculates user's points? pass in team, map over get each of their points, add to total
+  //call it in table
+
   // let userPoints = 0;
   // usersWithTeams.map((user) => {
   //   const team = user.team;

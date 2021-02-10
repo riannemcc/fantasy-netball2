@@ -18,7 +18,7 @@ export default function Profile({ players, users, currentUser }) {
         <>
           <div className="m-4 flex flex-row">
             <span className="text-xl text-black font-bold ">Your Team</span>
-            <div className="border-t-2 flex-1 ml-2 leading-9 text-base font-semibold mt-3 border-pink opacity-80" />
+            <div className="border-t-2 flex-1 ml-2 leading-9 text-base font-semibold mt-3.5 border-pink opacity-80" />
           </div>
           <div className="w-auto bg-pink shadow mx-4 mb-6 px-4 flex flex-col items-center">
             <h2 className="text-xl text-white font-bold m-2 self-center ">

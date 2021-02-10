@@ -1,29 +1,55 @@
 import React from "react";
 import { connectToDatabase } from "../util/mongodb";
-import { useState, useCallback } from "react";
 import Router from "next/router";
 
+function checkForDuplicates(array) {
+  return new Set(array).size !== array.length;
+}
+
+const MAX_TEAMMATES_ALLOWED = 2;
+
+const positions = [
+  { key: "GS", display: "GS" },
+  { key: "GA", display: "GA" },
+  { key: "WA", display: "WA" },
+  { key: "C", display: "C" },
+  { key: "WD", display: "WD" },
+  { key: "GD", display: "GD" },
+  { key: "GK", display: "GK" },
+];
+
+const initialTeamState = positions.reduce(
+  (state, position) => ({
+    ...state,
+    [position.key]: "",
+  }),
+  {}
+);
+
 export default function TeamSelection({ players = [] }) {
-  const [team, setTeam] = useState({
-    GS: "",
-    GA: "",
-    WA: "",
-    C: "",
-    WD: "",
-    GD: "",
-    GK: "",
-    sub1: "",
-    sub2: "",
-    sub3: "",
-  });
-  const [teamName, setTeamName] = useState("");
-  const [captain, setCaptain] = useState("");
-  const [viceCaptain, setViceCaptain] = useState("");
+  const [team, setTeam] = React.useState(initialTeamState);
+  const [teamName, setTeamName] = React.useState("");
+  const [captain, setCaptain] = React.useState("");
+  const [viceCaptain, setViceCaptain] = React.useState("");
+  const [selectedPlayersTeams, setSelectedPlayersTeams] = React.useState([]);
 
-  const getPlayerById = (playerId) =>
-    players.find((player) => player._id === playerId);
+  React.useEffect(() => {
+    const selectedPlayerIds = Object.values(team);
+    setSelectedPlayersTeams(
+      players
+        .filter(
+          (player) => selectedPlayerIds.includes(player._id) && player.team
+        )
+        .map((player) => player.team)
+    );
+  }, [players, team]);
 
-  const handleTeamPlayerSelect = useCallback(
+  const getPlayerById = React.useCallback(
+    (playerId) => players.find((player) => player._id === playerId),
+    [players]
+  );
+
+  const handleTeamPlayerSelect = React.useCallback(
     (positionKey, playerId) => {
       setTeam((currentTeam) => ({
         ...currentTeam,
@@ -33,61 +59,36 @@ export default function TeamSelection({ players = [] }) {
     [setTeam]
   );
 
-  const shooters = players.filter((player) => {
-    return (
-      (player.position && player.position.includes("GS")) ||
-      (player.position && player.position.includes("GA"))
-    );
-  });
-
-  const centreCourt = players.filter((player) => {
-    return (
-      (player.position && player.position.includes("WA")) ||
-      (player.position && player.position.includes("C")) ||
-      (player.position && player.position.includes("WD"))
-    );
-  });
-
-  const defenders = players.filter((player) => {
-    return (
-      (player.position && player.position.includes("GD")) ||
-      (player.position && player.position.includes("GK"))
-    );
-  });
-
-  const positions = [
-    { key: "GS", display: "GS" },
-    { key: "GA", display: "GA" },
-    { key: "WA", display: "WA" },
-    { key: "C", display: "C" },
-    { key: "WD", display: "WD" },
-    { key: "GD", display: "GD" },
-    { key: "GK", display: "GK" },
-    { key: "sub1", display: "Sub 1" },
-    { key: "sub2", display: "Sub 2" },
-    { key: "sub3", display: "Sub 3" },
-  ];
-
   return (
-    <div className="flex flex-col justify-center items-center">
-      <div class="font-sans font-bold text-xl text-black text-center m-2">
-        <h2> Select your Team</h2>
-        <p>
-          Select one player for each position and 3 subs (1 shooter, 1 centre
-          court and 1 defender)
-        </p>
+    <div className="flex flex-col">
+      <div className="m-4 flex flex-row">
+        <span className="text-xl text-black font-bold ">Select your team</span>
+        <div className="border-t-2 flex-1 ml-2 leading-9 text-base font-semibold mt-3.5 border-pink opacity-80" />
       </div>
-      <div className="bg-gray-300 m-2 pb-4 border-black border-2 w-11/12">
+        <ul className="ml-4 mb-2">
+          <li>Select one player for each position</li>
+          <li>You may only select a player once.</li>
+          <li>You may only select a maximum of two players from any one VNSL team.</li>
+        </ul>
+      <div className="bg-gray-200 m-2 pb-4 border-black border-2 w-auto">
         <form
           id="formy"
           class="flex flex-col"
           onSubmit={async (event) => {
             event.preventDefault();
+            const hasDuplicates = checkForDuplicates(Object.values(team));
+
+            if (hasDuplicates) {
+              alert("You may only use a player once");
+              return;
+            }
 
             try {
-              await insertTeam(team, teamName, captain, viceCaptain);
-              alert("Success");
-              Router.push("/profile");
+              if (!hasDuplicates) {
+                await insertTeam(team, teamName, captain, viceCaptain);
+                alert("Success");
+                Router.push("/profile");
+              }
             } catch (error) {
               console.error(error);
               alert("Error");
@@ -112,7 +113,10 @@ export default function TeamSelection({ players = [] }) {
           />
           {positions.map(({ key, display }) => {
             return (
-              <div className="w-auto m-6 flex-row">
+              <div
+                key={`select-position-${key}`}
+                className="w-auto m-6 flex flex-row items-center"
+              >
                 <label
                   htmlFor={key}
                   class="font-sans font-bold text-xl text-black text-center w-2/12"
@@ -130,29 +134,43 @@ export default function TeamSelection({ players = [] }) {
                   }}
                 >
                   <option value="">--Please choose an option--</option>
-                  {key === "GS" || key === "GA" || key === "sub1"
-                    ? shooters.map((shooter) => {
-                        return (
-                          <option value={shooter._id}>{shooter.name}</option>
-                        );
-                      })
-                    : null}
-                  {key === "WA" || key === "C" || key === "WD" || key === "sub2"
-                    ? centreCourt.map((centerCourter) => {
-                        return (
-                          <option value={centerCourter._id}>
-                            {centerCourter.name}
-                          </option>
-                        );
-                      })
-                    : null}
-                  {key === "GD" || key === "GK" || key === "sub3"
-                    ? defenders.map((defender) => {
-                        return (
-                          <option value={defender._id}>{defender.name}</option>
-                        );
-                      })
-                    : null}
+                  {players
+                    .filter(
+                      (player) =>
+                        player.position &&
+                        player.position.length &&
+                        player.position.includes(key)
+                    )
+                    .map((player) => {
+                      const isSelectedInAnotherPosition =
+                        Object.values(team).includes(player._id) &&
+                        team[key] !== player._id;
+
+                      const isMaximumTeammatesSelected =
+                        selectedPlayersTeams.filter(
+                          (team) => player.team === team
+                        ).length >= MAX_TEAMMATES_ALLOWED &&
+                        team[key] !== player._id;
+
+                      return (
+                        <option
+                          key={`player-${player._id}`}
+                          value={player._id}
+                          disabled={
+                            isSelectedInAnotherPosition ||
+                            isMaximumTeammatesSelected
+                          }
+                        >{`${player.team ? `[${player.team}]: ` : ""}${
+                          player.name
+                        }${
+                          isSelectedInAnotherPosition
+                            ? " (Already selected)"
+                            : isMaximumTeammatesSelected
+                            ? ` (Maximum ${MAX_TEAMMATES_ALLOWED} players from a team)`
+                            : ""
+                        }`}</option>
+                      );
+                    })}
                 </select>
               </div>
             );
@@ -175,8 +193,12 @@ export default function TeamSelection({ players = [] }) {
             <option value="">--Please choose an option--</option>
             {Object.values(team).map((playerId) => {
               const player = getPlayerById(playerId);
-              if (player) {
-                return <option value={playerId}>{player.name}</option>;
+              if (player && playerId !== viceCaptain) {
+                return (
+                  <option key={`captain-${playerId}`} value={playerId}>
+                    {player.name}
+                  </option>
+                );
               }
               return null;
             })}
@@ -198,8 +220,12 @@ export default function TeamSelection({ players = [] }) {
             <option value="">--Please choose an option--</option>
             {Object.values(team).map((playerId) => {
               const player = getPlayerById(playerId);
-              if (player) {
-                return <option value={playerId}>{player.name}</option>;
+              if (player && playerId !== captain) {
+                return (
+                  <option key={`vice-captain-${playerId}`} value={playerId}>
+                    {player.name}
+                  </option>
+                );
               }
               return null;
             })}
@@ -223,7 +249,7 @@ export async function getServerSideProps() {
   const players = await db
     .collection("players")
     .find({})
-    .sort({})
+    .sort({ team: 1, name: 1 })
     .limit(200)
     .toArray();
 

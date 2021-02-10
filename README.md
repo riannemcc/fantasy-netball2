@@ -77,19 +77,20 @@ https://dev.to/andrewespejo/how-to-design-a-simple-and-beautiful-navbar-using-ne
 
 TO DO:
 
-- add numbers to each line of leaderboard
+- once team has been submitted, prevent from amending
 - fix purge so in tailwind.config so it does what it's meant to. Last time tried to change to js files, stopped all tailwing styles from building in production
 - use tailwind to position homepage image
 - admin part of site to add points, change players etc?
 - hide/disable player sin dropdown menus that have already been selected for another position
-- once team has been submitted, prevent from amending
 - once players have been awarded points, update each user's points in db
 - straighten up team selection form or come up with better design
 - re-poisiton tables on desktop view for profile page
+- add horizontal scroll to stats table
 
 CURRENT ISSUES:
 
 - Where to gather stats, calculate points, update db etc
+- if user changes players throughout season, how to cut off points from previous week and then calculate points for new player thereafter
 - next auth log in doesnt work in chrome dark mode
 
 Twitter dev portal - https://developer.twitter.com/en/portal/projects/1358524108414324744/apps/20057815/settings

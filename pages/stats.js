@@ -24,9 +24,9 @@ export default function Stats({ players }) {
 
       {teams.map((team) => {
         return (
-          <>
-            <h2 class="text-xl text-black font-bold mt-6 mb-2 ml-4 ">{team}</h2>
-            <table class="table-auto ml-2 mr-2 w-auto shadow-lg bg-gray-100">
+          <div className="items-center flex flex-col">
+            <h2 class="text-xl text-black font-bold mt-6 mb-2 ml-4">{team}</h2>
+            <table class="table-auto ml-2 mr-2 w-auto shadow-lg bg-gray-100 ">
               <thead>
                 <tr>
                   <th class="border border-black px-4 py-2">Player</th>
@@ -52,7 +52,7 @@ export default function Stats({ players }) {
                 )}
               </tbody>
             </table>
-          </>
+          </div>
         );
       })}
     </div>
