@@ -15,7 +15,7 @@ export const HomePage = () => {
         <div className="flex flex-col justify-center items-center">
           <Image src="/logoalt.png" alt="netball" width="140" height="140" />
         </div>
-        <h2 class="font-sans font-bold text-3xl text-gray-600 text-center mt-5 mb-6">
+        <h2 class="font-sans font-bold text-3xl text-gray-600 text-center mb-5">
           Choose your team. Watch them play. Win some points.
         </h2>
         <div class="w=6/12 self-center flex flex-col ">

@@ -16,6 +16,7 @@ export default function TeamSelection({ players = [] }) {
     sub2: "",
     sub3: "",
   });
+
   const [teamName, setTeamName] = useState("");
   const [captain, setCaptain] = useState("");
   const [viceCaptain, setViceCaptain] = useState("");
@@ -32,6 +33,12 @@ export default function TeamSelection({ players = [] }) {
     },
     [setTeam]
   );
+
+  function checkForDuplicates(array) {
+    return new Set(array).size !== array.length;
+  }
+
+  const hasDuplicates = checkForDuplicates(Object.values(team));
 
   const shooters = players.filter((player) => {
     return (
@@ -85,9 +92,14 @@ export default function TeamSelection({ players = [] }) {
             event.preventDefault();
 
             try {
-              await insertTeam(team, teamName, captain, viceCaptain);
-              alert("Success");
-              Router.push("/profile");
+              if (hasDuplicates) {
+                alert("You may only use a player once");
+              }
+              if (!hasDuplicates) {
+                await insertTeam(team, teamName, captain, viceCaptain);
+                alert("Success");
+                Router.push("/profile");
+              }
             } catch (error) {
               console.error(error);
               alert("Error");
