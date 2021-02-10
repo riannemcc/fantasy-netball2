@@ -11,9 +11,6 @@ export const UserTeamTable = ({ players, currentUser, className }) => {
     "WD",
     "GD",
     "GK",
-    "sub1",
-    "sub2",
-    "sub3",
   ];
 
   const getPlayerById = (playerId) =>

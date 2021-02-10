@@ -14,9 +14,6 @@ const positions = [
   { key: "WD", display: "WD" },
   { key: "GD", display: "GD" },
   { key: "GK", display: "GK" },
-  { key: "sub1", display: "Sub 1" },
-  { key: "sub2", display: "Sub 2" },
-  { key: "sub3", display: "Sub 3" },
 ];
 
 const initialTeamState = positions.reduce(
@@ -56,6 +53,8 @@ export default function TeamSelection({ players = [] }) {
           Select one player for each position and 3 subs (1 shooter, 1 centre
           court and 1 defender)
         </p>
+          <p>You may only select a player once.</p>
+          <p>ou may only select a maximum of two players from any one VNSL team. </p>Y
       </div>
       <div className="bg-gray-300 m-2 pb-4 border-black border-2 w-11/12">
         <form
