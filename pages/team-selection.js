@@ -46,17 +46,17 @@ export default function TeamSelection({ players = [] }) {
   );
 
   return (
-    <div className="flex flex-col justify-center items-center">
-      <div class="font-sans font-bold text-xl text-black text-center m-2">
-        <h2> Select your Team</h2>
-        <p>
-          Select one player for each position and 3 subs (1 shooter, 1 centre
-          court and 1 defender)
-        </p>
-          <p>You may only select a player once.</p>
-          <p>ou may only select a maximum of two players from any one VNSL team. </p>Y
+    <div className="flex flex-col">
+      <div className="m-4 flex flex-row">
+        <span className="text-xl text-black font-bold ">Select your team</span>
+        <div className="border-t-2 flex-1 ml-2 leading-9 text-base font-semibold mt-3.5 border-pink opacity-80" />
       </div>
-      <div className="bg-gray-300 m-2 pb-4 border-black border-2 w-11/12">
+        <ul className="ml-4 mb-2">
+          <li>Select one player for each position</li>
+          <li>You may only select a player once.</li>
+          <li>You may only select a maximum of two players from any one VNSL team.</li>
+        </ul>
+      <div className="bg-gray-200 m-2 pb-4 border-black border-2 w-auto">
         <form
           id="formy"
           class="flex flex-col"
@@ -101,7 +101,7 @@ export default function TeamSelection({ players = [] }) {
             return (
               <div
                 key={`select-position-${key}`}
-                className="w-auto m-6 flex-row"
+                className="w-auto m-6 flex flex-row items-center"
               >
                 <label
                   htmlFor={key}

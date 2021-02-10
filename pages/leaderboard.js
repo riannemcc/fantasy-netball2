@@ -9,7 +9,9 @@ export default function Leaderboard({ users, players }) {
         <h1 class="text-xl text-black font-bold">Leaderboard</h1>
         <div className="border-t-2 flex-1 ml-2 leading-9 text-base font-semibold mt-3.5 border-pink opacity-1" />
       </div>
-      <LeaderboardTable users={users} players={players} tenRows={false} />
+      <div className="items-center flex flex-col">
+        <LeaderboardTable users={users} players={players} tenRows={false} />
+      </div>
     </>
   );
 }
