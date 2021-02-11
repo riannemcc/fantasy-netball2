@@ -158,7 +158,8 @@ export default function TeamSelection({ players = [] }) {
                           value={player._id}
                           disabled={
                             isSelectedInAnotherPosition ||
-                            isMaximumTeammatesSelected
+                            isMaximumTeammatesSelected  ||
+                            player._id === "60195c482bdff032e549977f"
                           }
                         >{`${player.team ? `[${player.team}]: ` : ""}${
                           player.name
@@ -277,13 +278,3 @@ async function insertTeam(team, teamName, captain, viceCaptain) {
     console.error(error);
   }
 }
-
-//RULES
-// You can only have 3 shooters on your team
-// You can only have 4 centre court players on your team
-// You can only have 3 defenders on your team
-// You can only select one player as a captain
-// You can only select one player as a vice captain, that cannot be the same person as the captain
-// You can only choose a player once - should be disabled in all other dropdowns?
-
-// formik - validation? Maybe no package or some other package though
