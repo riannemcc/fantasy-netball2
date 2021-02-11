@@ -8,15 +8,14 @@ export const RulesText = () => {
         <span className="text-2xl text-black font-bold ml-2">The Rules*</span>
       </div>
       <ul className="bg-gray-200 shadow m-2 p-4 font-bold">
-        <li>Goals +2</li>
-        <li>Misses -4</li>
-        <li>Penalties -4</li>
+        <li>Goals +4</li>
+        <li>Misses -3</li>
+        <li>Penalties -3</li>
         <li>Rebounds(offensive) +3</li>
         <li>Rebounds(defensive) +3</li>
         <li>Interceptions +10</li>
         <li>Deflections +3</li>
-        <li>Turnovers +1</li>
-        <li>Unforced error +3</li>
+        <li>Turnovers +2</li>
         <li>Caution -10</li>
         <li>MVP +20</li>
       </ul>
@@ -24,7 +23,7 @@ export const RulesText = () => {
         Captains will earn 2x the points for the week. Vice Captains will earn
         1.5x the points for the week
       </div>
-      <span>*tbc once VNSL confirm the stats they will publish each week</span>
+      <span className="m-2">*tbc once VNSL confirm the stats they will publish each week</span>
     </div>
   );
 };
