@@ -1,7 +1,7 @@
-export const LeaderboardTable = ({ users, players, tenRows }) => {
-  const usersWithTeams = users.filter((user) => {
+export const LeaderboardTable = ( { users, players, tenRows } ) => {
+  const usersWithTeams = users.filter( ( user ) => {
     return user.team;
-  });
+  } );
 
   //function which calculates user's points? pass in team, map over get each of their points, add to total
   //call it in table
@@ -30,20 +30,20 @@ export const LeaderboardTable = ({ users, players, tenRows }) => {
   //   });
   // });
 
-  function compare(a, b) {
+  function compare ( a, b ) {
     const userA = a.points;
     const userB = b.points;
 
     let comparison = 0;
-    if (userA > userB) {
+    if ( userA > userB ) {
       comparison = -1;
-    } else if (userA < userB) {
+    } else if ( userA < userB ) {
       return comparison * 1;
     }
     return comparison;
   }
 
-  const top10users = usersWithTeams.sort(compare).slice(0, 10);
+  const top10users = usersWithTeams.sort( compare ).slice( 0, 10 );
 
   return (
     <div>
@@ -57,35 +57,35 @@ export const LeaderboardTable = ({ users, players, tenRows }) => {
           </tr>
         </thead>
         <tbody>
-          {tenRows
+          { tenRows
             ? top10users
-                .filter((user) => !!user.teamname)
-                .map((user, index) => (
-                  <tr>
-                    <td class="border border-black px-4 py-2">{index + 1}</td>
-                    <td class="border border-black px-4 py-2">
-                      {user.teamname}
-                    </td>
-                    <td class="border border-black px-4 py-2">{user.points}</td>
-                    <td class="border border-black px-4 py-2">
-                      {user.wk1points}
-                    </td>
-                  </tr>
-                ))
+              .filter( ( user ) => !!user.teamname )
+              .map( ( user, index ) => (
+                <tr>
+                  <td class="border border-black px-4 py-2">{ index + 1 }</td>
+                  <td class="border border-black px-4 py-2">
+                    { user.teamname }
+                  </td>
+                  <td class="border border-black px-4 py-2">{ user.points }</td>
+                  <td class="border border-black px-4 py-2">
+                    { user.wk1points }
+                  </td>
+                </tr>
+              ) )
             : users
-                .filter((user) => !!user.teamname)
-                .map((user, index) => (
-                  <tr>
-                    <td class="border border-black px-4 py-2">{index + 1}</td>
-                    <td class="border border-black px-4 py-2">
-                      {user.teamname}
-                    </td>
-                    <td class="border border-black px-4 py-2">{user.points}</td>
-                    <td class="border border-black px-4 py-2">
-                      {user.wk1points}
-                    </td>
-                  </tr>
-                ))}
+              .filter( ( user ) => !!user.teamname )
+              .map( ( user, index ) => (
+                <tr>
+                  <td class="border border-black px-4 py-2">{ index + 1 }</td>
+                  <td class="border border-black px-4 py-2">
+                    { user.teamname }
+                  </td>
+                  <td class="border border-black px-4 py-2">{ user.points }</td>
+                  <td class="border border-black px-4 py-2">
+                    { user.wk1points }
+                  </td>
+                </tr>
+              ) ) }
         </tbody>
       </table>
     </div>
