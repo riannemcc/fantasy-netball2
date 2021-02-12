@@ -1,24 +1,10 @@
 ## FANTASY NETBALL
 
-What the app should do:
+An app to allow users to submit a fantasy netball team alongside the Vitality Netball Superleague 2021. 
 
-- user can sign up, log in and log out
-- user can select 10 players from the league and add them to their own fantasy team
-- user can pick one of their players to be a captain and one to be a VC
-- user can view stats page with the points that each player has earned in the league thus far, grouped by team
-- user can view a leaderboard which displays all fantasy teams and their accrued points in descending order
-- user can view the fantasy rules
-
-- app should have data on all league matches and assign points to each player
-- app should consider the ten players in each user's team and assign correct number of points per week
-- app should double the points for a captain and 1.5x for a VC
-
-Future:
-
-- user can switch team players mid-season
-- scrape VNSL page for stats info
-
-##
+Next.js
+MongoDB
+Next-auth
 
 ### Set up environment variables
 
@@ -39,8 +25,6 @@ Set each variable on `.env.local`:
 - `EMAIL_PASSWORD`
 - `GOOGLE_ID`
 - `GOOGLE_SECRET`
-- `FACEBOOK_ID`
-- `FACEBOOK_SECRET`
 
 ### Run Next.js in development mode
 
@@ -72,6 +56,7 @@ Alternatively, you can deploy using our template by clicking on the Deploy butto
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-mongodb&project-name=with-mongodb&repository-name=with-mongodb&env=MONGODB_URI,MONGODB_DB&envDescription=Required%20to%20connect%20the%20app%20with%20MongoDB)
 
+Tutorials Used 
 https://blog.logrocket.com/using-authentication-in-next-js/
 https://dev.to/andrewespejo/how-to-design-a-simple-and-beautiful-navbar-using-nextjs-and-tailwindcss-26p1
 
@@ -81,10 +66,7 @@ TO DO:
 - fix purge so in tailwind.config so it does what it's meant to. Last time tried to change to js files, stopped all tailwing styles from building in production
 - use tailwind to position homepage image
 - admin part of site to add points, change players etc?
-- hide/disable player sin dropdown menus that have already been selected for another position
 - once players have been awarded points, update each user's points in db
-- straighten up team selection form or come up with better design
-- re-poisiton tables on desktop view for profile page
 - add horizontal scroll to stats table
 
 CURRENT ISSUES:
@@ -96,3 +78,4 @@ CURRENT ISSUES:
 Twitter dev portal - https://developer.twitter.com/en/portal/projects/1358524108414324744/apps/20057815/settings
 Google dev portal - https://console.developers.google.com/apis/credentials/oauthclient/233392081114-lbufp9v20c9lha32er4bsdtbg8fn8smk.apps.googleusercontent.com?authuser=1&project=fantasy-netball-303412
 github dev portal - https://github.com/settings/apps/fantasy-netball
+c
