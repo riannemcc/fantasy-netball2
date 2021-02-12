@@ -13,11 +13,11 @@ const MyApp = ( { Component, pageProps } ) => {
   return (
     <>
       <Head>
+        <meta name="google-site-verification" content="XRn9mH8E2RDlxqaaVopqOaBVs20gv2FnvvE4KjRrquo" />
         <title>Fantasy Netball</title>
         <link rel="icon" href="/logo.png" />
-        <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
-        <meta name="description" content="Fantasy Netball" />
-        <meta name="google-site-verification" content="XRn9mH8E2RDlxqaaVopqOaBVs20gv2FnvvE4KjRrquo" />
+        {/* <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="description" content="Fantasy Netball" /> */}
       </Head>
       <Provider session={ pageProps.session }>
         <NavBar />
