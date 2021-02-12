@@ -7,7 +7,7 @@ import { Footer } from "../src/components/Footer";
 
 import "../styles/tailwind.css";
 
-const MyApp = ({ Component, pageProps }) => {
+const MyApp = ( { Component, pageProps } ) => {
   const { basePath } = useRouter();
 
   return (
@@ -17,13 +17,14 @@ const MyApp = ({ Component, pageProps }) => {
         <link rel="icon" href="/logo.png" />
         <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="description" content="Fantasy Netball" />
+        <meta name="google-site-verification" content="XRn9mH8E2RDlxqaaVopqOaBVs20gv2FnvvE4KjRrquo" />
       </Head>
-      <Provider session={pageProps.session}>
+      <Provider session={ pageProps.session }>
         <NavBar />
         <main>
-          <Component {...pageProps} />
+          <Component { ...pageProps } />
         </main>
-        {/* <Footer /> */}
+        {/* <Footer /> */ }
       </Provider>
     </>
   );
@@ -31,7 +32,7 @@ const MyApp = ({ Component, pageProps }) => {
 
 export default MyApp;
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps ( context ) {
   const { client } = await connectToDatabase();
 
   const isConnected = await client.isConnected();
