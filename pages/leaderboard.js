@@ -23,7 +23,7 @@ export async function getServerSideProps() {
     .collection("users")
     .find({})
     .sort({})
-    .limit(200)
+    .limit(400)
     .toArray();
 
   const players = await db
