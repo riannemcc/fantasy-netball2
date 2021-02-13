@@ -15,7 +15,8 @@ export const RulesText = () => {
         <li>Rebounds(defensive) +3</li>
         <li>Interceptions +10</li>
         <li>Deflections +3</li>
-        <li>Turnovers +2</li>
+        <li>Turnovers +5</li>
+        <li>Unforced error -2</li>
         <li>Caution -10</li>
         <li>MVP +20</li>
       </ul>
@@ -23,7 +24,6 @@ export const RulesText = () => {
         Captains will earn 2x the points for the week. Vice Captains will earn
         1.5x the points for the week
       </div>
-      <span className="m-2">*tbc once VNSL confirm the stats they will publish each week</span>
     </div>
   );
 };
