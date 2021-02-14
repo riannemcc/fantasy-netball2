@@ -1,16 +1,19 @@
-import {useSession, getSession} from "next-auth/client";
-import {ObjectId} from "mongodb";
+import { useSession } from "next-auth/client";
 import Link from "next/link";
-import {connectToDatabase} from "../util/mongodb";
-import {LeaderboardTable} from "../src/components/LeaderboardTable";
-import {GameSchedule} from "../src/components/GameSchedule";
-import {HighestScoring} from "../src/components/HighestScoring";
-import {UserTeamTable} from "../src/components/UserTeamTable";
+import { connectToDatabase } from "../util/mongodb";
+import { LeaderboardTable } from "../src/components/LeaderboardTable";
+import { GameSchedule } from "../src/components/GameSchedule";
+import { HighestScoring } from "../src/components/HighestScoring";
+import { UserTeamTable } from "../src/components/UserTeamTable";
 
-export default function Profile({players, users, currentUser}) {
-  const [session, loading] = useSession();
+export default function Profile({ players, users, currentUser }) {
+  const [, loading] = useSession();
 
   if (typeof window !== "undefined" && loading) return <p>Loading...</p>;
+
+  if (!currentUser) {
+    return null
+  }
 
   return (
     <div className="m-2 self-center flex flex-col">
@@ -77,13 +80,8 @@ export default function Profile({players, users, currentUser}) {
   );
 }
 
-export async function getServerSideProps({req}) {
-  const {db} = await connectToDatabase();
-  const session = await getSession({req});
-
-  const currentUser = await db
-    .collection("users")
-    .findOne(ObjectId(session.userId));
+export async function getServerSideProps({ req }) {
+  const { db } = await connectToDatabase();
 
   const users = await db
     .collection("users")
@@ -101,7 +99,6 @@ export async function getServerSideProps({req}) {
 
   return {
     props: {
-      currentUser: JSON.parse(JSON.stringify(currentUser)),
       users: JSON.parse(JSON.stringify(users)),
       players: JSON.parse(JSON.stringify(players)),
     },
