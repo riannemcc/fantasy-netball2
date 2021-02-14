@@ -1,7 +1,4 @@
 export const UserTeamTable = ({players, currentUser, className}) => {
-  //   const usersWithTeams = users.filter((user) => {
-  //     return user.team;
-  //   });
 
   const positions = [
     "GS",

@@ -15,8 +15,6 @@ export const StatsTable = ({players, teams}) => {
                                         <tr>
                                             <th class="border border-black px-4 py-2">Player</th>
                                             <th class="border border-black px-4 py-2">Total Points</th>
-                                            <th class="border border-black px-4 py-2">Round 1 and 2</th>
-                                            <th class="border border-black px-4 py-2">Round 3</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -28,12 +26,6 @@ export const StatsTable = ({players, teams}) => {
                                                     </td>
                                                     <td class="border border-black px-4 py-2">
                                                         {player.points}
-                                                    </td>
-                                                    <td class="border border-black px-4 py-2">
-                                                        {player.round1and2pts && player.round1and2pts}
-                                                    </td>
-                                                    <td class="border border-black px-4 py-2">
-                                                        {player.round3pts && player.round3pts}
                                                     </td>
                                                 </tr>
                                             ) : null

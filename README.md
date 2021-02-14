@@ -63,7 +63,6 @@ https://dev.to/andrewespejo/how-to-design-a-simple-and-beautiful-navbar-using-ne
 TO DO:
 
 - FIX SIGN IN
-- fix margin on leaderboard
 - points system 
 
 - fix purge so in tailwind.config so it does what it's meant to. Last time tried to change to js files, stopped all tailwing styles from building in production

@@ -17,6 +17,7 @@ export const LeaderboardTable = ({users, players, tenRows, currentUser}) => {
 
   const top10users = usersWithTeamsSorted.slice(0, 10);
 
+
   return (
     <div>
       <table className="bg-gray-100 shadow border w-6/12">

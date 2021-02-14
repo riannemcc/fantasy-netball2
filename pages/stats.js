@@ -16,6 +16,7 @@ export default function Stats({players}) {
     "Wasps",
     "Team Bath",
   ];
+
   return (
     <div>
       <div className="m-4 flex flex-row">
@@ -25,23 +26,6 @@ export default function Stats({players}) {
       <StatsTable players={players} teams={teams} />
     </div>
   );
-}
-async function insertPoints(points) {
-  try {
-    const res = await fetch("/api/players", {
-      method: "POST",
-      cache: "no-cache",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      referrerPolicy: "no-referrer",
-      body: JSON.stringify({points}),
-    });
-    const json = await res.json();
-    console.log("res: ", json);
-  } catch (error) {
-    console.error(error);
-  }
 }
 
 export async function getServerSideProps() {
