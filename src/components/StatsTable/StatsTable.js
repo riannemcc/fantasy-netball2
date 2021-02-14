@@ -2,15 +2,6 @@ import React from "react";
 
 
 export const StatsTable = ({players, teams}) => {
-    // const calculateTotalPoints = () => {
-    //     players.map(player => {
-    //         const game1 = player.wk1points && player.wk1points
-    //         const points = game1
-    //         return points
-    //     })
-    // }
-
-    // console.log('calcpoints', calculateTotalPoints())
     return (
         <div>
             {
