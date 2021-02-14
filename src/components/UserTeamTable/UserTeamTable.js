@@ -28,7 +28,7 @@ export const UserTeamTable = ({players, currentUser, className}) => {
   return (
     <div className={className}>
 
-      <table className="m-2shadow-lg bg-gray-100">
+      <table className="mb-8 shadow-lg bg-gray-100">
         <thead>
           <tr>
             <th class="border border-black px-4 py-2">Position</th>

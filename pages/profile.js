@@ -1,19 +1,19 @@
-import { useSession, getSession } from "next-auth/client";
-import { ObjectId } from "mongodb";
+import {useSession, getSession} from "next-auth/client";
+import {ObjectId} from "mongodb";
 import Link from "next/link";
-import { connectToDatabase } from "../util/mongodb";
-import { LeaderboardTable } from "../src/components/LeaderboardTable";
-import { GameSchedule } from "../src/components/GameSchedule";
-import { HighestScoring } from "../src/components/HighestScoring";
-import { UserTeamTable } from "../src/components/UserTeamTable";
+import {connectToDatabase} from "../util/mongodb";
+import {LeaderboardTable} from "../src/components/LeaderboardTable";
+import {GameSchedule} from "../src/components/GameSchedule";
+import {HighestScoring} from "../src/components/HighestScoring";
+import {UserTeamTable} from "../src/components/UserTeamTable";
 
-export default function Profile ( { players, users, currentUser } ) {
-  const [ session, loading ] = useSession();
+export default function Profile({players, users, currentUser}) {
+  const [session, loading] = useSession();
 
-  if ( typeof window !== "undefined" && loading ) return <p>Loading...</p>;
+  if (typeof window !== "undefined" && loading) return <p>Loading...</p>;
 
   return (
-    <div className="self-center flex flex-col">
+    <div className="m-2 self-center flex flex-col">
       {currentUser.team ? (
         <>
           <div className="m-4 flex flex-row">
@@ -22,12 +22,12 @@ export default function Profile ( { players, users, currentUser } ) {
           </div>
           <div className="w-auto bg-pink shadow mx-4 mb-6 px-4 flex flex-col items-center">
             <h2 className="text-xl text-white font-bold m-2 self-center ">
-              { currentUser.teamname && currentUser.teamname }
+              {currentUser.teamname && currentUser.teamname}
             </h2>
             <UserTeamTable
               className="-mb-4"
-              currentUser={ currentUser }
-              players={ players }
+              currentUser={currentUser}
+              players={players}
             />
           </div>
         </>
@@ -44,16 +44,16 @@ export default function Profile ( { players, users, currentUser } ) {
               </Link>
             </button>
           </>
-        ) }
+        )}
       <div className="m-4 flex flex-row">
         <div className="border-t-2 flex-1 mr-2 ml-2 leading-9 text-base font-semibold mt-3.5 border-pink opacity-80" />
         <h2 className="text-xl text-black font-bold ">Top 10 Fantasy Teams</h2>
       </div>
 
-      <div className="w-auto bg-gray-300 mr-4 m-2 p-4 flex flex-col">
-        { currentUser.team ? (
-          <LeaderboardTable users={ users } players={ players } tenRows />
-        ) : null }
+      <div className="overflow-x-auto w-auto bg-gray-300 m-2 p-4 flex flex-col">
+        {currentUser.team ? (
+          <LeaderboardTable users={users} players={players} tenRows />
+        ) : null}
       </div>
 
       <div className="m-4 flex flex-row">
@@ -63,7 +63,7 @@ export default function Profile ( { players, users, currentUser } ) {
         <div className="border-t-2 flex-1 ml-2 mr-2 leading-9 text-base font-semibold mt-3.5 border-pink opacity-80" />
       </div>
       <div className="text-xl text-black font-bold uppercase mt-8 mb-4 self-center flex flex-col">
-        <HighestScoring players={ players } />
+        <HighestScoring players={players} />
       </div>
 
       <div className="m-4 flex flex-row">
@@ -77,33 +77,33 @@ export default function Profile ( { players, users, currentUser } ) {
   );
 }
 
-export async function getServerSideProps ( { req } ) {
-  const { db } = await connectToDatabase();
-  const session = await getSession( { req } );
+export async function getServerSideProps({req}) {
+  const {db} = await connectToDatabase();
+  const session = await getSession({req});
 
   const currentUser = await db
-    .collection( "users" )
-    .findOne( ObjectId( session.userId ) );
+    .collection("users")
+    .findOne(ObjectId(session.userId));
 
   const users = await db
-    .collection( "users" )
-    .find( {} )
-    .sort( {} )
-    .limit( 300 )
+    .collection("users")
+    .find({})
+    .sort({})
+    .limit(300)
     .toArray();
 
   const players = await db
-    .collection( "players" )
-    .find( {} )
-    .sort( {} )
-    .limit( 200 )
+    .collection("players")
+    .find({})
+    .sort({})
+    .limit(200)
     .toArray();
 
   return {
     props: {
-      currentUser: JSON.parse( JSON.stringify( currentUser ) ),
-      users: JSON.parse( JSON.stringify( users ) ),
-      players: JSON.parse( JSON.stringify( players ) ),
+      currentUser: JSON.parse(JSON.stringify(currentUser)),
+      users: JSON.parse(JSON.stringify(users)),
+      players: JSON.parse(JSON.stringify(players)),
     },
   };
 }
