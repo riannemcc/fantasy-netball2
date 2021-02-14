@@ -19,7 +19,7 @@ export const LeaderboardTable = ({users, players, tenRows, currentUser}) => {
 
   return (
     <div>
-      <table className="m-4 bg-gray-100 shadow border">
+      <table className="overflow-x-scroll bg-gray-100 shadow border">
         <thead>
           <tr>
             <th class="border border-black px-4 py-2"></th>
