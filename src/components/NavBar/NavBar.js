@@ -41,11 +41,7 @@ export const NavBar = () => {
           />
         </svg>
       </button>
-      <div
-        className={`${
-          active ? "" : "hidden"
-        }   w-full lg:inline-flex lg:flex-grow lg:w-auto`}
-      >
+      <div className={`${active ? "" : "hidden"} w-full lg:inline-flex lg:flex-grow lg:w-auto`}>
         <div className="lg:inline-flex lg:flex-row lg:ml-auto lg:w-auto w-full lg:items-center items-start  flex flex-col lg:h-auto">
           <Link href="/">
             <a
@@ -97,7 +93,17 @@ export const NavBar = () => {
               Rules
             </a>
           </Link>
-          <SessionButton />
+          {session && session.isAdmin ? (
+            <Link href="/update-points">
+              <a
+                onClick={handleClick}
+                className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-pink font-bold items-center justify-center hover:bg-green-600 hover:text-white"
+              >
+                Update Points
+              </a>
+            </Link>
+          ) : null}
+          {loading ? null : <SessionButton />}
         </div>
       </div>
     </nav>
