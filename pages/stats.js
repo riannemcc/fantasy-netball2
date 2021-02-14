@@ -1,35 +1,21 @@
 import React from "react";
-import {connectToDatabase} from "../util/mongodb";
-import {StatsTable} from "../src/components/StatsTable";
+import { connectToDatabase } from "../util/mongodb";
+import { StatsTable } from "../src/components/StatsTable";
 
-export default function Stats({players}) {
-  const teams = [
-    "Celtic Dragons",
-    "Leeds Rhinos",
-    "London Pulse",
-    "Loughborough Lightning",
-    "Manchester Thunder",
-    "Saracens Mavericks",
-    "Severn Stars",
-    "Strathclyde Sirens",
-    "Surrey Storm",
-    "Wasps",
-    "Team Bath",
-  ];
-
+export default function Stats({ players }) {
   return (
     <div>
       <div className="m-4 flex flex-row">
         <h1 className="text-xl text-black font-bold ">Player stats</h1>
         <div className="border-t-2 flex-1 ml-2 leading-9 text-base font-semibold mt-3.5 border-pink opacity-1" />
       </div>
-      <StatsTable players={players} teams={teams} />
+      <StatsTable players={players} />
     </div>
   );
 }
 
 export async function getServerSideProps() {
-  const {db} = await connectToDatabase();
+  const { db } = await connectToDatabase();
 
   const players = await db
     .collection("players")
