@@ -1,6 +1,6 @@
 ## FANTASY NETBALL
 
-An app to allow users to submit a fantasy netball team alongside the Vitality Netball Superleague 2021. 
+An app to allow users to submit a fantasy netball team alongside the Vitality Netball Superleague 2021.
 
 Next.js
 MongoDB
@@ -56,20 +56,30 @@ Alternatively, you can deploy using our template by clicking on the Deploy butto
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-mongodb&project-name=with-mongodb&repository-name=with-mongodb&env=MONGODB_URI,MONGODB_DB&envDescription=Required%20to%20connect%20the%20app%20with%20MongoDB)
 
-Tutorials Used 
+Tutorials Used
 https://blog.logrocket.com/using-authentication-in-next-js/
 https://dev.to/andrewespejo/how-to-design-a-simple-and-beautiful-navbar-using-nextjs-and-tailwindcss-26p1
 
 TO DO:
 
 - FIX SIGN IN
+
 - points system 
+
+- fix margin on leaderboard
+- points system
+
 
 - fix purge so in tailwind.config so it does what it's meant to. Last time tried to change to js files, stopped all tailwing styles from building in production
 - use tailwind to position homepage image
 - admin part of site to add points, change players etc?
 - once players have been awarded points, update each user's points in db
 - add horizontal scroll to stats table
+
+- Add loading state to buttons
+- Change games schedule to come from db
+- Dropdown menu to select team on stats page
+- Pagination on leaderboard
 
 CURRENT ISSUES:
 

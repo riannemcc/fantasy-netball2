@@ -1,6 +1,7 @@
 import React from "react";
 import {connectToDatabase} from "../util/mongodb";
 import {LeaderboardTable} from "../src/components/LeaderboardTable";
+import {EMMNASponsor} from "../src/components/EMMNASponsor";
 
 export default function Leaderboard({users, players}) {
   let allplayers = []
@@ -38,11 +39,14 @@ export default function Leaderboard({users, players}) {
 
   return (
     <>
-      <div className="m-4 flex flex-row">
+      <div className="m-2 flex flex-row">
         <h1 class="text-xl text-black font-bold">Leaderboard</h1>
-        <div className="border-t-2 flex-1 ml-2 leading-9 text-base font-semibold mt-3.5 border-pink opacity-1" />
+        <div className="border-t-2 flex-1 ml-2 leading-9 text-base font-semibold mt-3.5 border-pink opacity-1 w-6/12" />
       </div>
-      <div className="items-center flex flex-col">
+      <div className="m-2 w-auto" >
+        <EMMNASponsor />
+      </div>
+      <div className="items-center m-4 overflow-x-scroll">
         <LeaderboardTable users={users} players={players} tenRows={false} />
       </div>
     </>
