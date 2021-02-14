@@ -1,7 +1,23 @@
-import React from "react";
+export const StatsTable = ({ players }) => {
+    const teams = Array.from(
+        new Set(players
+            .filter(player => player.team)
+            .map(player => player.team)
+        )
+    )
+    const playersWithPoints = players.map(player => {
+        let playerPoints = 0
+        if (player.games && player.games.length > 0) {
+            playerPoints = player.games.reduce((playerPointsAcc, game) => {
+                return playerPointsAcc + parseInt(game.points, 10)
+            }, 0)
+        }
+        return {
+            ...player,
+            points: playerPoints
+        }
+    })
 
-
-export const StatsTable = ({players, teams}) => {
     return (
         <div>
             {
@@ -18,9 +34,11 @@ export const StatsTable = ({players, teams}) => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {players.map((player, index) =>
-                                            player.team === team ? (
-                                                <tr>
+                                        {playersWithPoints
+                                            .filter(player => player.team === team)
+                                            .map((player) =>
+                                            (
+                                                <tr key={`${team}-${player._id}`}>
                                                     <td class="border border-black px-4 py-2">
                                                         {player.name}
                                                     </td>
@@ -28,8 +46,8 @@ export const StatsTable = ({players, teams}) => {
                                                         {player.points}
                                                     </td>
                                                 </tr>
-                                            ) : null
-                                        )}
+                                            )
+                                            )}
                                     </tbody>
                                 </table>
                             </div>

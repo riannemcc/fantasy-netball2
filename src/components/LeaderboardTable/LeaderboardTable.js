@@ -1,71 +1,63 @@
 
-export const LeaderboardTable = ({users, players, tenRows, currentUser}) => {
+export const LeaderboardTable = ({ users, players, tenRows }) => {
+  const getPlayerById = (playerId) =>
+    players.find((player) => player._id === playerId);
 
-  const usersWithTeams = users.filter((user) => {
-    return user.team;
-  });
+  const usersWithPointsSorted = users
+    .filter((user) => user.team && user.teamname)
+    .map(user => ({
+      ...user,
+      points: Object.values(user.team).reduce((userPointsAcc, playerId) => {
+        const player = getPlayerById(playerId)
+        if (player && player.games && player.games.length > 0) {
+          let playerPoints = player.games.reduce((playerPointsAcc, game) => {
+            return playerPointsAcc + parseInt(game.points, 10)
+          }, 0)
+          if (player._id === user.captain && playerPoints > 0) {
+            playerPoints = playerPoints * 2
+          } else if (player._id === user.viceCaptain && playerPoints > 0) {
+            playerPoints = playerPoints * 1.5
+          }
+          return userPointsAcc + playerPoints
+        }
+        return userPointsAcc
+      }, 0)
+    }))
+    .sort((a, b) => b.points - a.points)
 
-  function compare(a, b) {
-    const aPoints = a.points || 0;
-    const bPoints = b.points || 0;
-    return bPoints - aPoints;
-  }
-
-  const usersWithTeamsSorted = users
-    .filter((user) => !!user.team)
-    .sort(compare);
-
-  const top10users = usersWithTeamsSorted.slice(0, 10);
+  const top10users = usersWithPointsSorted.slice(0, 10);
 
 
   return (
-    <div>
-      <table className="bg-gray-100 shadow border w-6/12">
+    <div className="w-full max-w-xl">
+      <table className="bg-gray-100 shadow border w-full">
         <thead>
           <tr>
             <th class="border border-black px-4 py-2"></th>
             <th class="border border-black px-4 py-2">Team</th>
             <th class="border border-black px-4 py-2">Total Points</th>
-            <th class="border border-black px-4 py-2">Round 1 and 2</th>
-            <th class="border border-black px-4 py-2">Round 3</th>
           </tr>
         </thead>
         <tbody>
           {tenRows
-            ? top10users
-              .filter((user) => !!user.teamname)
-              .map((user, index) => (
-                <tr>
-                  <td class="border border-black px-4 py-2">{index + 1}</td>
-                  <td class="border border-black px-4 py-2">
-                    {user.teamname}
-                  </td>
-                  <td class="border border-black px-4 py-2">{user.points}</td>
-                  <td class="border border-black px-4 py-2">
-                    {user.round1and2pts && user.round1and2pts}
-                  </td>
-                  <td class="border border-black px-4 py-2">
-                    {user.round3pts && user.round3pts}
-                  </td>
-                </tr>
-              ))
-            : usersWithTeams
-              .filter((user) => !!user.teamname)
-              .map((user, index) => (
-                <tr>
-                  <td class="border border-black px-4 py-2">{index + 1}</td>
-                  <td class="border border-black px-4 py-2">
-                    {user.teamname}
-                  </td>
-                  <td class="border border-black px-4 py-2">{user.points}</td>
-                  <td class="border border-black px-4 py-2">
-                    {user.round1and2pts && user.round1and2pts}
-                  </td>
-                  <td class="border border-black px-4 py-2">
-                    {user.round3pts && user.round3pts}
-                  </td>
-                </tr>
-              ))}
+            ? top10users.map((user, index) => (
+              <tr>
+                <td class="border border-black px-4 py-2">{index + 1}</td>
+                <td class="border border-black px-4 py-2">
+                  {user.teamname}
+                </td>
+                <td class="border border-black px-4 py-2">{user.points}</td>
+              </tr>
+            ))
+            : usersWithPointsSorted.map((user, index) => (
+              <tr>
+                <td class="border border-black px-4 py-2">{index + 1}</td>
+                <td class="border border-black px-4 py-2">
+                  {user.teamname}
+                </td>
+                <td class="border border-black px-4 py-2">{user.points}</td>
+              </tr>
+            ))}
         </tbody>
       </table>
     </div>
