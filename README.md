@@ -62,7 +62,6 @@ https://dev.to/andrewespejo/how-to-design-a-simple-and-beautiful-navbar-using-ne
 
 TO DO:
 
-- add captain badge to profile
 - FIX SIGN IN
 - fix margin on leaderboard
 - points system 
