@@ -41,7 +41,6 @@ const options = {
       if (user) {
         session.userId = user.id;
         session.userName = user.name;
-        session.isAdmin = user.isAdmin;
       }
       return session;
     },

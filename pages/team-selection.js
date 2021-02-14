@@ -1,8 +1,5 @@
 import React from "react";
 import { connectToDatabase } from "../util/mongodb";
-import Router from "next/router";
-import { ObjectId } from "mongodb";
-import { useSession, getSession } from "next-auth/client";
 import { TeamSelection } from "../src/components/TeamSelection";
 
 export default function TeamSelectionPage({ players = [], currentUser }) {
@@ -28,15 +25,14 @@ export default function TeamSelectionPage({ players = [], currentUser }) {
           </span>
         </div>
       ) : (
-        <TeamSelection players={players} />
-      )}
+          <TeamSelection players={players} />
+        )}
     </>
   );
 }
 
 export async function getServerSideProps({ req }) {
   const { db } = await connectToDatabase();
-  const session = await getSession({ req });
 
   const players = await db
     .collection("players")
@@ -45,13 +41,8 @@ export async function getServerSideProps({ req }) {
     .limit(200)
     .toArray();
 
-  const currentUser = await db
-    .collection("users")
-    .findOne(ObjectId(session.userId));
-
   return {
     props: {
-      currentUser: JSON.parse(JSON.stringify(currentUser)),
       players: JSON.parse(JSON.stringify(players)),
     },
   };

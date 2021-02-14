@@ -4,7 +4,7 @@ import { SessionButton } from "../SessionButton";
 import { useSession } from "next-auth/client";
 import Image from "next/image";
 
-export const NavBar = () => {
+export const NavBar = ({ currentUser }) => {
   const [active, setActive] = useState(false);
   const [session, loading] = useSession();
 
@@ -93,7 +93,7 @@ export const NavBar = () => {
               Rules
             </a>
           </Link>
-          {session && session.isAdmin ? (
+          {currentUser && currentUser.isAdmin ? (
             <Link href="/update-points">
               <a
                 onClick={handleClick}
