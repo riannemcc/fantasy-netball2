@@ -1,3 +1,4 @@
+
 export const LeaderboardTable = ({users, players, tenRows, currentUser}) => {
 
   const usersWithTeams = users.filter((user) => {
@@ -5,19 +6,16 @@ export const LeaderboardTable = ({users, players, tenRows, currentUser}) => {
   });
 
   function compare(a, b) {
-    const userA = a.points;
-    const userB = b.points;
-
-    let comparison = 0;
-    if (userA > userB) {
-      comparison = -1;
-    } else if (userA < userB) {
-      return comparison * 1;
-    }
-    return comparison;
+    const aPoints = a.points || 0;
+    const bPoints = b.points || 0;
+    return bPoints - aPoints;
   }
 
-  const top10users = usersWithTeams.sort(compare).slice(0, 10);
+  const usersWithTeamsSorted = users
+    .filter((user) => !!user.team)
+    .sort(compare);
+
+  const top10users = usersWithTeamsSorted.slice(0, 10);
 
   return (
     <div>
