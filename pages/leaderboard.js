@@ -1,8 +1,41 @@
 import React from "react";
-import { connectToDatabase } from "../util/mongodb";
-import { LeaderboardTable } from "../src/components/LeaderboardTable";
+import {connectToDatabase} from "../util/mongodb";
+import {LeaderboardTable} from "../src/components/LeaderboardTable";
 
-export default function Leaderboard({ users, players }) {
+export default function Leaderboard({users, players}) {
+  let allplayers = []
+
+  const getPlayerById = (playerId) =>
+    players.find((player) => player._id === playerId);
+
+
+  const positions = [
+    "GS",
+    "GA",
+    "WA",
+    "C",
+    "WD",
+    "GD",
+    "GK",
+  ];
+
+  const usersWithSameTeam = users.reduce((acc, user) => {
+    const matchingTeam = users.find(userMatch => {
+      if (user._id !== userMatch._id && user.team && userMatch.team) {
+        return positions.every(position => {
+          return user.team[position] === userMatch.team[position]
+        })
+      }
+      return false
+    })
+    if (matchingTeam) {
+      return [...acc, user]
+    }
+    return acc
+  }, [])
+
+  console.log('usersWithSameTeam: ', usersWithSameTeam)
+
   return (
     <>
       <div className="m-4 flex flex-row">
@@ -17,7 +50,7 @@ export default function Leaderboard({ users, players }) {
 }
 
 export async function getServerSideProps() {
-  const { db } = await connectToDatabase();
+  const {db} = await connectToDatabase();
 
   const users = await db
     .collection("users")
@@ -29,8 +62,6 @@ export async function getServerSideProps() {
   const players = await db
     .collection("players")
     .find({})
-    .sort({})
-    .limit(200)
     .toArray();
 
   return {
