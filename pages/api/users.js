@@ -26,11 +26,11 @@ handler.post(async (req, res) => {
         },
       }
     );
-    res.json({
+    res.status(204).json({
       message: "ok",
     });
   } else {
-    res.statusCode(401);
+    res.status(401).end(`Not allowed`);
   }
 });
 
