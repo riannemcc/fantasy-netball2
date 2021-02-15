@@ -35,7 +35,7 @@ export default function Leaderboard({users, players}) {
     return acc
   }, [])
 
-  console.log('usersWithSameTeam: ', usersWithSameTeam)
+  // console.log('usersWithSameTeam: ', usersWithSameTeam)
 
   return (
     <>

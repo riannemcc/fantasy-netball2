@@ -20,7 +20,6 @@ export const UserTeamTable = ({players, currentUser, className}) => {
     {}
   );
 
-  console.log('currentUser: ', currentUser)
 
   return (
     <div className={className}>
