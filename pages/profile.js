@@ -87,14 +87,12 @@ export async function getServerSideProps({ req }) {
     .collection("users")
     .find({})
     .sort({})
-    .limit(300)
+    .limit(400)
     .toArray();
 
   const players = await db
     .collection("players")
     .find({})
-    .sort({})
-    .limit(200)
     .toArray();
 
   return {
