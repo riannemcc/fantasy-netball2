@@ -1,8 +1,8 @@
 import React from "react";
-import { connectToDatabase } from "../util/mongodb";
-import { TeamSelection } from "../src/components/TeamSelection";
+import {connectToDatabase} from "../util/mongodb";
+import {TeamSelection} from "../src/components/TeamSelection";
 
-export default function TeamSelectionPage({ players = [], currentUser }) {
+export default function TeamSelectionPage({players = [], currentUser}) {
   return (
     <>
       {currentUser && currentUser.team ? (
@@ -25,19 +25,22 @@ export default function TeamSelectionPage({ players = [], currentUser }) {
           </span>
         </div>
       ) : (
-          <TeamSelection players={players} />
+          // <TeamSelection players={players} />
+          <div className="m-6 p-2 bg-green-100 border border-green-400 text-black text-xl font-bold px-4 py-3 rounded relative">
+            Team selection is now closed. Come back next year!
+          </div>
         )}
     </>
   );
 }
 
-export async function getServerSideProps({ req }) {
-  const { db } = await connectToDatabase();
+export async function getServerSideProps({req}) {
+  const {db} = await connectToDatabase();
 
   const players = await db
     .collection("players")
     .find({})
-    .sort({ team: 1, name: 1 })
+    .sort({team: 1, name: 1})
     .limit(200)
     .toArray();
 
