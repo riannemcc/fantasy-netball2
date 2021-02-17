@@ -6,7 +6,11 @@ const handler = nextConnect();
 handler.use(middleware);
 
 handler.get(async (req, res) => {
-  let users = await req.db.collection("users").find({}).toArray();
+  let users = await req.db.collection("users")
+    .find({})
+    .project({ captain: 1, viceCaptain: 1, team: 1, teamname: 1 })
+    .limit(400)
+    .toArray();
   res.json(users);
 });
 
