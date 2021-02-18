@@ -86,6 +86,7 @@ export async function getServerSideProps({ req }) {
   const users = await db
     .collection("users")
     .find({})
+    .project({ captain: 1, viceCaptain: 1, team: 1, teamname: 1 })
     .sort({})
     .limit(400)
     .toArray();
