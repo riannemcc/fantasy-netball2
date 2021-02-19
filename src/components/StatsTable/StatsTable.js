@@ -1,3 +1,5 @@
+import { calculatePlayerPoints } from "../../../util/helpers";
+
 export const StatsTable = ({ players }) => {
     const teams = Array.from(
         new Set(players
@@ -5,18 +7,10 @@ export const StatsTable = ({ players }) => {
             .map(player => player.team)
         )
     )
-    const playersWithPoints = players.map(player => {
-        let playerPoints = 0
-        if (player.games && player.games.length > 0) {
-            playerPoints = player.games.reduce((playerPointsAcc, game) => {
-                return playerPointsAcc + parseInt(game.points, 10)
-            }, 0)
-        }
-        return {
-            ...player,
-            points: playerPoints
-        }
-    })
+    const playersWithPoints = players.map(player => ({
+        ...player,
+        points: calculatePlayerPoints(player)
+    }))
 
     return (
         <div>

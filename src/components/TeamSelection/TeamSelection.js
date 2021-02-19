@@ -1,5 +1,6 @@
 import React from "react";
 import Router from "next/router";
+import { findPlayerById } from "../../../util/helpers";
 
 function checkForDuplicates(array) {
   return new Set(array).size !== array.length;
@@ -42,11 +43,6 @@ export const TeamSelection = ({ players = [] }) => {
         .map((player) => player.team)
     );
   }, [players, team]);
-
-  const getPlayerById = React.useCallback(
-    (playerId) => players.find((player) => player._id === playerId),
-    [players]
-  );
 
   const handleTeamPlayerSelect = React.useCallback(
     (positionKey, playerId) => {
@@ -164,15 +160,13 @@ export const TeamSelection = ({ players = [] }) => {
                               isMaximumTeammatesSelected ||
                               player._id === "60195c482bdff032e549977f"
                             }
-                          >{`${player.team ? `[${player.team}]: ` : ""}${
-                            player.name
-                          }${
-                            isSelectedInAnotherPosition
+                          >{`${player.team ? `[${player.team}]: ` : ""}${player.name
+                            }${isSelectedInAnotherPosition
                               ? " (Already selected)"
                               : isMaximumTeammatesSelected
-                              ? ` (Maximum ${MAX_TEAMMATES_ALLOWED} players from a team)`
-                              : ""
-                          }`}</option>
+                                ? ` (Maximum ${MAX_TEAMMATES_ALLOWED} players from a team)`
+                                : ""
+                            }`}</option>
                         );
                       })}
                   </select>
@@ -196,7 +190,7 @@ export const TeamSelection = ({ players = [] }) => {
             >
               <option value="">--Please choose an option--</option>
               {Object.values(team).map((playerId) => {
-                const player = getPlayerById(playerId);
+                const player = findPlayerById(playerId, players);
                 if (player && playerId !== viceCaptain) {
                   return (
                     <option key={`captain-${playerId}`} value={playerId}>
@@ -223,7 +217,7 @@ export const TeamSelection = ({ players = [] }) => {
             >
               <option value="">--Please choose an option--</option>
               {Object.values(team).map((playerId) => {
-                const player = getPlayerById(playerId);
+                const player = findPlayerById(playerId, players);
                 if (player && playerId !== captain) {
                   return (
                     <option key={`vice-captain-${playerId}`} value={playerId}>
