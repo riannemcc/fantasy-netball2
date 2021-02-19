@@ -1,6 +1,7 @@
-import { findPlayerById } from "../../../util/helpers";
+import {findPlayerById} from "../../../util/helpers";
+import {calculatePlayerPoints} from "../../../util/helpers";
 
-export const UserTeamTable = ({ players, currentUser, className }) => {
+export const UserTeamTable = ({players, currentUser, className}) => {
 
   const positions = [
     "GS",
@@ -29,6 +30,7 @@ export const UserTeamTable = ({ players, currentUser, className }) => {
           <tr>
             <th class="border border-black px-4 py-2">Position</th>
             <th class="border border-black px-4 py-2">Player</th>
+            <th class="border border-black px-4 py-2">Points</th>
           </tr>
         </thead>
         <tbody>
@@ -42,6 +44,10 @@ export const UserTeamTable = ({ players, currentUser, className }) => {
                     {teamPlayers[position]._id === currentUser.captain ? <span class="w-6 bg-pink text-white rounded p-1 m-2">C</span> : ''}
                     {teamPlayers[position]._id === currentUser.viceCaptain ? <span class="w-6 bg-pink text-white rounded p-1 m-2">VC</span> : ''}
                   </>) : ' - '}
+                </td>
+                <td className="border border-black px-4 py-2">
+                  {teamPlayers[position] ?
+                    calculatePlayerPoints(teamPlayers[position]) : ' - '}
                 </td>
               </tr>
             ) : null

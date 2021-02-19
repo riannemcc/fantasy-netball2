@@ -4,61 +4,6 @@ import moment from "moment";
 
 const games = [
   {
-    time: "2021-02-12T17:15+0000",
-    teamOne: "Celtic Dragons",
-    teamTwo: "Leeds Rhinos",
-  },
-  {
-    time: "2021-02-12T19:15+0000",
-    teamOne: "Strathclyde Sirens",
-    teamTwo: "Manchester Thunder",
-  },
-  {
-    time: "2021-02-13T14:00+0000",
-    teamOne: "London Pulse",
-    teamTwo: "Surrey Storm",
-  },
-  {
-    time: "2021-02-13T16:00+0000",
-    teamOne: "Team Bath",
-    teamTwo: "Celtic Dragons",
-  },
-  {
-    time: "2021-02-13T14:00+0000",
-    teamOne: "London Pulse",
-    teamTwo: "Surrey Storm",
-  },
-  {
-    time: "2021-02-13T18:00+0000",
-    teamOne: "Strathclyde Sirens",
-    teamTwo: "Severn Stars",
-  },
-  {
-    time: "2021-02-14T14:00+0000",
-    teamOne: "Team Bath",
-    teamTwo: "Loughborough Lightning",
-  },
-  {
-    time: "2021-02-14T16:00+0000",
-    teamOne: "Surrey Storm",
-    teamTwo: "Saracens Mavericks",
-  },
-  {
-    time: "2021-02-14T18:00+0000",
-    teamOne: "Severn Stars",
-    teamTwo: "Wasps",
-  },
-  {
-    time: "2021-02-15T17:15+0000",
-    teamOne: "Loughborough Lightning",
-    teamTwo: "Wasps",
-  },
-  {
-    time: "2021-02-15T19:15+0000",
-    teamOne: "Leeds Rhinos",
-    teamTwo: "Saracens Mavericks",
-  },
-  {
     time: "2021-02-21T12:00+0000",
     teamOne: "Surrey Storm",
     teamTwo: "Leeds Rhinos",
@@ -134,7 +79,7 @@ export const GameSchedule = () => {
           </tr>
         </thead>
         <tbody>
-          {games.map(({ time, teamOne, teamTwo }) =>
+          {games.map(({time, teamOne, teamTwo}) =>
             moment(time).isAfter(currentDate) ? (
               <tr>
                 <td class="border border-black px-2 py-2 text-left ">
