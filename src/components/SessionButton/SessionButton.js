@@ -9,7 +9,7 @@ export const SessionButton = () => {
         <>
           <button
             onClick={signIn}
-            class="bg-pink hover:bg-pink-700 text-white font-bold py-2 px-4 rounded-full w-32 m-2"
+            className="bg-pink hover:bg-pink-700 text-white font-bold py-2 px-4 rounded-full w-32 m-2"
           >
             Sign in
           </button>
@@ -19,7 +19,7 @@ export const SessionButton = () => {
         <>
           <button
             onClick={signOut}
-            class="bg-pink hover:bg-pink-700 text-white font-bold py-2 px-4 rounded-full w-32 m-2"
+            className="bg-pink hover:bg-pink-700 text-white font-bold py-2 px-4 rounded-full w-32 m-2"
           >
             Sign out
           </button>
