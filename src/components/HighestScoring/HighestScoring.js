@@ -1,65 +1,21 @@
-export const HighestScoring = ({players}) => {
+import { calculatePlayerPoints } from "../../../util/helpers";
 
-  const defenders = players.filter(player => {
-    if (player.position.includes("GD") || player.position.includes("GK")) {
-      return player.name
-    }
-  })
-  const defendersWithPointsSorted = defenders
-    .map(player => {
-      let playerPoints = 0
-      if (player.games && player.games.length > 0) {
-        playerPoints = player.games.reduce((playerPointsAcc, game) => {
-          return playerPointsAcc + parseInt(game.points, 10)
-        }, 0)
-      }
-      return {
-        ...player,
-        points: playerPoints
-      }
-    })
+export const HighestScoring = ({ players }) => {
+  const playersWithPointsSorted = players
+    .map(player => ({
+      ...player,
+      points: calculatePlayerPoints(player)
+    }))
     .sort((a, b) => b.points - a.points)
 
-  const shooters = players.filter(player => {
-    if (player.position.includes("GA") || player.position.includes("GS")) {
-      return player.name
-    }
-  })
-  const shootersWithPointsSorted = shooters
-    .map(player => {
-      let playerPoints = 0
-      if (player.games && player.games.length > 0) {
-        playerPoints = player.games.reduce((playerPointsAcc, game) => {
-          return playerPointsAcc + parseInt(game.points, 10)
-        }, 0)
-      }
-      return {
-        ...player,
-        points: playerPoints
-      }
-    })
-    .sort((a, b) => b.points - a.points)
+  const defendersWithPointsSorted = playersWithPointsSorted
+    .filter(player => player.position.includes("GD") || player.position.includes("GK"))
 
-  const mids = players.filter(player => {
-    if (player.position.includes("WA") || player.position.includes("C") || player.position.includes("WD")) {
-      return player.name
-    }
-  })
-  const midsWithPointsSorted = mids
-    .map(player => {
-      let playerPoints = 0
-      if (player.games && player.games.length > 0) {
-        playerPoints = player.games.reduce((playerPointsAcc, game) => {
-          return playerPointsAcc + parseInt(game.points, 10)
-        }, 0)
-      }
-      return {
-        ...player,
-        points: playerPoints
-      }
-    })
-    .sort((a, b) => b.points - a.points)
+  const shootersWithPointsSorted = playersWithPointsSorted
+    .filter(player => player.position.includes("GA") || player.position.includes("GS"))
 
+  const midsWithPointsSorted = playersWithPointsSorted
+    .filter(player => player.position.includes("WA") || player.position.includes("C") || player.position.includes("WD"))
 
   const shooterName = shootersWithPointsSorted[0] && shootersWithPointsSorted[0].name
   const shooterPoints = shootersWithPointsSorted[0] && shootersWithPointsSorted[0].points

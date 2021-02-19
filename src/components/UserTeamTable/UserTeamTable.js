@@ -1,4 +1,6 @@
-export const UserTeamTable = ({players, currentUser, className}) => {
+import { findPlayerById } from "../../../util/helpers";
+
+export const UserTeamTable = ({ players, currentUser, className }) => {
 
   const positions = [
     "GS",
@@ -10,11 +12,9 @@ export const UserTeamTable = ({players, currentUser, className}) => {
     "GK",
   ];
 
-  const getPlayerById = (playerId) => players.find((player) => player._id === playerId)
-
   const teamPlayers = Object.keys(currentUser.team).reduce(
     (output, position) => {
-      output[position] = getPlayerById(currentUser.team[position]);
+      output[position] = findPlayerById(currentUser.team[position], players);
       return output;
     },
     {}
