@@ -1,8 +1,8 @@
 import React from "react";
-import {connectToDatabase} from "../util/mongodb";
-import {TeamSelection} from "../src/components/TeamSelection";
+import { connectToDatabase } from "../util/mongodb";
+import { TeamSelection } from "../src/components/TeamSelection";
 
-export default function TeamSelectionPage({players = [], currentUser}) {
+export default function TeamSelectionPage({ players = [], currentUser }) {
   return (
     <>
       {currentUser && currentUser.team ? (
@@ -12,9 +12,9 @@ export default function TeamSelectionPage({players = [], currentUser}) {
         >
           You have already selected your team and cannot amend until the
           mid-season swap window.
-          <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+          <span className="absolute top-0 bottom-0 right-0 px-4 py-3">
             <svg
-              class="fill-current h-6 w-6 text-red-500"
+              className="fill-current h-6 w-6 text-red-500"
               role="button"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
@@ -34,13 +34,13 @@ export default function TeamSelectionPage({players = [], currentUser}) {
   );
 }
 
-export async function getServerSideProps({req}) {
-  const {db} = await connectToDatabase();
+export async function getServerSideProps({ req }) {
+  const { db } = await connectToDatabase();
 
   const players = await db
     .collection("players")
     .find({})
-    .sort({team: 1, name: 1})
+    .sort({ team: 1, name: 1 })
     .limit(200)
     .toArray();
 

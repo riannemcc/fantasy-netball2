@@ -16,29 +16,29 @@ export const LeaderboardTable = ({ users, players, tenRows }) => {
       <table className="bg-gray-100 shadow border w-full">
         <thead>
           <tr>
-            <th class="border border-black px-4 py-2"></th>
-            <th class="border border-black px-4 py-2">Team</th>
-            <th class="border border-black px-4 py-2">Total Points</th>
+            <th className="border border-black px-4 py-2"></th>
+            <th className="border border-black px-4 py-2">Team</th>
+            <th className="border border-black px-4 py-2">Total Points</th>
           </tr>
         </thead>
         <tbody>
           {tenRows
             ? top10users.map((user, index) => (
               <tr>
-                <td class="border border-black px-4 py-2">{index + 1}</td>
-                <td class="border border-black px-4 py-2">
+                <td className="border border-black px-4 py-2">{index + 1}</td>
+                <td className="border border-black px-4 py-2">
                   {user.teamname}
                 </td>
-                <td class="border border-black px-4 py-2">{user.points}</td>
+                <td className="border border-black px-4 py-2">{user.points}</td>
               </tr>
             ))
             : usersWithPointsSorted.map((user, index) => (
               <tr>
-                <td class="border border-black px-4 py-2">{index + 1}</td>
-                <td class="border border-black px-4 py-2">
+                <td className="border border-black px-4 py-2">{index + 1}</td>
+                <td className="border border-black px-4 py-2">
                   {user.teamname}
                 </td>
-                <td class="border border-black px-4 py-2">{user.points}</td>
+                <td className="border border-black px-4 py-2">{user.points}</td>
               </tr>
             ))}
         </tbody>

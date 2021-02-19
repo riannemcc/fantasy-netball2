@@ -10,10 +10,10 @@ function TeamPlayerPointsInput({ teamName, players, onChange }) {
     <div className="flex w-full flex-wrap flex-col items-center flex-1">
       <h2>{teamName}</h2>
       {players.filter(player => player.team === teamName).map(player => (
-        <label class="font-sans font-bold text-xl text-black m-4" key={player._id}>
+        <label className="font-sans font-bold text-xl text-black m-4" key={player._id}>
           {player.name}
           <input
-            class="border-2 border-black w-6/12 ml-4"
+            className="border-2 border-black w-6/12 ml-4"
             type="number"
             required
             value={player.thisGamePoints}
@@ -114,7 +114,7 @@ export function UpdateGamePoints({ games, players }) {
   return (
     <form className="flex w-screen flex-col items-center" onSubmit={handleSubmit}>
       <label htmlFor="select-game">Select a game</label>
-      <select id="select-game" class="w-8/12 ml-6 mb-6 border-2 border-black" onChange={(event) => {
+      <select id="select-game" className="w-8/12 ml-6 mb-6 border-2 border-black" onChange={(event) => {
         handleSelectGame(event.target.value)
       }}>
         <option value="">--- No game selected ---</option>
@@ -130,7 +130,7 @@ export function UpdateGamePoints({ games, players }) {
             <TeamPlayerPointsInput teamName={selected.game.homeTeam} players={selected.players} onChange={handleChangePlayerPoints} />
             <TeamPlayerPointsInput teamName={selected.game.awayTeam} players={selected.players} onChange={handleChangePlayerPoints} />
           </div>
-          <button class="bg-pink hover:bg-pink-700 text-white font-bold py-2 px-4 rounded-full self-center" type="submit">Update points</button>
+          <button className="bg-pink hover:bg-pink-700 text-white font-bold py-2 px-4 rounded-full self-center" type="submit">Update points</button>
         </>
       ) : null}
     </form>

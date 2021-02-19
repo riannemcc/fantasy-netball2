@@ -5,9 +5,9 @@ import { ProfileButton } from "../ProfileButton";
 
 export const HomePage = () => {
   return (
-    <div class="mr-2">
-      <div class="flex flex-col ml-4">
-        <h1 class="font-sans font-bold text-6xl text-black text-center mt-4">
+    <div className="mr-2">
+      <div className="flex flex-col ml-4">
+        <h1 className="font-sans font-bold text-6xl text-black text-center mt-4">
           Superleague
           <br />
           Fantasy Netball
@@ -15,15 +15,14 @@ export const HomePage = () => {
         <div className="flex flex-col justify-center items-center">
           <Image src="/logoalt.png" alt="netball" width="140" height="140" />
         </div>
-        <h2 class="font-sans font-bold text-3xl text-gray-600 text-center mb-5">
+        <h2 className="font-sans font-bold text-3xl text-gray-600 text-center mb-5">
           Choose your team. Watch them play. Win some points.
         </h2>
-        <div class="w=6/12 self-center flex flex-col ">
+        <div className="w=6/12 self-center flex flex-col ">
           <ProfileButton />
           <SessionButton />
         </div>
       </div>
-      {/* <Image src="/netballcrop.png" alt="netball" width="550" height="550" /> */}
     </div>
   );
 };

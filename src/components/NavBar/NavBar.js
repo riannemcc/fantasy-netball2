@@ -15,15 +15,13 @@ export const NavBar = ({ currentUser }) => {
   return (
     <nav className="flex items-center flex-wrap bg-black">
       <Link href="/">
-        <a class="inline-flex items-center mr-4 ">
+        <a className="inline-flex items-center mr-4 ">
           <Image src="/logo.png" alt="netball" width="80" height="80" />
-          {/* <span class="text-xl text-pink font-bold uppercase tracking-wide">
-            Fantasy Netball
-          </span> */}
+
         </a>
       </Link>
       <button
-        class=" inline-flex p-3 hover:bg-pink-900 rounded lg:hidden text-pink ml-auto hover:text-white outline-none"
+        className=" inline-flex p-3 hover:bg-pink-900 rounded lg:hidden text-pink ml-auto hover:text-white outline-none"
         onClick={handleClick}
       >
         <svg

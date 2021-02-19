@@ -72,7 +72,7 @@ export const TeamSelection = ({ players = [] }) => {
         <div className="bg-gray-200 m-2 pb-4 border-black border-2 w-auto">
           <form
             id="formy"
-            class="flex flex-col"
+            className="flex flex-col"
             onSubmit={async (event) => {
               event.preventDefault();
               const hasDuplicates = checkForDuplicates(Object.values(team));
@@ -96,7 +96,7 @@ export const TeamSelection = ({ players = [] }) => {
           >
             <label
               htmlFor="teamname"
-              class="font-sans font-bold text-xl text-black m-4"
+              className="font-sans font-bold text-xl text-black m-4"
             >
               Team name:
             </label>
@@ -105,7 +105,7 @@ export const TeamSelection = ({ players = [] }) => {
               id="teamname"
               name="teamname"
               label="Team name"
-              class="border-2 border-black w-6/12 ml-4"
+              className="border-2 border-black w-6/12 ml-4"
               required
               value={teamName}
               onChange={(event) => setTeamName(event.target.value)}
@@ -118,14 +118,14 @@ export const TeamSelection = ({ players = [] }) => {
                 >
                   <label
                     htmlFor={key}
-                    class="font-sans font-bold text-xl text-black text-center w-2/12"
+                    className="font-sans font-bold text-xl text-black text-center w-2/12"
                   >
                     {display}
                   </label>
                   <select
                     name={key}
                     id={key}
-                    class="w-8/12 ml-6 border-2 border-black"
+                    className="w-8/12 ml-6 border-2 border-black"
                     required
                     value={team[key] || ""}
                     onChange={(event) => {
@@ -176,7 +176,7 @@ export const TeamSelection = ({ players = [] }) => {
 
             <label
               htmlFor="captain"
-              class="font-sans font-bold text-xl text-black m-6"
+              className="font-sans font-bold text-xl text-black m-6"
             >
               Captain
             </label>
@@ -210,7 +210,7 @@ export const TeamSelection = ({ players = [] }) => {
             <select
               name="viceCaptain"
               id="viceCaptain"
-              class="w-8/12 ml-6 mb-6 border-2 border-black"
+              className="w-8/12 ml-6 mb-6 border-2 border-black"
               required
               value={viceCaptain}
               onChange={(event) => setViceCaptain(event.target.value)}
@@ -231,7 +231,7 @@ export const TeamSelection = ({ players = [] }) => {
 
             <button
               type="submit"
-              class="bg-pink hover:bg-pink-700 text-white font-bold py-2 px-4 rounded-full self-center"
+              className="bg-pink hover:bg-pink-700 text-white font-bold py-2 px-4 rounded-full self-center"
             >
               Confirm team
             </button>
