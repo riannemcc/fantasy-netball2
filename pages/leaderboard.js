@@ -1,9 +1,9 @@
 import React from "react";
-import { connectToDatabase } from "../util/mongodb";
-import { LeaderboardTable } from "../src/components/LeaderboardTable";
-import { EMMNASponsor } from "../src/components/EMMNASponsor";
+import {connectToDatabase} from "../util/mongodb";
+import {LeaderboardTable} from "../src/components/LeaderboardTable";
+import {EMMNASponsor} from "../src/components/EMMNASponsor";
 
-export default function Leaderboard({ users, players }) {
+export default function Leaderboard({users, players}) {
   const positions = [
     "GS",
     "GA",
@@ -48,14 +48,14 @@ export default function Leaderboard({ users, players }) {
 }
 
 export async function getServerSideProps() {
-  const { db } = await connectToDatabase();
+  const {db} = await connectToDatabase();
 
   const users = await db
     .collection("users")
     .find({})
     .project({ captain: 1, viceCaptain: 1, team: 1, teamname: 1 })
     .sort({})
-    .limit(400)
+    .limit(600)
     .toArray();
 
   const players = await db
