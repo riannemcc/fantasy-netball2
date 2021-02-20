@@ -36,8 +36,8 @@ export default function Profile({ players }) {
             <span className="text-xl text-black font-bold ">Your Team</span>
             <div className="border-t-2 flex-1 ml-2 leading-9 text-base font-semibold mt-3.5 border-pink opacity-80" />
           </div>
-          <div className="m-4 p-2 bg-red-100 opacity-1 border border-red-500 text-black text-sm font-bold px-4 py-3 rounded relative">
-            {hasInjuredPlayers ? (
+          {hasInjuredPlayers ? (
+            <div className="m-4 p-2 bg-red-100 opacity-1 border border-red-500 text-black text-sm font-bold px-4 py-3 rounded relative">
               <div className="flex">
                 <Exclaim className="w-7 mr-2" />
                 <span>
@@ -49,8 +49,8 @@ export default function Profile({ players }) {
                   to select a substitute.
                 </span>
               </div>
-            ) : null}
-          </div>
+            </div>
+          ) : null}
           <div className="w-auto bg-gray-200 shadow mx-4 mb-6 px-4 flex flex-col items-center">
             <h2 className="text-xl text-pink font-bold m-2 self-center ">
               {currentUser.teamname && currentUser.teamname}
@@ -61,10 +61,15 @@ export default function Profile({ players }) {
               currentUser={currentUser}
               players={players}
             />
-            <span className="text-xl text-pink font-bold m-2">Previous players</span>
-            <UserExPlayersTable className="-mb-4"
-              currentUser={currentUser}
-              players={players} />
+            {currentUser.exPlayers ? (
+              <>
+                <span className="text-xl text-pink font-bold m-2">Previous players</span>
+                <UserExPlayersTable className="-mb-4"
+                  currentUser={currentUser}
+                  players={players} />
+              </>
+            ) : null
+            }
           </div>
         </>
       ) : (
