@@ -7,14 +7,16 @@ import { HighestScoring } from "../src/components/HighestScoring";
 import { UserTeamTable } from "../src/components/UserTeamTable";
 import { calculateUserPoints } from "../util/helpers";
 import { useCurrentUser } from "../src/hooks/useCurrentUser";
+import { useUsers } from "../src/hooks/useUsers";
 
-export default function Profile({ players, users }) {
+export default function Profile({ players }) {
   const [, loading] = useSession();
   const { currentUser } = useCurrentUser()
+  const { users } = useUsers()
 
   if (typeof window !== "undefined" && loading) return <p>Loading...</p>;
 
-  if (!currentUser) {
+  if (!currentUser || !users) {
     return null
   }
 
@@ -87,14 +89,6 @@ export default function Profile({ players, users }) {
 export async function getServerSideProps() {
   const { db } = await connectToDatabase();
 
-  const users = await db
-    .collection("users")
-    .find({})
-    .project({ captain: 1, viceCaptain: 1, teamPlayers: 1, teamname: 1 })
-    .sort({})
-    .limit(600)
-    .toArray();
-
   const players = await db
     .collection("players")
     .find({})
@@ -102,7 +96,6 @@ export async function getServerSideProps() {
 
   return {
     props: {
-      users: JSON.parse(JSON.stringify(users)),
       players: JSON.parse(JSON.stringify(players)),
     },
   };

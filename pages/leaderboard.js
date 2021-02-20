@@ -2,8 +2,10 @@ import React from "react";
 import { connectToDatabase } from "../util/mongodb";
 import { LeaderboardTable } from "../src/components/LeaderboardTable";
 import { EMMNASponsor } from "../src/components/EMMNASponsor";
+import { useUsers } from "../src/hooks/useUsers";
 
-export default function Leaderboard({ users, players }) {
+export default function Leaderboard({ players }) {
+  const { users } = useUsers()
 
   return (
     <>
@@ -15,7 +17,9 @@ export default function Leaderboard({ users, players }) {
         <EMMNASponsor />
       </div>
       <div className="flex flex-col items-center m-4 overflow-x-scroll">
-        <LeaderboardTable users={users} players={players} tenRows={false} />
+        {users ? (
+          <LeaderboardTable users={users} players={players} tenRows={false} />
+        ) : null}
       </div>
     </>
   );
@@ -24,14 +28,6 @@ export default function Leaderboard({ users, players }) {
 export async function getServerSideProps() {
   const { db } = await connectToDatabase();
 
-  const users = await db
-    .collection("users")
-    .find({})
-    .project({ captain: 1, viceCaptain: 1, teamPlayers: 1, teamname: 1 })
-    .sort({})
-    .limit(600)
-    .toArray();
-
   const players = await db
     .collection("players")
     .find({})
@@ -39,7 +35,6 @@ export async function getServerSideProps() {
 
   return {
     props: {
-      users: JSON.parse(JSON.stringify(users)),
       players: JSON.parse(JSON.stringify(players)),
     },
   };
