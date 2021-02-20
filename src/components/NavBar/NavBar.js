@@ -3,10 +3,12 @@ import { useState } from "react";
 import { SessionButton } from "../SessionButton";
 import { useSession } from "next-auth/client";
 import Image from "next/image";
+import { useCurrentUser } from "../../hooks/useCurrentUser";
 
-export const NavBar = ({ currentUser }) => {
+export const NavBar = () => {
   const [active, setActive] = useState(false);
   const [session, loading] = useSession();
+  const { currentUser } = useCurrentUser()
 
   const handleClick = () => {
     setActive(!active);

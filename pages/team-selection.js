@@ -1,8 +1,10 @@
 import React from "react";
 import { connectToDatabase } from "../util/mongodb";
 import { TeamSelection } from "../src/components/TeamSelection";
+import { useCurrentUser } from "../src/hooks/useCurrentUser";
 
-export default function TeamSelectionPage({ players = [], currentUser }) {
+export default function TeamSelectionPage({ players = [] }) {
+  const { currentUser } = useCurrentUser()
   if (!currentUser) {
     return null
   }
@@ -18,7 +20,7 @@ export default function TeamSelectionPage({ players = [], currentUser }) {
           mid-season swap window.
         </div>
       ) : (
-          <TeamSelection players={players} currentUser={currentUser}/>
+          <TeamSelection players={players} currentUser={currentUser} />
           // <div className="m-6 p-2 bg-green-100 border border-green-400 text-black text-xl font-bold px-4 py-3 rounded relative">
           //   Team selection is now closed. Come back next year!
           // </div>
