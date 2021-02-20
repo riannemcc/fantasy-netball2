@@ -22,7 +22,7 @@ export const UserExPlayersTable = ({ players, currentUser, className }) => {
           </tr>
         </thead>
         <tbody>
-          {currentUser && currentUser.exPlayers.map(({ playerId, dateAdded, dateRemoved, wasCaptain, wasViceCaptain }) => {
+          {currentUser.exPlayers && currentUser.exPlayers.map(({ playerId, dateAdded, dateRemoved, wasCaptain, wasViceCaptain }) => {
             const player = findPlayerById(playerId, players)
             return (
               <tr key={''}>
