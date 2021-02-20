@@ -20,13 +20,9 @@ export const UserTeamTable = ({ players, currentUser, className }) => {
     return null
   }
 
-  const hasInjuredPlayers = (currentUser.teamPlayers || []).some(({ playerId }) => {
-    const player = findPlayerById(playerId, players)
-    return player && player.isInjured
-  })
-
   return (
-    <div>
+    <div className={className}>
+
       <table className="mb-8 shadow-lg bg-gray-100">
         <thead>
           <tr>
@@ -47,7 +43,11 @@ export const UserTeamTable = ({ players, currentUser, className }) => {
                     {player.name}
                     {player._id === currentUser.captain ? <span class="w-6 bg-pink text-white rounded p-1 m-2">C</span> : ''}
                     {player._id === currentUser.viceCaptain ? <span class="w-6 bg-pink text-white rounded p-1 m-2">VC</span> : ''}
-                    {player.isInjured ? <span className="bg-red-500 ml-2 text-sm rounded text-white p-1">Injured</span> : ''}
+                    {player.isInjured ? <button className="bg-blue-400 hover:bg-pink-700 text-white py-1 px-1 rounded w-24 ml-2">
+                      <Link href="/team-selection">
+                        <a>Substitute</a>
+                      </Link>
+                    </button> : ''}
                   </>) : ' - '}
                 </td>
                 <td className="border border-black px-4 py-2">
@@ -58,6 +58,6 @@ export const UserTeamTable = ({ players, currentUser, className }) => {
           })}
         </tbody>
       </table>
-    </div >
+    </div>
   );
 };
