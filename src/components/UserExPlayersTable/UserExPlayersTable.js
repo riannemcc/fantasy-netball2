@@ -11,9 +11,6 @@ export const UserExPlayersTable = ({ players, currentUser, className }) => {
     return null
   }
 
-  console.log('ex', currentUser.exPlayers[0].playerId)
-  // console.log('here', calculatePlayerPoints(currentUser.exPlayers[0], currentUser.exp))
-
   return (
     <div className={className}>
 
