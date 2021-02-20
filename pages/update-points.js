@@ -1,9 +1,11 @@
 import { useSession } from "next-auth/client";
 import { connectToDatabase } from "../util/mongodb";
 import { UpdateGamePoints } from "../src/components/UpdateGamePoints";
+import { useCurrentUser } from "../src/hooks/useCurrentUser";
 
-export default function UpdatePointsPage({ currentUser, games, players }) {
+export default function UpdatePointsPage({ games, players }) {
   const [, loading] = useSession()
+  const { currentUser } = useCurrentUser()
 
   if (loading) {
     return <div>...loading</div>

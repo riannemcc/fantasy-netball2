@@ -6,9 +6,11 @@ import { GameSchedule } from "../src/components/GameSchedule";
 import { HighestScoring } from "../src/components/HighestScoring";
 import { UserTeamTable } from "../src/components/UserTeamTable";
 import { calculateUserPoints } from "../util/helpers";
+import { useCurrentUser } from "../src/hooks/useCurrentUser";
 
-export default function Profile({ players, users, currentUser }) {
+export default function Profile({ players, users }) {
   const [, loading] = useSession();
+  const { currentUser } = useCurrentUser()
 
   if (typeof window !== "undefined" && loading) return <p>Loading...</p>;
 

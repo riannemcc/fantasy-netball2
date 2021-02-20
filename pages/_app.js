@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { NavBar } from "../src/components/NavBar";
@@ -8,31 +8,7 @@ import { Footer } from "../src/components/Footer";
 import "../styles/tailwind.css";
 
 const MyApp = ({ Component, pageProps }) => {
-  const [userState, setUserState] = useState({
-    currentUser: null,
-    isFetchingUser: true
-  })
   const { basePath } = useRouter();
-
-  useEffect(() => {
-    let cancelRequest = false
-    const loadUser = async () => {
-      let currentUser = null
-      try {
-        const res = await fetch("/api/current-user");
-        currentUser = await res.json();
-      } catch (error) {
-        cancelRequest = true
-      }
-      if (!cancelRequest) {
-        setUserState({ currentUser, isFetchingUser: false })
-      }
-    }
-    loadUser()
-    return () => {
-      cancelRequest = true
-    }
-  }, [pageProps.session])
 
   return (
     <>
@@ -44,9 +20,9 @@ const MyApp = ({ Component, pageProps }) => {
         <meta name="description" content="Fantasy Netball" /> */}
       </Head>
       <Provider session={pageProps.session}>
-        <NavBar currentUser={userState.currentUser} />
+        <NavBar />
         <main>
-          <Component {...pageProps} currentUser={userState.currentUser} />
+          <Component {...pageProps} />
         </main>
         {/* <Footer /> */}
       </Provider>

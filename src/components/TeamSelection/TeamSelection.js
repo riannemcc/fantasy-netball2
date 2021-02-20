@@ -1,5 +1,5 @@
 import React from "react";
-import Router from "next/router";
+import { useRouter } from "next/router";
 import moment from "moment";
 import { POSITIONS } from "../../../util/constants";
 import { findPlayerById } from "../../../util/helpers";
@@ -22,6 +22,7 @@ export const TeamSelection = ({ players = [], currentUser }) => {
   const [viceCaptain, setViceCaptain] = React.useState("");
   const [selectedPlayersTeams, setSelectedPlayersTeams] = React.useState([]);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const router = useRouter()
 
   React.useEffect(() => {
     if (currentUser) {
@@ -111,7 +112,7 @@ export const TeamSelection = ({ players = [], currentUser }) => {
     try {
       const res = await updateTeam(teamName, captain, viceCaptain, teamPlayers, removedPlayers);
       if (res.status === 204) {
-        Router.push("/profile");
+        router.push("/profile");
       } else {
         setIsSubmitting(false)
         throw new Error(`Response status: ${res.status}`)
