@@ -8,9 +8,6 @@ import { UserTeamTable } from "../src/components/UserTeamTable";
 import { calculateUserPoints } from "../util/helpers";
 import { useCurrentUser } from "../src/hooks/useCurrentUser";
 import { useUsers } from "../src/hooks/useUsers";
-import { UserExPlayersTable } from "../src/components/UserExPlayersTable/UserExPlayersTable";
-import { findPlayerById } from "../util/helpers";
-import Exclaim from '../public/exclaim.svg'
 
 export default function Profile({ players }) {
   const [, loading] = useSession();
@@ -23,11 +20,6 @@ export default function Profile({ players }) {
     return null
   }
 
-  const hasInjuredPlayers = (currentUser.teamPlayers || []).some(({ playerId }) => {
-    const player = findPlayerById(playerId, players)
-    return player && player.isInjured
-  })
-
   return (
     <div className="m-2 self-center flex flex-col">
       {currentUser.teamPlayers ? (
@@ -36,35 +28,16 @@ export default function Profile({ players }) {
             <span className="text-xl text-black font-bold ">Your Team</span>
             <div className="border-t-2 flex-1 ml-2 leading-9 text-base font-semibold mt-3.5 border-pink opacity-80" />
           </div>
-          <div className="m-4 p-2 bg-red-100 opacity-1 border border-red-500 text-black text-sm font-bold px-4 py-3 rounded relative">
-            {hasInjuredPlayers ? (
-              <div className="flex">
-                <Exclaim className="w-7 mr-2" />
-                <span>
-                  You have injured players, head to
-                <Link
-                    href="/team-selection">
-                    <a className="text-turquoise ml-1 mr-1">Team Selection</a>
-                  </Link>
-                  to select a substitute.
-                </span>
-              </div>
-            ) : null}
-          </div>
-          <div className="w-auto bg-gray-200 shadow mx-4 mb-6 px-4 flex flex-col items-center">
-            <h2 className="text-xl text-pink font-bold m-2 self-center ">
+          <div className="w-auto bg-pink shadow mx-4 mb-6 px-4 flex flex-col items-center">
+            <h2 className="text-xl text-white font-bold m-2 self-center ">
               {currentUser.teamname && currentUser.teamname}
             </h2>
-            <h2 className="text-xl text-pink font-bold m-2 self-center ">Your points: {calculateUserPoints(currentUser, players)}</h2>
+            <h2 className="text-xl text-white font-bold m-2 self-center ">Your points: {calculateUserPoints(currentUser, players)}</h2>
             <UserTeamTable
-              className="mb-4"
+              className="-mb-4"
               currentUser={currentUser}
               players={players}
             />
-            <span className="text-xl text-pink font-bold m-2">Previous players</span>
-            <UserExPlayersTable className="-mb-4"
-              currentUser={currentUser}
-              players={players} />
           </div>
         </>
       ) : (
