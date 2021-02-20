@@ -4,32 +4,6 @@ import { LeaderboardTable } from "../src/components/LeaderboardTable";
 import { EMMNASponsor } from "../src/components/EMMNASponsor";
 
 export default function Leaderboard({ users, players }) {
-  const positions = [
-    "GS",
-    "GA",
-    "WA",
-    "C",
-    "WD",
-    "GD",
-    "GK",
-  ];
-
-  const usersWithSameTeam = users.reduce((acc, user) => {
-    const matchingTeam = users.find(userMatch => {
-      if (user._id !== userMatch._id && user.team && userMatch.team) {
-        return positions.every(position => {
-          return user.team[position] === userMatch.team[position]
-        })
-      }
-      return false
-    })
-    if (matchingTeam) {
-      return [...acc, user]
-    }
-    return acc
-  }, [])
-
-  // console.log('usersWithSameTeam: ', usersWithSameTeam)
 
   return (
     <>
@@ -53,7 +27,7 @@ export async function getServerSideProps() {
   const users = await db
     .collection("users")
     .find({})
-    .project({ captain: 1, viceCaptain: 1, team: 1, teamname: 1 })
+    .project({ captain: 1, viceCaptain: 1, teamPlayers: 1, teamname: 1 })
     .sort({})
     .limit(600)
     .toArray();

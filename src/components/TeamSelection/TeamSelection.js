@@ -1,5 +1,7 @@
 import React from "react";
 import Router from "next/router";
+import moment from "moment";
+import { POSITIONS } from "../../../util/constants";
 import { findPlayerById } from "../../../util/helpers";
 
 function checkForDuplicates(array) {
@@ -8,30 +10,39 @@ function checkForDuplicates(array) {
 
 const MAX_TEAMMATES_ALLOWED = 2;
 
-const positions = [
-  { key: "GS", display: "GS" },
-  { key: "GA", display: "GA" },
-  { key: "WA", display: "WA" },
-  { key: "C", display: "C" },
-  { key: "WD", display: "WD" },
-  { key: "GD", display: "GD" },
-  { key: "GK", display: "GK" },
-];
+const initialTeamState = POSITIONS.reduce((state, position) => ({
+  ...state,
+  [position]: ""
+}), {})
 
-const initialTeamState = positions.reduce(
-  (state, position) => ({
-    ...state,
-    [position.key]: "",
-  }),
-  {}
-);
-
-export const TeamSelection = ({ players = [] }) => {
+export const TeamSelection = ({ players = [], currentUser }) => {
   const [team, setTeam] = React.useState(initialTeamState);
   const [teamName, setTeamName] = React.useState("");
   const [captain, setCaptain] = React.useState("");
   const [viceCaptain, setViceCaptain] = React.useState("");
   const [selectedPlayersTeams, setSelectedPlayersTeams] = React.useState([]);
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+
+  React.useEffect(() => {
+    if (currentUser) {
+      setTeamName(currentUser.teamname || "")
+      setCaptain(currentUser.captain || "")
+      setViceCaptain(currentUser.viceCaptain || "")
+    }
+    if ((currentUser.teamPlayers || []).length > 0) {
+      setTeam((currentTeam) => {
+        const userTeam = currentUser.teamPlayers
+          .reduce((acc, { playerId, position }) => ({
+            ...acc,
+            [position]: playerId
+          }), {})
+        return ({
+          ...currentTeam,
+          ...userTeam
+        })
+      });
+    }
+  }, [setTeam, setTeamName, setCaptain, setViceCaptain, currentUser]);
 
   React.useEffect(() => {
     const selectedPlayerIds = Object.values(team);
@@ -53,6 +64,65 @@ export const TeamSelection = ({ players = [] }) => {
     },
     [setTeam]
   );
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const hasDuplicates = checkForDuplicates(Object.values(team));
+
+    if (hasDuplicates) {
+      alert("You may only use a player once");
+      return;
+    }
+
+    const dateStartOfSeason = "2021-02-10T00:00:00.000Z"
+    const dateNow = moment().toISOString()
+    const removedPlayers = [
+      ...(currentUser.exPlayers || [])
+    ]
+    const teamPlayers = []
+    POSITIONS.forEach(position => {
+      const existingPlayer = (currentUser.teamPlayers || [])
+        .find(player => player.position === position)
+
+      if (existingPlayer && existingPlayer.playerId === team[position]) {
+        teamPlayers.push(existingPlayer)
+      } else if (existingPlayer && existingPlayer.playerId !== team[position]) {
+        teamPlayers.push({
+          position,
+          playerId: team[position],
+          dateAdded: dateNow
+        })
+        removedPlayers.push({
+          ...existingPlayer,
+          dateRemoved: dateNow,
+          wasCaptain: currentUser.captain === existingPlayer.playerId,
+          wasViceCaptain: currentUser.viceCaptain === existingPlayer.playerId
+        })
+      } else if (team[position]) {
+        teamPlayers.push({
+          position,
+          playerId: team[position],
+          dateAdded: dateStartOfSeason
+        })
+      }
+    })
+
+    setIsSubmitting(true)
+    try {
+      const res = await updateTeam(teamName, captain, viceCaptain, teamPlayers, removedPlayers);
+      if (res.status === 204) {
+        Router.push("/profile");
+      } else {
+        setIsSubmitting(false)
+        throw new Error(`Response status: ${res.status}`)
+      }
+    } catch (error) {
+      setIsSubmitting(false)
+      console.error(error);
+      alert("Error");
+    }
+  }
+
   return (
     <>
       <div className="flex flex-col">
@@ -73,26 +143,7 @@ export const TeamSelection = ({ players = [] }) => {
           <form
             id="formy"
             className="flex flex-col"
-            onSubmit={async (event) => {
-              event.preventDefault();
-              const hasDuplicates = checkForDuplicates(Object.values(team));
-
-              if (hasDuplicates) {
-                alert("You may only use a player once");
-                return;
-              }
-
-              try {
-                if (!hasDuplicates) {
-                  await insertTeam(team, teamName, captain, viceCaptain);
-                  alert("Success");
-                  Router.push("/profile");
-                }
-              } catch (error) {
-                console.error(error);
-                alert("Error");
-              }
-            }}
+            onSubmit={handleSubmit}
           >
             <label
               htmlFor="teamname"
@@ -110,7 +161,7 @@ export const TeamSelection = ({ players = [] }) => {
               value={teamName}
               onChange={(event) => setTeamName(event.target.value)}
             />
-            {positions.map(({ key, display }) => {
+            {POSITIONS.map(key => {
               return (
                 <div
                   key={`select-position-${key}`}
@@ -120,7 +171,7 @@ export const TeamSelection = ({ players = [] }) => {
                     htmlFor={key}
                     className="font-sans font-bold text-xl text-black text-center w-2/12"
                   >
-                    {display}
+                    {key}
                   </label>
                   <select
                     name={key}
@@ -231,9 +282,10 @@ export const TeamSelection = ({ players = [] }) => {
 
             <button
               type="submit"
+              disabled={isSubmitting}
               className="bg-pink hover:bg-pink-700 text-white font-bold py-2 px-4 rounded-full self-center"
             >
-              Confirm team
+              {isSubmitting ? 'Updating...' : 'Confirm team'}
             </button>
           </form>
         </div>
@@ -242,20 +294,14 @@ export const TeamSelection = ({ players = [] }) => {
   );
 };
 
-async function insertTeam(team, teamName, captain, viceCaptain) {
-  try {
-    const res = await fetch("/api/users", {
-      method: "POST",
-      cache: "no-cache",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      referrerPolicy: "no-referrer",
-      body: JSON.stringify({ team, teamName, captain, viceCaptain }),
-    });
-    const json = await res.json();
-    console.log("res: ", json);
-  } catch (error) {
-    console.error(error);
-  }
+async function updateTeam(teamName, captain, viceCaptain, teamPlayers, exPlayers) {
+  return fetch("/api/user-team", {
+    method: "POST",
+    cache: "no-cache",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    referrerPolicy: "no-referrer",
+    body: JSON.stringify({ teamName, captain, viceCaptain, teamPlayers, exPlayers }),
+  });
 }

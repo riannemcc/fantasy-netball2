@@ -102,11 +102,12 @@ export function UpdateGamePoints({ games, players }) {
     try {
       const res = await updatePoints(selected.game, selected.players)
       if (res.status === 204) {
-        alert('Team updated 🎉')
+        alert('Points updated 🎉')
       } else {
         throw new Error(`Response status: ${res.status}`)
       }
     } catch (error) {
+      console.error(error)
       alert('Sorry, something went wrong.')
     }
   }

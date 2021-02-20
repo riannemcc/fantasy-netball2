@@ -24,8 +24,8 @@ export function calculateUserPlayerPoints(user, player) {
 
 export function calculateUserPoints(user, players) {
   let userPoints = 0
-  if (user && user.team) {
-    userPoints = Object.values(user.team).reduce((userPointsAcc, playerId) => {
+  if (user && user.teamPlayers && user.teamPlayers.length > 0) {
+    userPoints = user.teamPlayers.reduce((userPointsAcc, { playerId }) => {
       const player = findPlayerById(playerId, players)
       const playerPoints = calculateUserPlayerPoints(user, player)
       return userPointsAcc + playerPoints

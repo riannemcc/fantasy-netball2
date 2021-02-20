@@ -1,26 +1,15 @@
-import { findPlayerById } from "../../../util/helpers";
-import { calculatePlayerPoints } from "../../../util/helpers";
+import { POSITIONS } from "../../../util/constants";
+import { calculateUserPlayerPoints, findPlayerById } from "../../../util/helpers";
 
 export const UserTeamTable = ({ players, currentUser, className }) => {
 
-  const positions = [
-    "GS",
-    "GA",
-    "WA",
-    "C",
-    "WD",
-    "GD",
-    "GK",
-  ];
-
-  const teamPlayers = Object.keys(currentUser.team).reduce(
-    (output, position) => {
-      output[position] = findPlayerById(currentUser.team[position], players);
-      return output;
-    },
-    {}
-  );
-
+  const findUserPlayerByPosition = (position) => {
+    const teamPlayer = (currentUser.teamPlayers || []).find(player => player.position === position)
+    if (teamPlayer) {
+      return findPlayerById(teamPlayer.playerId, players);
+    }
+    return null
+  }
 
   return (
     <div className={className}>
@@ -34,24 +23,24 @@ export const UserTeamTable = ({ players, currentUser, className }) => {
           </tr>
         </thead>
         <tbody>
-          {positions.map((position) =>
-            currentUser.team ? (
-              <tr>
-                <td className="border border-black px-4 py-2">{position}</td>
+          {POSITIONS.map((position) => {
+            const player = findUserPlayerByPosition(position)
+            return (
+              <tr key={`user-team-table-${position}`}>
+                <td class="border border-black px-4 py-2">{position}</td>
                 <td className="border border-black px-4 py-2">
-                  {teamPlayers[position] ? (<>
-                    {teamPlayers[position].name}
-                    {teamPlayers[position]._id === currentUser.captain ? <span className="w-6 bg-pink text-white rounded p-1 m-2">C</span> : ''}
-                    {teamPlayers[position]._id === currentUser.viceCaptain ? <span className="w-6 bg-pink text-white rounded p-1 m-2">VC</span> : ''}
+                  {player ? (<>
+                    {player.name}
+                    {player._id === currentUser.captain ? <span class="w-6 bg-pink text-white rounded p-1 m-2">C</span> : ''}
+                    {player._id === currentUser.viceCaptain ? <span class="w-6 bg-pink text-white rounded p-1 m-2">VC</span> : ''}
                   </>) : ' - '}
                 </td>
                 <td className="border border-black px-4 py-2">
-                  {teamPlayers[position] ?
-                    calculatePlayerPoints(teamPlayers[position]) : ' - '}
+                  {player ? calculateUserPlayerPoints(currentUser, player) : ' - '}
                 </td>
               </tr>
-            ) : null
-          )}
+            )
+          })}
         </tbody>
       </table>
     </div>
