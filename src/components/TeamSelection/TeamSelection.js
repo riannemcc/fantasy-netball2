@@ -1,7 +1,7 @@
 import React from "react";
 import { useRouter } from "next/router";
 import moment from "moment";
-import { POSITIONS } from "../../../util/constants";
+import { POSITIONS, START_OF_SEASON_DATE } from "../../../util/constants";
 import { findPlayerById } from "../../../util/helpers";
 
 function checkForDuplicates(array) {
@@ -75,7 +75,6 @@ export const TeamSelection = ({ players = [], currentUser }) => {
       return;
     }
 
-    const dateStartOfSeason = "2021-02-10T00:00:00.000Z"
     const dateNow = moment().toISOString()
     const removedPlayers = [
       ...(currentUser.exPlayers || [])
@@ -103,7 +102,7 @@ export const TeamSelection = ({ players = [], currentUser }) => {
         teamPlayers.push({
           position,
           playerId: team[position],
-          dateAdded: dateStartOfSeason
+          dateAdded: START_OF_SEASON_DATE
         })
       }
     })
