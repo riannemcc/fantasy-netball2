@@ -1,13 +1,13 @@
-import {useSession} from "next-auth/client";
+import { useSession } from "next-auth/client";
 import Link from "next/link";
-import {connectToDatabase} from "../util/mongodb";
-import {LeaderboardTable} from "../src/components/LeaderboardTable";
-import {GameSchedule} from "../src/components/GameSchedule";
-import {HighestScoring} from "../src/components/HighestScoring";
-import {UserTeamTable} from "../src/components/UserTeamTable";
-import {calculateUserPoints} from "../util/helpers";
+import { connectToDatabase } from "../util/mongodb";
+import { LeaderboardTable } from "../src/components/LeaderboardTable";
+import { GameSchedule } from "../src/components/GameSchedule";
+import { HighestScoring } from "../src/components/HighestScoring";
+import { UserTeamTable } from "../src/components/UserTeamTable";
+import { calculateUserPoints } from "../util/helpers";
 
-export default function Profile({players, users, currentUser}) {
+export default function Profile({ players, users, currentUser }) {
   const [, loading] = useSession();
 
   if (typeof window !== "undefined" && loading) return <p>Loading...</p>;
@@ -18,7 +18,7 @@ export default function Profile({players, users, currentUser}) {
 
   return (
     <div className="m-2 self-center flex flex-col">
-      {currentUser.team ? (
+      {currentUser.teamPlayers ? (
         <>
           <div className="m-4 flex flex-row">
             <span className="text-xl text-black font-bold ">Your Team</span>
@@ -56,7 +56,7 @@ export default function Profile({players, users, currentUser}) {
       </div>
 
       <div className="overflow-x-auto w-auto bg-gray-300 m-2 p-4 flex flex-col">
-        {currentUser.team ? (
+        {currentUser.teamPlayers ? (
           <LeaderboardTable users={users} players={players} tenRows />
         ) : null}
       </div>
@@ -82,13 +82,13 @@ export default function Profile({players, users, currentUser}) {
   );
 }
 
-export async function getServerSideProps({req}) {
-  const {db} = await connectToDatabase();
+export async function getServerSideProps() {
+  const { db } = await connectToDatabase();
 
   const users = await db
     .collection("users")
     .find({})
-    .project({captain: 1, viceCaptain: 1, team: 1, teamname: 1})
+    .project({ captain: 1, viceCaptain: 1, teamPlayers: 1, teamname: 1 })
     .sort({})
     .limit(600)
     .toArray();

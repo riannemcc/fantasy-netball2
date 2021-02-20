@@ -2,7 +2,7 @@ import { calculateUserPoints } from "../../../util/helpers";
 
 export const LeaderboardTable = ({ users, players, tenRows }) => {
   const usersWithPointsSorted = users
-    .filter((user) => user.team && user.teamname)
+    .filter((user) => user.teamPlayers && user.teamname)
     .map(user => ({
       ...user,
       points: calculateUserPoints(user, players),
