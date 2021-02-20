@@ -32,7 +32,7 @@ export function calculateUserPoints(user, players) {
     }, 0)
 
     if (user.lateEntry) {
-      userPoints - 20
+      userPoints = userPoints - 20
     }
   }
   return userPoints
