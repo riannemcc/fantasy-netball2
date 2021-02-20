@@ -3,6 +3,14 @@ import { calculateUserPlayerPoints, findPlayerById } from "../../../util/helpers
 
 export const UserTeamTable = ({ players, currentUser, className }) => {
 
+  const getDatePlayerAdded = (position) => {
+    const teamPlayer = (currentUser.teamPlayers || []).find(player => player.position === position)
+    if (teamPlayer) {
+      return teamPlayer.dateAdded;
+    }
+    return null
+  }
+
   const findUserPlayerByPosition = (position) => {
     const teamPlayer = (currentUser.teamPlayers || []).find(player => player.position === position)
     if (teamPlayer) {
@@ -25,6 +33,7 @@ export const UserTeamTable = ({ players, currentUser, className }) => {
         <tbody>
           {POSITIONS.map((position) => {
             const player = findUserPlayerByPosition(position)
+            const datePlayerAdded = getDatePlayerAdded(position)
             return (
               <tr key={`user-team-table-${position}`}>
                 <td class="border border-black px-4 py-2">{position}</td>
@@ -36,7 +45,7 @@ export const UserTeamTable = ({ players, currentUser, className }) => {
                   </>) : ' - '}
                 </td>
                 <td className="border border-black px-4 py-2">
-                  {player ? calculateUserPlayerPoints(currentUser, player) : ' - '}
+                  {player ? calculateUserPlayerPoints(currentUser, player, datePlayerAdded) : ' - '}
                 </td>
               </tr>
             )

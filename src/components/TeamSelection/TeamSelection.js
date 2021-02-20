@@ -15,11 +15,13 @@ const initialTeamState = POSITIONS.reduce((state, position) => ({
   [position]: ""
 }), {})
 
-export const TeamSelection = ({ players = [], currentUser }) => {
+export const TeamSelection = ({ players = [], currentUser, isInjuryUpdate = false }) => {
   const [team, setTeam] = React.useState(initialTeamState);
   const [teamName, setTeamName] = React.useState("");
   const [captain, setCaptain] = React.useState("");
+  const [captainName, setCaptainName] = React.useState("");
   const [viceCaptain, setViceCaptain] = React.useState("");
+  const [viceCaptainName, setViceCaptainName] = React.useState("");
   const [selectedPlayersTeams, setSelectedPlayersTeams] = React.useState([]);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const router = useRouter()
@@ -56,14 +58,42 @@ export const TeamSelection = ({ players = [], currentUser }) => {
     );
   }, [players, team]);
 
+  React.useEffect(() => {
+    const captainPlayer = findPlayerById(captain, players)
+    if (captainPlayer) {
+      setCaptainName(captainPlayer.name)
+    }
+  }, [captain, setCaptainName])
+
+  React.useEffect(() => {
+    const viceCaptainPlayer = findPlayerById(viceCaptain, players)
+    if (viceCaptainPlayer) {
+      setViceCaptainName(viceCaptainPlayer.name)
+    }
+  }, [viceCaptain, setViceCaptainName])
+
   const handleTeamPlayerSelect = React.useCallback(
     (positionKey, playerId) => {
-      setTeam((currentTeam) => ({
-        ...currentTeam,
-        [positionKey]: playerId,
-      }));
+      setTeam((currentTeam) => {
+        setCaptain(currentCaptain => {
+          if (currentTeam[positionKey] === currentCaptain) {
+            return playerId
+          }
+          return currentCaptain
+        })
+        setViceCaptain(currentViceCaptain => {
+          if (currentTeam[positionKey] === currentViceCaptain) {
+            return playerId
+          }
+          return currentViceCaptain
+        })
+        return ({
+          ...currentTeam,
+          [positionKey]: playerId,
+        })
+      });
     },
-    [setTeam]
+    [setTeam, setCaptain, setViceCaptain]
   );
 
   const handleSubmit = async (event) => {
@@ -151,17 +181,59 @@ export const TeamSelection = ({ players = [], currentUser }) => {
             >
               Team name:
             </label>
-            <input
-              type="text"
-              id="teamname"
-              name="teamname"
-              label="Team name"
-              className="border-2 border-black w-6/12 ml-4"
-              required
-              value={teamName}
-              onChange={(event) => setTeamName(event.target.value)}
-            />
+            {isInjuryUpdate ? (
+              <input
+                type="text"
+                id="teamname"
+                name="teamname"
+                label="Team name"
+                className="border-2 border-black w-6/12 ml-4"
+                required
+                readOnly
+                value={teamName}
+              />
+            ) : (
+                <input
+                  type="text"
+                  id="teamname"
+                  name="teamname"
+                  label="Team name"
+                  className="border-2 border-black w-6/12 ml-4"
+                  required
+                  value={teamName}
+                  onChange={(event) => setTeamName(event.target.value)}
+                />
+              )}
             {POSITIONS.map(key => {
+              if (isInjuryUpdate) {
+                const teamPlayer = currentUser.teamPlayers.find(({ position }) => position === key)
+                const player = findPlayerById(teamPlayer.playerId, players)
+                if (player && !player.isInjured) {
+                  return (
+                    <div
+                      key={`select-position-${key}`}
+                      className="w-auto m-6 flex flex-row items-center"
+                    >
+                      <label
+                        htmlFor={key}
+                        className="font-sans font-bold text-xl text-black text-center w-2/12"
+                      >
+                        {key}
+                      </label>
+                      <input
+                        type="text"
+                        name={key}
+                        id={key}
+                        className="w-8/12 ml-6 border-2 border-black"
+                        required
+                        readOnly
+                        value={`${player.team ? `[${player.team}]: ` : ""}${player.name}`}
+                      />
+                    </div>
+                  )
+                }
+              }
+
               return (
                 <div
                   key={`select-position-${key}`}
@@ -176,7 +248,7 @@ export const TeamSelection = ({ players = [], currentUser }) => {
                   <select
                     name={key}
                     id={key}
-                    className="w-8/12 ml-6 border-2 border-black"
+                    className={`w-8/12 ml-6 border-2 ${isInjuryUpdate ? 'border-pink' : 'border-black'}`}
                     required
                     value={team[key] || ""}
                     onChange={(event) => {
@@ -202,6 +274,8 @@ export const TeamSelection = ({ players = [], currentUser }) => {
                           ).length >= MAX_TEAMMATES_ALLOWED &&
                           team[key] !== player._id;
 
+                        const isInjured = player.isInjured
+
                         return (
                           <option
                             key={`player-${player._id}`}
@@ -209,14 +283,17 @@ export const TeamSelection = ({ players = [], currentUser }) => {
                             disabled={
                               isSelectedInAnotherPosition ||
                               isMaximumTeammatesSelected ||
+                              isInjured ||
                               player._id === "60195c482bdff032e549977f"
                             }
                           >{`${player.team ? `[${player.team}]: ` : ""}${player.name
-                            }${isSelectedInAnotherPosition
-                              ? " (Already selected)"
-                              : isMaximumTeammatesSelected
-                                ? ` (Maximum ${MAX_TEAMMATES_ALLOWED} players from a team)`
-                                : ""
+                            }${isInjured
+                              ? " (Injured)"
+                              : isSelectedInAnotherPosition
+                                ? " (Already selected)"
+                                : isMaximumTeammatesSelected
+                                  ? ` (Maximum ${MAX_TEAMMATES_ALLOWED} players from a team)`
+                                  : ""
                             }`}</option>
                         );
                       })}
@@ -231,54 +308,78 @@ export const TeamSelection = ({ players = [], currentUser }) => {
             >
               Captain
             </label>
-            <select
-              name="captain"
-              id="captain"
-              className="w-8/12 ml-6 border-2 border-black"
-              required
-              value={captain}
-              onChange={(event) => setCaptain(event.target.value)}
-            >
-              <option value="">--Please choose an option--</option>
-              {Object.values(team).map((playerId) => {
-                const player = findPlayerById(playerId, players);
-                if (player && playerId !== viceCaptain) {
-                  return (
-                    <option key={`captain-${playerId}`} value={playerId}>
-                      {player.name}
-                    </option>
-                  );
-                }
-                return null;
-              })}
-            </select>
+            {isInjuryUpdate ? (
+              <input
+                type="text"
+                name="captain"
+                id="captain"
+                className="w-8/12 ml-6 border-2 border-black"
+                required
+                readOnly
+                value={captainName}
+              />
+            ) : (
+                <select
+                  name="captain"
+                  id="captain"
+                  className="w-8/12 ml-6 border-2 border-black"
+                  required
+                  value={captain}
+                  onChange={(event) => setCaptain(event.target.value)}
+                >
+                  <option value="">--Please choose an option--</option>
+                  {Object.values(team).map((playerId) => {
+                    const player = findPlayerById(playerId, players);
+                    if (player && playerId !== viceCaptain) {
+                      return (
+                        <option key={`captain-${playerId}`} value={playerId}>
+                          {player.name}
+                        </option>
+                      );
+                    }
+                    return null;
+                  })}
+                </select>
+              )}
             <label
               htmlFor="viceCaptain"
               className="font-sans font-bold text-xl text-black m-6"
             >
               Vice Captain
             </label>
-            <select
-              name="viceCaptain"
-              id="viceCaptain"
-              className="w-8/12 ml-6 mb-6 border-2 border-black"
-              required
-              value={viceCaptain}
-              onChange={(event) => setViceCaptain(event.target.value)}
-            >
-              <option value="">--Please choose an option--</option>
-              {Object.values(team).map((playerId) => {
-                const player = findPlayerById(playerId, players);
-                if (player && playerId !== captain) {
-                  return (
-                    <option key={`vice-captain-${playerId}`} value={playerId}>
-                      {player.name}
-                    </option>
-                  );
-                }
-                return null;
-              })}
-            </select>
+            {isInjuryUpdate ? (
+              <input
+                type="text"
+                name="viceCaptain"
+                id="viceCaptain"
+                className="w-8/12 ml-6 mb-6 border-2 border-black"
+                required
+                readOnly
+                value={viceCaptainName}
+              />
+            ) : (
+                <select
+                  name="viceCaptain"
+                  id="viceCaptain"
+                  className="w-8/12 ml-6 mb-6 border-2 border-black"
+                  required
+                  value={viceCaptain}
+                  onChange={(event) => setViceCaptain(event.target.value)}
+                >
+                  <option value="">--Please choose an option--</option>
+                  {Object.values(team).map((playerId) => {
+                    const player = findPlayerById(playerId, players);
+                    if (player && playerId !== captain) {
+                      return (
+                        <option key={`vice-captain-${playerId}`} value={playerId}>
+                          {player.name}
+                        </option>
+                      );
+                    }
+                    return null;
+                  })}
+                </select>
+              )}
 
             <button
               type="submit"
