@@ -1,1 +1,1 @@
-export { RulesText } from './RulesText'
+export { RulesText } from './RulesText';

@@ -1,11 +1,8 @@
-import React from 'react'
-import { RulesText } from '../src/components/RulesText'
-
+import React from 'react';
+import { RulesText } from '../src/components/RulesText';
 
 function Rules() {
-    return (
-        <RulesText />
-    )
+  return <RulesText />;
 }
 
 export default Rules;

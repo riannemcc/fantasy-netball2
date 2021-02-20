@@ -1,5 +1,5 @@
-import NextAuth from "next-auth";
-import Providers from "next-auth/providers";
+import NextAuth from 'next-auth';
+import Providers from 'next-auth/providers';
 
 const options = {
   // debug: process.env.NODE_ENV === "development" ? true : false,
@@ -7,7 +7,7 @@ const options = {
     Providers.Email({
       server: {
         port: 465,
-        host: "smtp.gmail.com",
+        host: 'smtp.gmail.com',
         secure: true,
         auth: {
           user: process.env.EMAIL_USERNAME,
@@ -46,10 +46,10 @@ const options = {
     },
 
     redirect: async (url, _) => {
-      if (url === "/api/auth/signin") {
-        return Promise.resolve("/profile");
+      if (url === '/api/auth/signin') {
+        return Promise.resolve('/profile');
       }
-      return Promise.resolve("/api/auth/signin");
+      return Promise.resolve('/api/auth/signin');
     },
   },
 };

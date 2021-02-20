@@ -1,1 +1,1 @@
-export { UpdateGamePoints } from "./UpdateGamePoints";
+export { UpdateGamePoints } from './UpdateGamePoints';

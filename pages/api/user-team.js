@@ -1,7 +1,7 @@
-import nextConnect from "next-connect";
-import { getSession } from "next-auth/client";
-import { ObjectId } from "mongodb";
-import middleware from "../../middleware/database";
+import nextConnect from 'next-connect';
+import { getSession } from 'next-auth/client';
+import { ObjectId } from 'mongodb';
+import middleware from '../../middleware/database';
 
 const handler = nextConnect();
 handler.use(middleware);
@@ -11,7 +11,7 @@ handler.post(async (req, res) => {
   if (session.userId) {
     const data = req.body;
 
-    await req.db.collection("users").updateOne(
+    await req.db.collection('users').updateOne(
       { _id: ObjectId(session.userId) },
       {
         $set: {
@@ -19,12 +19,12 @@ handler.post(async (req, res) => {
           captain: data.captain,
           viceCaptain: data.viceCaptain,
           teamPlayers: data.teamPlayers,
-          exPlayers: data.exPlayers
+          exPlayers: data.exPlayers,
         },
       }
     );
     res.status(204).json({
-      message: "ok",
+      message: 'ok',
     });
   } else {
     res.status(401).end(`Not allowed`);

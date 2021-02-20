@@ -1,35 +1,35 @@
-import { useSession } from "next-auth/client";
-import { connectToDatabase } from "../util/mongodb";
-import { UpdateGamePoints } from "../src/components/UpdateGamePoints";
-import { useCurrentUser } from "../src/hooks/useCurrentUser";
+import { useSession } from 'next-auth/client';
+import { connectToDatabase } from '../util/mongodb';
+import { UpdateGamePoints } from '../src/components/UpdateGamePoints';
+import { useCurrentUser } from '../src/hooks/useCurrentUser';
 
 export default function UpdatePointsPage({ games, players }) {
-  const [, loading] = useSession()
-  const { currentUser } = useCurrentUser()
+  const [, loading] = useSession();
+  const { currentUser } = useCurrentUser();
 
   if (loading) {
-    return <div>...loading</div>
+    return <div>...loading</div>;
   }
 
   if (currentUser && currentUser.isAdmin) {
-    return <UpdateGamePoints games={games} players={players} />
+    return <UpdateGamePoints games={games} players={players} />;
   }
 
-  return <div>This page is not for you ⛔</div>
+  return <div>This page is not for you ⛔</div>;
 }
 
 export async function getServerSideProps() {
   const { db } = await connectToDatabase();
 
   const games = await db
-    .collection("games")
+    .collection('games')
     .find({})
     .sort({})
     .limit(300)
     .toArray();
 
   const players = await db
-    .collection("players")
+    .collection('players')
     .find({})
     .sort({})
     .limit(200)

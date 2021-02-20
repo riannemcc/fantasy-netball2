@@ -1,7 +1,7 @@
-import React from "react";
-import Image from "next/image";
-import { SessionButton } from "../SessionButton";
-import { ProfileButton } from "../ProfileButton";
+import React from 'react';
+import Image from 'next/image';
+import { SessionButton } from '../SessionButton';
+import { ProfileButton } from '../ProfileButton';
 
 export const HomePage = () => {
   return (

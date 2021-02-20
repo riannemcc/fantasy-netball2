@@ -1,13 +1,13 @@
-import { calculateUserPoints } from "../../../util/helpers";
+import { calculateUserPoints } from '../../../util/helpers';
 
 export const LeaderboardTable = ({ users, players, tenRows }) => {
   const usersWithPointsSorted = users
     .filter((user) => user.teamPlayers && user.teamname)
-    .map(user => ({
+    .map((user) => ({
       ...user,
       points: calculateUserPoints(user, players),
     }))
-    .sort((a, b) => b.points - a.points)
+    .sort((a, b) => b.points - a.points);
 
   const top10users = usersWithPointsSorted.slice(0, 10);
 
@@ -24,23 +24,27 @@ export const LeaderboardTable = ({ users, players, tenRows }) => {
         <tbody>
           {tenRows
             ? top10users.map((user, index) => (
-              <tr>
-                <td className="border border-black px-4 py-2">{index + 1}</td>
-                <td className="border border-black px-4 py-2">
-                  {user.teamname}
-                </td>
-                <td className="border border-black px-4 py-2">{user.points}</td>
-              </tr>
-            ))
+                <tr>
+                  <td className="border border-black px-4 py-2">{index + 1}</td>
+                  <td className="border border-black px-4 py-2">
+                    {user.teamname}
+                  </td>
+                  <td className="border border-black px-4 py-2">
+                    {user.points}
+                  </td>
+                </tr>
+              ))
             : usersWithPointsSorted.map((user, index) => (
-              <tr>
-                <td className="border border-black px-4 py-2">{index + 1}</td>
-                <td className="border border-black px-4 py-2">
-                  {user.teamname}
-                </td>
-                <td className="border border-black px-4 py-2">{user.points}</td>
-              </tr>
-            ))}
+                <tr>
+                  <td className="border border-black px-4 py-2">{index + 1}</td>
+                  <td className="border border-black px-4 py-2">
+                    {user.teamname}
+                  </td>
+                  <td className="border border-black px-4 py-2">
+                    {user.points}
+                  </td>
+                </tr>
+              ))}
         </tbody>
       </table>
     </div>

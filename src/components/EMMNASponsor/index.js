@@ -1,1 +1,1 @@
-export {EMMNASponsor} from "./EMMNASponsor";
+export { EMMNASponsor } from './EMMNASponsor';

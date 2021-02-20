@@ -1,32 +1,34 @@
-import { useSession } from "next-auth/client";
-import Link from "next/link";
-import { connectToDatabase } from "../util/mongodb";
-import { LeaderboardTable } from "../src/components/LeaderboardTable";
-import { GameSchedule } from "../src/components/GameSchedule";
-import { HighestScoring } from "../src/components/HighestScoring";
-import { UserTeamTable } from "../src/components/UserTeamTable";
-import { calculateUserPoints } from "../util/helpers";
-import { useCurrentUser } from "../src/hooks/useCurrentUser";
-import { useUsers } from "../src/hooks/useUsers";
-import { UserExPlayersTable } from "../src/components/UserExPlayersTable/UserExPlayersTable";
-import { findPlayerById } from "../util/helpers";
-import Exclaim from '../public/exclaim.svg'
+import { useSession } from 'next-auth/client';
+import Link from 'next/link';
+import { connectToDatabase } from '../util/mongodb';
+import { LeaderboardTable } from '../src/components/LeaderboardTable';
+import { GameSchedule } from '../src/components/GameSchedule';
+import { HighestScoring } from '../src/components/HighestScoring';
+import { UserTeamTable } from '../src/components/UserTeamTable';
+import { calculateUserPoints } from '../util/helpers';
+import { useCurrentUser } from '../src/hooks/useCurrentUser';
+import { useUsers } from '../src/hooks/useUsers';
+import { UserExPlayersTable } from '../src/components/UserExPlayersTable/UserExPlayersTable';
+import { findPlayerById } from '../util/helpers';
+import Exclaim from '../public/exclaim.svg';
 
 export default function Profile({ players }) {
   const [, loading] = useSession();
-  const { currentUser } = useCurrentUser()
-  const { users } = useUsers()
+  const { currentUser } = useCurrentUser();
+  const { users } = useUsers();
 
-  if (typeof window !== "undefined" && loading) return <p>Loading...</p>;
+  if (typeof window !== 'undefined' && loading) return <p>Loading...</p>;
 
   if (!currentUser || !users) {
-    return null
+    return null;
   }
 
-  const hasInjuredPlayers = (currentUser.teamPlayers || []).some(({ playerId }) => {
-    const player = findPlayerById(playerId, players)
-    return player && player.isInjured
-  })
+  const hasInjuredPlayers = (currentUser.teamPlayers || []).some(
+    ({ playerId }) => {
+      const player = findPlayerById(playerId, players);
+      return player && player.isInjured;
+    }
+  );
 
   return (
     <div className="m-2 self-center flex flex-col">
@@ -42,8 +44,7 @@ export default function Profile({ players }) {
                 <Exclaim className="w-7 mr-2" />
                 <span>
                   You have injured players, head to
-                <Link
-                    href="/team-selection">
+                  <Link href="/team-selection">
                     <a className="text-turquoise ml-1 mr-1">Team Selection</a>
                   </Link>
                   to select a substitute.
@@ -55,7 +56,9 @@ export default function Profile({ players }) {
             <h2 className="text-xl text-pink font-bold m-2 self-center ">
               {currentUser.teamname && currentUser.teamname}
             </h2>
-            <h2 className="text-xl text-pink font-bold m-2 self-center ">Your points: {calculateUserPoints(currentUser, players)}</h2>
+            <h2 className="text-xl text-pink font-bold m-2 self-center ">
+              Your points: {calculateUserPoints(currentUser, players)}
+            </h2>
             <UserTeamTable
               className="mb-4"
               currentUser={currentUser}
@@ -63,29 +66,32 @@ export default function Profile({ players }) {
             />
             {currentUser.exPlayers ? (
               <>
-                <span className="text-xl text-pink font-bold m-2">Previous players</span>
-                <UserExPlayersTable className="-mb-4"
+                <span className="text-xl text-pink font-bold m-2">
+                  Previous players
+                </span>
+                <UserExPlayersTable
+                  className="-mb-4"
                   currentUser={currentUser}
-                  players={players} />
+                  players={players}
+                />
               </>
-            ) : null
-            }
+            ) : null}
           </div>
         </>
       ) : (
-          <>
-            <span className="text-xl text-black font-bold m-2">
-              Don't have a team yet?
+        <>
+          <span className="text-xl text-black font-bold m-2">
+            Don't have a team yet?
           </span>
-            <button className="bg-pink hover:bg-pink-700 text-white font-bold py-2 px-4 rounded-full w-32 m-2">
-              <Link href="/team-selection">
-                <a classNamee="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-pink font-bold items-center justify-center w=6/12 self-center flex flex-col">
-                  Team Selection
+          <button className="bg-pink hover:bg-pink-700 text-white font-bold py-2 px-4 rounded-full w-32 m-2">
+            <Link href="/team-selection">
+              <a classNamee="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-pink font-bold items-center justify-center w=6/12 self-center flex flex-col">
+                Team Selection
               </a>
-              </Link>
-            </button>
-          </>
-        )}
+            </Link>
+          </button>
+        </>
+      )}
       <div className="m-4 flex flex-row">
         <div className="border-t-2 flex-1 mr-2 ml-2 leading-9 text-base font-semibold mt-3.5 border-pink opacity-80" />
         <h2 className="text-xl text-black font-bold ">Top 10 Fantasy Teams</h2>
@@ -121,10 +127,7 @@ export default function Profile({ players }) {
 export async function getServerSideProps() {
   const { db } = await connectToDatabase();
 
-  const players = await db
-    .collection("players")
-    .find({})
-    .toArray();
+  const players = await db.collection('players').find({}).toArray();
 
   return {
     props: {

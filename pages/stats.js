@@ -1,6 +1,6 @@
-import React from "react";
-import { connectToDatabase } from "../util/mongodb";
-import { StatsTable } from "../src/components/StatsTable";
+import React from 'react';
+import { connectToDatabase } from '../util/mongodb';
+import { StatsTable } from '../src/components/StatsTable';
 
 export default function Stats({ players }) {
   return (
@@ -18,7 +18,7 @@ export async function getServerSideProps() {
   const { db } = await connectToDatabase();
 
   const players = await db
-    .collection("players")
+    .collection('players')
     .find({})
     .sort({})
     .limit(200)

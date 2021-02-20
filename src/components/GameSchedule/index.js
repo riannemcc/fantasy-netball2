@@ -1,1 +1,1 @@
-export { GameSchedule } from "./GameSchedule";
+export { GameSchedule } from './GameSchedule';

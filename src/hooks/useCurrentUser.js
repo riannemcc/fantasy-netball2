@@ -1,30 +1,30 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 export function useCurrentUser() {
   const [userState, setUserState] = useState({
     currentUser: null,
-    isFetching: true
-  })
+    isFetching: true,
+  });
 
   useEffect(() => {
-    let cancelRequest = false
+    let cancelRequest = false;
     const loadUser = async () => {
-      let currentUser = null
+      let currentUser = null;
       try {
-        const res = await fetch("/api/current-user");
+        const res = await fetch('/api/current-user');
         currentUser = await res.json();
       } catch (error) {
-        cancelRequest = true
+        cancelRequest = true;
       }
       if (!cancelRequest) {
-        setUserState({ currentUser, isFetching: false })
+        setUserState({ currentUser, isFetching: false });
       }
-    }
-    loadUser()
+    };
+    loadUser();
     return () => {
-      cancelRequest = true
-    }
-  }, [])
+      cancelRequest = true;
+    };
+  }, []);
 
-  return userState
+  return userState;
 }

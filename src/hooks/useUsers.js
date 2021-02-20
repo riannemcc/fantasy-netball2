@@ -1,30 +1,30 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 export function useUsers() {
   const [state, setState] = useState({
     users: null,
-    isFetching: true
-  })
+    isFetching: true,
+  });
 
   useEffect(() => {
-    let cancelRequest = false
+    let cancelRequest = false;
     const loadUsers = async () => {
-      let users = null
+      let users = null;
       try {
-        const res = await fetch("/api/users");
+        const res = await fetch('/api/users');
         users = await res.json();
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
       if (!cancelRequest) {
-        setState({ users, isFetching: false })
+        setState({ users, isFetching: false });
       }
-    }
-    loadUsers()
+    };
+    loadUsers();
     return () => {
-      cancelRequest = true
-    }
-  }, [])
+      cancelRequest = true;
+    };
+  }, []);
 
-  return state
+  return state;
 }

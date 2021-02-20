@@ -1,28 +1,38 @@
-import { calculatePlayerPoints } from "../../../util/helpers";
+import { calculatePlayerPoints } from '../../../util/helpers';
 
 export const HighestScoring = ({ players }) => {
   const playersWithPointsSorted = players
-    .map(player => ({
+    .map((player) => ({
       ...player,
-      points: calculatePlayerPoints(player)
+      points: calculatePlayerPoints(player),
     }))
-    .sort((a, b) => b.points - a.points)
+    .sort((a, b) => b.points - a.points);
 
-  const defendersWithPointsSorted = playersWithPointsSorted
-    .filter(player => player.position.includes("GD") || player.position.includes("GK"))
+  const defendersWithPointsSorted = playersWithPointsSorted.filter(
+    (player) => player.position.includes('GD') || player.position.includes('GK')
+  );
 
-  const shootersWithPointsSorted = playersWithPointsSorted
-    .filter(player => player.position.includes("GA") || player.position.includes("GS"))
+  const shootersWithPointsSorted = playersWithPointsSorted.filter(
+    (player) => player.position.includes('GA') || player.position.includes('GS')
+  );
 
-  const midsWithPointsSorted = playersWithPointsSorted
-    .filter(player => player.position.includes("WA") || player.position.includes("C") || player.position.includes("WD"))
+  const midsWithPointsSorted = playersWithPointsSorted.filter(
+    (player) =>
+      player.position.includes('WA') ||
+      player.position.includes('C') ||
+      player.position.includes('WD')
+  );
 
-  const shooterName = shootersWithPointsSorted[0] && shootersWithPointsSorted[0].name
-  const shooterPoints = shootersWithPointsSorted[0] && shootersWithPointsSorted[0].points
-  const defendersName = defendersWithPointsSorted[0] && defendersWithPointsSorted[0].name
-  const defendersPoints = defendersWithPointsSorted[0] && defendersWithPointsSorted[0].points
-  const midsName = midsWithPointsSorted[0] && midsWithPointsSorted[0].name
-  const midsPoints = midsWithPointsSorted[0] && midsWithPointsSorted[0].points
+  const shooterName =
+    shootersWithPointsSorted[0] && shootersWithPointsSorted[0].name;
+  const shooterPoints =
+    shootersWithPointsSorted[0] && shootersWithPointsSorted[0].points;
+  const defendersName =
+    defendersWithPointsSorted[0] && defendersWithPointsSorted[0].name;
+  const defendersPoints =
+    defendersWithPointsSorted[0] && defendersWithPointsSorted[0].points;
+  const midsName = midsWithPointsSorted[0] && midsWithPointsSorted[0].name;
+  const midsPoints = midsWithPointsSorted[0] && midsWithPointsSorted[0].points;
 
   return (
     <div className="flex flex-row flex-wrap justify-center">

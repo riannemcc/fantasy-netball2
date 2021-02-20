@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 export const RulesText = () => {
   return (
@@ -23,7 +23,9 @@ export const RulesText = () => {
       <ul className="bg-pink text-l p-4 m-2 font-bold">
         <li>Captains will earn 2x the points for the week.</li>
         <li>Vice Captains will earn 1.5x the points for the week.</li>
-        <li>You may only have a maximum of 2 players from each Superleague team.</li>
+        <li>
+          You may only have a maximum of 2 players from each Superleague team.
+        </li>
       </ul>
     </div>
   );

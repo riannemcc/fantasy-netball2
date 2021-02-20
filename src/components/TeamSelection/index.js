@@ -1,1 +1,1 @@
-export { TeamSelection } from "./TeamSelection";
+export { TeamSelection } from './TeamSelection';

@@ -1,1 +1,1 @@
-export { HighestScoring } from "./HighestScoring";
+export { HighestScoring } from './HighestScoring';

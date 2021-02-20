@@ -1,14 +1,14 @@
-import Link from "next/link";
-import { useState } from "react";
-import { SessionButton } from "../SessionButton";
-import { useSession } from "next-auth/client";
-import Image from "next/image";
-import { useCurrentUser } from "../../hooks/useCurrentUser";
+import Link from 'next/link';
+import { useState } from 'react';
+import { SessionButton } from '../SessionButton';
+import { useSession } from 'next-auth/client';
+import Image from 'next/image';
+import { useCurrentUser } from '../../hooks/useCurrentUser';
 
 export const NavBar = () => {
   const [active, setActive] = useState(false);
   const [session, loading] = useSession();
-  const { currentUser } = useCurrentUser()
+  const { currentUser } = useCurrentUser();
 
   const handleClick = () => {
     setActive(!active);
@@ -19,7 +19,6 @@ export const NavBar = () => {
       <Link href="/">
         <a className="inline-flex items-center mr-4 ">
           <Image src="/logo.png" alt="netball" width="80" height="80" />
-
         </a>
       </Link>
       <button
@@ -41,7 +40,11 @@ export const NavBar = () => {
           />
         </svg>
       </button>
-      <div className={`${active ? "" : "hidden"} w-full lg:inline-flex lg:flex-grow lg:w-auto`}>
+      <div
+        className={`${
+          active ? '' : 'hidden'
+        } w-full lg:inline-flex lg:flex-grow lg:w-auto`}
+      >
         <div className="lg:inline-flex lg:flex-row lg:ml-auto lg:w-auto w-full lg:items-center items-start  flex flex-col lg:h-auto">
           <Link href="/">
             <a

@@ -1,1 +1,1 @@
-export { UserTeamTable } from "./UserTeamTable";
+export { UserTeamTable } from './UserTeamTable';

@@ -1,11 +1,11 @@
-import React from "react";
-import Head from "next/head";
-import { useRouter } from "next/router";
-import { NavBar } from "../src/components/NavBar";
-import { Provider } from "next-auth/client";
-import { Footer } from "../src/components/Footer";
+import React from 'react';
+import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { NavBar } from '../src/components/NavBar';
+import { Provider } from 'next-auth/client';
+import { Footer } from '../src/components/Footer';
 
-import "../styles/tailwind.css";
+import '../styles/tailwind.css';
 
 const MyApp = ({ Component, pageProps }) => {
   const { basePath } = useRouter();
@@ -13,7 +13,10 @@ const MyApp = ({ Component, pageProps }) => {
   return (
     <>
       <Head>
-        <meta name="google-site-verification" content="XRn9mH8E2RDlxqaaVopqOaBVs20gv2FnvvE4KjRrquo" />
+        <meta
+          name="google-site-verification"
+          content="XRn9mH8E2RDlxqaaVopqOaBVs20gv2FnvvE4KjRrquo"
+        />
         <title>Fantasy Netball</title>
         <link rel="icon" href="/logo.png" />
         {/* <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
