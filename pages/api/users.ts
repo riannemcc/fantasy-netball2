@@ -1,12 +1,14 @@
 import nextConnect from 'next-connect';
+import { ApiRequest, ApiResponse } from '_src/types/api';
+import { UserDb } from '_src/types/users';
 import middleware from '../../middleware/database';
 
 const handler = nextConnect();
 handler.use(middleware);
 
-handler.get(async (req, res) => {
-  let users = await req.db
-    .collection('users')
+handler.get(async (req: ApiRequest, res: ApiResponse) => {
+  const users = await req.db
+    .collection<UserDb>('users')
     .find({})
     .project({
       captain: 1,
@@ -18,7 +20,7 @@ handler.get(async (req, res) => {
     })
     .limit(600)
     .toArray();
-  res.json(users);
+  res.status(200).json(users);
 });
 
 export default handler;

@@ -7,7 +7,7 @@ const client = new MongoClient(MONGODB_URI, {
   useUnifiedTopology: true,
 });
 
-async function database(req, res, next) {
+async function database(req, {}, next) {
   if (!client.isConnected()) await client.connect();
   req.dbClient = client;
   req.db = client.db(MONGODB_DB);

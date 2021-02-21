@@ -2,17 +2,18 @@ import nextConnect from 'next-connect';
 import { getSession } from 'next-auth/client';
 import { ObjectId } from 'mongodb';
 import middleware from '../../middleware/database';
+import { ApiRequest, ApiResponse } from '_src/types/api';
 
 const handler = nextConnect();
 handler.use(middleware);
 
-handler.post(async (req, res) => {
+handler.post(async (req: ApiRequest, res: ApiResponse) => {
   const session = await getSession({ req });
   if (session.userId) {
     const data = req.body;
 
     await req.db.collection('users').updateOne(
-      { _id: ObjectId(session.userId) },
+      { _id: new ObjectId(session.userId) },
       {
         $set: {
           teamname: data.teamName,

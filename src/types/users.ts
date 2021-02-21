@@ -1,3 +1,5 @@
+import { ObjectId } from 'mongodb';
+
 interface UserPlayer {
   playerId: string;
   position: string;
@@ -10,19 +12,33 @@ interface UserExPlayer extends UserPlayer {
   wasViceCaptain: boolean;
 }
 
-export interface User {
-  _id: string;
+export interface UserDb {
+  _id: ObjectId;
   captain: string;
   viceCaptain: string;
   teamPlayers: UserPlayer[];
   teamname: string;
   exPlayers: UserExPlayer[];
-  lateEntry?: boolean;
-}
-
-export interface CurrentUser extends User {
   email: string;
   createdAt: string;
   updatedAt: string;
+  lateEntry?: boolean;
   isAdmin?: boolean;
+}
+
+export interface User
+  extends Pick<
+    UserDb,
+    | 'captain'
+    | 'viceCaptain'
+    | 'teamname'
+    | 'teamPlayers'
+    | 'exPlayers'
+    | 'lateEntry'
+  > {
+  _id: string;
+}
+
+export interface CurrentUser extends Omit<UserDb, '_id'> {
+  _id: string;
 }
