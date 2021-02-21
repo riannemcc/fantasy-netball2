@@ -2,18 +2,19 @@ import nextConnect from 'next-connect';
 import { getSession } from 'next-auth/client';
 import { ObjectId } from 'mongodb';
 import middleware from '../../middleware/database';
+import { ApiRequest, ApiResponse } from '_src/types/api';
 
 const handler = nextConnect();
 handler.use(middleware);
 
-handler.post(async (req, res) => {
+handler.post(async (req: ApiRequest, res: ApiResponse) => {
   const session = await getSession({ req });
   let currentUser = null;
 
   if (session && session.userId) {
     currentUser = await req.db
       .collection('users')
-      .findOne(ObjectId(session.userId));
+      .findOne({ _id: new ObjectId(session.userId) });
   }
 
   if (currentUser && currentUser.isAdmin) {
@@ -22,7 +23,7 @@ handler.post(async (req, res) => {
       await Promise.all(
         data.playersGames.map(({ id, games }) => {
           return req.db.collection('players').updateOne(
-            { _id: ObjectId(id) },
+            { _id: new ObjectId(id) },
             {
               $set: {
                 games,
