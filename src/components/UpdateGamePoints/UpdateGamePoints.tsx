@@ -1,5 +1,11 @@
-import { useState } from 'react';
+import { ReactElement, useState } from 'react';
 import moment from 'moment';
+import { Game } from '_src/types/games';
+import { Player } from '_src/types/players';
+
+interface UpdateGamePlayer extends Player {
+  thisGamePoints: number | string;
+}
 
 function getGameHeading(game) {
   return `[${moment(game.startDateTime).format('DD MMM HH:mm')}] ${
@@ -7,7 +13,17 @@ function getGameHeading(game) {
   } vs ${game.awayTeam}`;
 }
 
-function TeamPlayerPointsInput({ teamName, players, onChange }) {
+interface TeamPlayerPointsInputProps {
+  teamName: string;
+  players: UpdateGamePlayer[];
+  onChange: (playerId: string, points: string) => void;
+}
+
+function TeamPlayerPointsInput({
+  teamName,
+  players,
+  onChange,
+}: TeamPlayerPointsInputProps): ReactElement {
   return (
     <div className="flex w-full flex-wrap flex-col items-center flex-1">
       <h2>{teamName}</h2>
@@ -64,8 +80,19 @@ async function updatePoints(game, players) {
   });
 }
 
-export function UpdateGamePoints({ games, players }) {
-  const [selected, setSelected] = useState({
+interface UpdateGamePointsProps {
+  games: Game[];
+  players: Player[];
+}
+
+export function UpdateGamePoints({
+  games,
+  players,
+}: UpdateGamePointsProps): ReactElement {
+  const [selected, setSelected] = useState<{
+    game: Game | null;
+    players: UpdateGamePlayer[] | null;
+  }>({
     game: null,
     players: null,
   });

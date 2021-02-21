@@ -1,11 +1,20 @@
 import moment from 'moment';
+import { Player } from '_src/types/players';
+import { User } from '_src/types/users';
 import { DEFAULT_GAME_START_DATE, START_OF_SEASON_DATE } from './constants';
 
-export function findPlayerById(playerId, players) {
+export function findPlayerById(
+  playerId: string,
+  players: Player[]
+): Player | undefined {
   return players.find((player) => player._id === playerId);
 }
 
-export function calculatePlayerPoints(player, startDate, endDate) {
+export function calculatePlayerPoints(
+  player: Player,
+  startDate?: string,
+  endDate?: string
+): number {
   let playerPoints = 0;
   startDate = startDate || START_OF_SEASON_DATE;
   endDate = endDate || moment().toISOString();
@@ -21,13 +30,17 @@ export function calculatePlayerPoints(player, startDate, endDate) {
         );
       })
       .reduce((playerPointsAcc, game) => {
-        return playerPointsAcc + parseInt(game.points, 10);
+        return playerPointsAcc + parseInt(`${game.points}`, 10);
       }, 0);
   }
   return playerPoints;
 }
 
-export function calculateUserPlayerPoints(user, player, dateAdded) {
+export function calculateUserPlayerPoints(
+  user: User,
+  player: Player,
+  dateAdded: string
+): number {
   let playerPoints = calculatePlayerPoints(player, dateAdded);
   if (player._id === user.captain && playerPoints > 0) {
     playerPoints = playerPoints * 2;
@@ -38,12 +51,12 @@ export function calculateUserPlayerPoints(user, player, dateAdded) {
 }
 
 export function calculateExPlayerPoints(
-  player,
-  dateAdded,
-  dateRemoved,
-  wasCaptain,
-  wasViceCaptain
-) {
+  player: Player,
+  dateAdded: string,
+  dateRemoved: string,
+  wasCaptain: boolean,
+  wasViceCaptain: boolean
+): number {
   let playerPoints = calculatePlayerPoints(player, dateAdded, dateRemoved);
   if (wasCaptain && playerPoints > 0) {
     playerPoints = playerPoints * 2;
@@ -53,7 +66,7 @@ export function calculateExPlayerPoints(
   return playerPoints;
 }
 
-export function calculateUserPoints(user, players) {
+export function calculateUserPoints(user: User, players: Player[]): number {
   let userPoints = 0;
   if (user) {
     userPoints += (user.teamPlayers || []).reduce(

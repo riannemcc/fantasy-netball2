@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { useRouter } from 'next/router';
 import moment from 'moment';
-import { POSITIONS, START_OF_SEASON_DATE } from '../../../util/constants';
-import { findPlayerById } from '../../../util/helpers';
+import { POSITIONS, START_OF_SEASON_DATE } from '_util/constants';
+import { findPlayerById } from '_util/helpers';
+import { Player } from '_src/types/players';
+import { CurrentUser } from '_src/types/users';
 
 function checkForDuplicates(array) {
   return new Set(array).size !== array.length;
@@ -18,12 +20,20 @@ const initialTeamState = POSITIONS.reduce(
   {}
 );
 
+interface TeamSelectionProps {
+  players: Player[];
+  currentUser: CurrentUser;
+  isInjuryUpdate?: boolean;
+}
+
 export const TeamSelection = ({
   players = [],
   currentUser,
   isInjuryUpdate = false,
-}) => {
-  const [team, setTeam] = React.useState(initialTeamState);
+}: TeamSelectionProps): ReactElement => {
+  const [team, setTeam] = React.useState<Record<string, string>>(
+    initialTeamState
+  );
   const [teamName, setTeamName] = React.useState('');
   const [captain, setCaptain] = React.useState('');
   const [captainName, setCaptainName] = React.useState('');
@@ -196,7 +206,6 @@ export const TeamSelection = ({
                 type="text"
                 id="teamname"
                 name="teamname"
-                label="Team name"
                 className="border-2 border-black w-6/12 ml-4"
                 required
                 readOnly
@@ -207,7 +216,6 @@ export const TeamSelection = ({
                 type="text"
                 id="teamname"
                 name="teamname"
-                label="Team name"
                 className="border-2 border-black w-6/12 ml-4"
                 required
                 value={teamName}

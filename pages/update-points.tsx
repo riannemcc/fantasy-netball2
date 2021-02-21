@@ -1,9 +1,20 @@
+import { ReactElement } from 'react';
 import { useSession } from 'next-auth/client';
-import { connectToDatabase } from '../util/mongodb';
-import { UpdateGamePoints } from '../src/components/UpdateGamePoints';
-import { useCurrentUser } from '../src/hooks/useCurrentUser';
+import { connectToDatabase } from '_util/mongodb';
+import { UpdateGamePoints } from '_components/UpdateGamePoints';
+import { useCurrentUser } from '_src/hooks/useCurrentUser';
+import { Player } from '_src/types/players';
+import { Game } from '_src/types/games';
 
-export default function UpdatePointsPage({ games, players }) {
+interface UpdatePointsPageProps {
+  games: Game[];
+  players: Player[];
+}
+
+export default function UpdatePointsPage({
+  games,
+  players,
+}: UpdatePointsPageProps): ReactElement {
   const [, loading] = useSession();
   const { currentUser } = useCurrentUser();
 
@@ -18,7 +29,9 @@ export default function UpdatePointsPage({ games, players }) {
   return <div>This page is not for you ⛔</div>;
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps(): Promise<{
+  props: UpdatePointsPageProps;
+}> {
   const { db } = await connectToDatabase();
 
   const games = await db

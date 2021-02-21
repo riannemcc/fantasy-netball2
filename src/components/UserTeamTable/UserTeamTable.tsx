@@ -1,11 +1,20 @@
-import { POSITIONS } from '../../../util/constants';
-import {
-  calculateUserPlayerPoints,
-  findPlayerById,
-} from '../../../util/helpers';
-import Link from 'next/link';
+import { ReactElement } from 'react';
+import { Player } from '_src/types/players';
+import { CurrentUser } from '_src/types/users';
+import { POSITIONS } from '_util/constants';
+import { calculateUserPlayerPoints, findPlayerById } from '_util/helpers';
 
-export const UserTeamTable = ({ players, currentUser, className }) => {
+interface UserTeamTableProps {
+  players: Player[];
+  currentUser: CurrentUser;
+  className?: string;
+}
+
+export const UserTeamTable = ({
+  players,
+  currentUser,
+  className,
+}: UserTeamTableProps): ReactElement => {
   const getDatePlayerAdded = (position) => {
     const teamPlayer = (currentUser.teamPlayers || []).find(
       (player) => player.position === position
@@ -26,15 +35,8 @@ export const UserTeamTable = ({ players, currentUser, className }) => {
     return null;
   };
 
-  const hasInjuredPlayers = (currentUser.teamPlayers || []).some(
-    ({ playerId }) => {
-      const player = findPlayerById(playerId, players);
-      return player && player.isInjured;
-    }
-  );
-
   return (
-    <div>
+    <div className={className}>
       <table className="mb-8 shadow-lg bg-gray-100">
         <thead>
           <tr>

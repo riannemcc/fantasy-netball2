@@ -1,7 +1,13 @@
 import { useEffect, useState } from 'react';
+import { User } from '_src/types/users';
 
-export function useUsers() {
-  const [state, setState] = useState({
+interface UsersState {
+  users: User[] | null;
+  isFetching: boolean;
+}
+
+export function useUsers(): UsersState {
+  const [state, setState] = useState<UsersState>({
     users: null,
     isFetching: true,
   });

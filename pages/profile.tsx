@@ -1,26 +1,30 @@
+import { ReactElement } from 'react';
 import { useSession } from 'next-auth/client';
 import Link from 'next/link';
-import { connectToDatabase } from '../util/mongodb';
-import { LeaderboardTable } from '../src/components/LeaderboardTable';
-import { GameSchedule } from '../src/components/GameSchedule';
-import { HighestScoring } from '../src/components/HighestScoring';
-import { UserTeamTable } from '../src/components/UserTeamTable';
-import { calculateUserPoints } from '../util/helpers';
-import { useCurrentUser } from '../src/hooks/useCurrentUser';
-import { useUsers } from '../src/hooks/useUsers';
-import { UserExPlayersTable } from '../src/components/UserExPlayersTable/UserExPlayersTable';
-import { findPlayerById } from '../util/helpers';
-import Exclaim from '../public/exclaim.svg';
+import { connectToDatabase } from '_util/mongodb';
+import { LeaderboardTable } from '_components/LeaderboardTable';
+import { GameSchedule } from '_components/GameSchedule';
+import { HighestScoring } from '_components/HighestScoring';
+import { UserTeamTable } from '_components/UserTeamTable';
+import { calculateUserPoints } from '_util/helpers';
+import { useCurrentUser } from '_src/hooks/useCurrentUser';
+import { useUsers } from '_src/hooks/useUsers';
+import { UserExPlayersTable } from '_components/UserExPlayersTable/UserExPlayersTable';
+import { findPlayerById } from '_util/helpers';
+import { Player } from '_src/types/players';
+import Exclaim from '_public/exclaim.svg';
 
-export default function Profile({ players }) {
+interface ProfileProps {
+  players: Player[];
+}
+
+export default function Profile({ players }: ProfileProps): ReactElement {
   const [, loading] = useSession();
   const { currentUser } = useCurrentUser();
   const { users } = useUsers();
 
-  if (typeof window !== 'undefined' && loading) return <p>Loading...</p>;
-
-  if (!currentUser || !users) {
-    return null;
+  if (loading || !currentUser || !users) {
+    return <p>Loading...</p>;
   }
 
   const hasInjuredPlayers = (currentUser.teamPlayers || []).some(
@@ -81,11 +85,11 @@ export default function Profile({ players }) {
       ) : (
         <>
           <span className="text-xl text-black font-bold m-2">
-            Don't have a team yet?
+            Don&apos;t have a team yet?
           </span>
           <button className="bg-pink hover:bg-pink-700 text-white font-bold py-2 px-4 rounded-full w-32 m-2">
             <Link href="/team-selection">
-              <a classNamee="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-pink font-bold items-center justify-center w=6/12 self-center flex flex-col">
+              <a className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-pink font-bold items-center justify-center w=6/12 self-center flex flex-col">
                 Team Selection
               </a>
             </Link>
@@ -124,7 +128,7 @@ export default function Profile({ players }) {
   );
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps(): Promise<{ props: ProfileProps }> {
   const { db } = await connectToDatabase();
 
   const players = await db.collection('players').find({}).toArray();

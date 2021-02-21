@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { RulesText } from '../src/components/RulesText';
 
-function Rules() {
+function Rules(): ReactElement {
   return <RulesText />;
 }
 

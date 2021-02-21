@@ -1,6 +1,19 @@
-import { calculateUserPoints } from '../../../util/helpers';
+import { calculateUserPoints } from '_util/helpers';
+import { ReactElement } from 'react';
+import { Player } from '_src/types/players';
+import { User } from '_src/types/users';
 
-export const LeaderboardTable = ({ users, players, tenRows }) => {
+interface LeaderboardTableProps {
+  users: User[];
+  players: Player[];
+  tenRows: boolean;
+}
+
+export const LeaderboardTable = ({
+  users,
+  players,
+  tenRows,
+}: LeaderboardTableProps): ReactElement => {
   const usersWithPointsSorted = users
     .filter((user) => user.teamPlayers && user.teamname)
     .map((user) => ({
@@ -24,7 +37,7 @@ export const LeaderboardTable = ({ users, players, tenRows }) => {
         <tbody>
           {tenRows
             ? top10users.map((user, index) => (
-                <tr>
+                <tr key={`leaderboard-top-ten-row-${index}`}>
                   <td className="border border-black px-4 py-2">{index + 1}</td>
                   <td className="border border-black px-4 py-2">
                     {user.teamname}
@@ -35,7 +48,7 @@ export const LeaderboardTable = ({ users, players, tenRows }) => {
                 </tr>
               ))
             : usersWithPointsSorted.map((user, index) => (
-                <tr>
+                <tr key={`leaderboard-row-${index}`}>
                   <td className="border border-black px-4 py-2">{index + 1}</td>
                   <td className="border border-black px-4 py-2">
                     {user.teamname}

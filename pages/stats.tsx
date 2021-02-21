@@ -1,8 +1,13 @@
-import React from 'react';
-import { connectToDatabase } from '../util/mongodb';
-import { StatsTable } from '../src/components/StatsTable';
+import React, { ReactElement } from 'react';
+import { connectToDatabase } from '_util/mongodb';
+import { StatsTable } from '_components/StatsTable';
+import { Player } from '_src/types/players';
 
-export default function Stats({ players }) {
+interface StatsProps {
+  players: Player[];
+}
+
+export default function Stats({ players }: StatsProps): ReactElement {
   return (
     <div>
       <div className="m-4 flex flex-row">
@@ -14,7 +19,7 @@ export default function Stats({ players }) {
   );
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps(): Promise<{ props: StatsProps }> {
   const { db } = await connectToDatabase();
 
   const players = await db

@@ -1,6 +1,14 @@
-import { calculatePlayerPoints } from '../../../util/helpers';
+import { ReactElement } from 'react';
+import { calculatePlayerPoints } from '_util/helpers';
+import { Player } from '_src/types/players';
 
-export const HighestScoring = ({ players }) => {
+interface HighestScoringProps {
+  players: Player[];
+}
+
+export const HighestScoring = ({
+  players,
+}: HighestScoringProps): ReactElement => {
   const playersWithPointsSorted = players
     .map((player) => ({
       ...player,

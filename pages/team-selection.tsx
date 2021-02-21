@@ -1,10 +1,17 @@
-import React from 'react';
-import { connectToDatabase } from '../util/mongodb';
-import { TeamSelection } from '../src/components/TeamSelection';
-import { useCurrentUser } from '../src/hooks/useCurrentUser';
-import { findPlayerById } from '../util/helpers';
+import React, { ReactElement } from 'react';
+import { connectToDatabase } from '_util/mongodb';
+import { TeamSelection } from '_components/TeamSelection';
+import { useCurrentUser } from '_src/hooks/useCurrentUser';
+import { findPlayerById } from '_util/helpers';
+import { Player } from '_src/types/players';
 
-export default function TeamSelectionPage({ players = [] }) {
+interface TeamSelectionPageProps {
+  players: Player[];
+}
+
+export default function TeamSelectionPage({
+  players = [],
+}: TeamSelectionPageProps): ReactElement {
   const { currentUser } = useCurrentUser();
   if (!currentUser) {
     return null;
@@ -47,7 +54,9 @@ export default function TeamSelectionPage({ players = [] }) {
   );
 }
 
-export async function getServerSideProps({ req }) {
+export async function getServerSideProps(): Promise<{
+  props: TeamSelectionPageProps;
+}> {
   const { db } = await connectToDatabase();
 
   const players = await db

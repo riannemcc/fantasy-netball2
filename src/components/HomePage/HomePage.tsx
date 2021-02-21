@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import Image from 'next/image';
-import { SessionButton } from '../SessionButton';
-import { ProfileButton } from '../ProfileButton';
+import { SessionButton } from '_components/SessionButton';
+import { ProfileButton } from '_components/ProfileButton';
 
-export const HomePage = () => {
+export const HomePage = (): ReactElement => {
   return (
     <div className="mr-2">
       <div className="flex flex-col ml-4">

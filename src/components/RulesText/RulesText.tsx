@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
-export const RulesText = () => {
+export const RulesText = (): ReactElement => {
   return (
     <div>
       <div className="m-4 flex flex-row">

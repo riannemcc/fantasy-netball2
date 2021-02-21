@@ -1,15 +1,12 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
-import { NavBar } from '../src/components/NavBar';
+import { AppProps } from 'next/app';
+import { NavBar } from '_components/NavBar';
 import { Provider } from 'next-auth/client';
-import { Footer } from '../src/components/Footer';
 
-import '../styles/tailwind.css';
+import '_styles/tailwind.css';
 
-const MyApp = ({ Component, pageProps }) => {
-  const { basePath } = useRouter();
-
+const MyApp = ({ Component, pageProps }: AppProps): ReactElement => {
   return (
     <>
       <Head>
@@ -27,7 +24,6 @@ const MyApp = ({ Component, pageProps }) => {
         <main>
           <Component {...pageProps} />
         </main>
-        {/* <Footer /> */}
       </Provider>
     </>
   );

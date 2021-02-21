@@ -1,17 +1,19 @@
-import { POSITIONS } from '../../../util/constants';
-import { calculateExPlayerPoints, findPlayerById } from '../../../util/helpers';
+import { ReactElement } from 'react';
+import { Player } from '_src/types/players';
+import { CurrentUser } from '_src/types/users';
+import { calculateExPlayerPoints, findPlayerById } from '_util/helpers';
 
-export const UserExPlayersTable = ({ players, currentUser, className }) => {
-  const findUserPlayerByPosition = (position) => {
-    const exPlayer = (currentUser.exPlayers || []).find(
-      (player) => player.position === position
-    );
-    if (exPlayer) {
-      return findPlayerById(exPlayer.playerId, players);
-    }
-    return null;
-  };
+interface UserExPlayersTableProps {
+  players: Player[];
+  currentUser: CurrentUser;
+  className?: string;
+}
 
+export const UserExPlayersTable = ({
+  players,
+  currentUser,
+  className,
+}: UserExPlayersTableProps): ReactElement => {
   return (
     <div className={className}>
       <table className="mb-8 shadow-lg bg-gray-100">
@@ -33,7 +35,7 @@ export const UserExPlayersTable = ({ players, currentUser, className }) => {
               }) => {
                 const player = findPlayerById(playerId, players);
                 return (
-                  <tr key={''}>
+                  <tr key={`user-ex-player-tabel-row-${playerId}`}>
                     <td className="border border-black px-4 py-2">
                       {player && player.name}
                       {wasCaptain ? (

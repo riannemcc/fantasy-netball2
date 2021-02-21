@@ -1,11 +1,11 @@
 import Link from 'next/link';
-import { useState } from 'react';
+import { ReactElement, useState } from 'react';
 import { SessionButton } from '../SessionButton';
 import { useSession } from 'next-auth/client';
 import Image from 'next/image';
 import { useCurrentUser } from '../../hooks/useCurrentUser';
 
-export const NavBar = () => {
+export const NavBar = (): ReactElement => {
   const [active, setActive] = useState(false);
   const [session, loading] = useSession();
   const { currentUser } = useCurrentUser();

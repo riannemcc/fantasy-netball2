@@ -1,10 +1,17 @@
-import React from 'react';
-import { connectToDatabase } from '../util/mongodb';
-import { LeaderboardTable } from '../src/components/LeaderboardTable';
-import { EMMNASponsor } from '../src/components/EMMNASponsor';
-import { useUsers } from '../src/hooks/useUsers';
+import React, { ReactElement } from 'react';
+import { connectToDatabase } from '_util/mongodb';
+import { LeaderboardTable } from '_components/LeaderboardTable';
+import { EMMNASponsor } from '_components/EMMNASponsor';
+import { useUsers } from '_src/hooks/useUsers';
+import { Player } from '_src/types/players';
 
-export default function Leaderboard({ players }) {
+interface LeaderboardProps {
+  players: Player[];
+}
+
+export default function Leaderboard({
+  players,
+}: LeaderboardProps): ReactElement {
   const { users } = useUsers();
 
   return (
@@ -25,7 +32,9 @@ export default function Leaderboard({ players }) {
   );
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps(): Promise<{
+  props: LeaderboardProps;
+}> {
   const { db } = await connectToDatabase();
 
   const players = await db.collection('players').find({}).toArray();

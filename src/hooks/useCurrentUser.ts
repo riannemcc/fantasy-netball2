@@ -1,7 +1,13 @@
 import { useEffect, useState } from 'react';
+import { CurrentUser } from '_src/types/users';
 
-export function useCurrentUser() {
-  const [userState, setUserState] = useState({
+interface CurrentUserState {
+  currentUser: CurrentUser | null;
+  isFetching: boolean;
+}
+
+export function useCurrentUser(): CurrentUserState {
+  const [userState, setUserState] = useState<CurrentUserState>({
     currentUser: null,
     isFetching: true,
   });
