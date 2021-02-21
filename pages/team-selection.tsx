@@ -47,10 +47,10 @@ export default function TeamSelectionPage({
   }
 
   return (
-    <TeamSelection players={players} currentUser={currentUser} />
-    // <div className="m-6 p-2 bg-green-100 border border-green-400 text-black text-xl font-bold px-4 py-3 rounded relative">
-    //   Team selection is now closed. Come back next year!
-    // </div>
+    // <TeamSelection players={players} currentUser={currentUser} />
+    <div className="m-6 p-2 bg-green-100 border border-green-400 text-black text-xl font-bold px-4 py-3 rounded relative">
+      Team selection is now closed. Come back next year!
+    </div>
   );
 }
 
