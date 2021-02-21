@@ -1,1 +1,0 @@
-export { UserTeamTable } from "./UserTeamTable";

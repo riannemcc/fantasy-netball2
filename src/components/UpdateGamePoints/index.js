@@ -1,1 +1,0 @@
-export { UpdateGamePoints } from "./UpdateGamePoints";

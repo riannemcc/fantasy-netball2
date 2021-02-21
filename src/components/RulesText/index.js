@@ -1,1 +1,0 @@
-export { RulesText } from './RulesText'

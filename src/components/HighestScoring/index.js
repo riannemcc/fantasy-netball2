@@ -1,1 +1,0 @@
-export { HighestScoring } from "./HighestScoring";

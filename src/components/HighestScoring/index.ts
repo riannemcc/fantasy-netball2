@@ -1,0 +1,1 @@
+export { HighestScoring } from './HighestScoring';

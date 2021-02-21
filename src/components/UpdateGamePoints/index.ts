@@ -1,0 +1,1 @@
+export { UpdateGamePoints } from './UpdateGamePoints';
