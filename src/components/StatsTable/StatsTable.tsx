@@ -39,6 +39,8 @@ export const StatsTable = ({ players }: StatsTableProps): ReactElement => {
                   <th className="border border-black px-4 py-2">Game Four</th>
                   <th className="border border-black px-4 py-2">Game Five</th>
                   <th className="border border-black px-4 py-2">Game Six</th>
+                  <th className="border border-black px-4 py-2">Game Seven</th>
+                  <th className="border border-black px-4 py-2">Game Eight</th>
                 </tr>
               </thead>
               <tbody>
@@ -81,6 +83,12 @@ export const StatsTable = ({ players }: StatsTableProps): ReactElement => {
                         </td>
                         <td className="border border-black px-4 py-2">
                           {games && games[5] && games[5].points}
+                        </td>
+                        <td className="border border-black px-4 py-2">
+                          {games && games[6] && games[6].points}
+                        </td>
+                        <td className="border border-black px-4 py-2">
+                          {games && games[7] && games[7].points}
                         </td>
                       </tr>
                     );

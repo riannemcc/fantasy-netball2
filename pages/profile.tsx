@@ -34,6 +34,50 @@ export default function Profile({ players }: ProfileProps): ReactElement {
     }
   );
 
+  const allSelectedPlayers: {
+    [key: string]: Player & { count: number };
+  } = users
+    .filter((user) => user.teamPlayers)
+    .reduce((playersAcc, user) => {
+      const userPlayers = user.teamPlayers.map(({ playerId }) =>
+        findPlayerById(playerId, players)
+      );
+      return [...playersAcc, ...userPlayers];
+    }, [])
+    .reduce((playersMap, player) => {
+      if (playersMap[player._id]) {
+        playersMap[player._id].count = playersMap[player._id].count + 1;
+        return playersMap;
+      }
+      return {
+        ...playersMap,
+        [player._id]: {
+          ...player,
+          count: 1,
+        },
+      };
+    }, {});
+
+  const allPlayersWithCountSorted = Object.values(allSelectedPlayers).sort(
+    (a, b) => {
+      return b.count - a.count;
+    }
+  );
+
+  console.log('allPlayersWithCountSorted: ', allPlayersWithCountSorted);
+
+  const included = users.filter((user) => {
+    const teamTwo = user.teamPlayers && Object.values(user.teamPlayers);
+    if (
+      teamTwo &&
+      teamTwo.some((e) => e.playerId === '6019595f2bdff032e549976a')
+    ) {
+      return user.teamname;
+    }
+  });
+
+  console.log('Pirngle included', included);
+
   return (
     <div className="m-2 self-center flex flex-col">
       {currentUser.teamPlayers ? (
