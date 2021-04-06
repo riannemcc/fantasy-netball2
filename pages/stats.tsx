@@ -14,7 +14,7 @@ export default function Stats({ players }: StatsProps): ReactElement {
         <h1 className="text-xl text-black font-bold ">Player stats</h1>
         <div className="border-t-2 flex-1 ml-2 leading-9 text-base font-semibold mt-3.5 border-pink opacity-1" />
       </div>
-      <div className="flex flex-col items-center m-4 overflow-x-scroll">
+      <div className="flex flex-col m-4 overflow-x-scroll">
         <StatsTable players={players} />
       </div>
     </div>
