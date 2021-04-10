@@ -31,6 +31,9 @@ export const TeamSelection = ({
   currentUser,
   isInjuryUpdate = false,
 }: TeamSelectionProps): ReactElement => {
+  const [existingTeam, setExistingTeam] = React.useState<
+    Record<string, string>
+  >(initialTeamState);
   const [team, setTeam] = React.useState<Record<string, string>>(
     initialTeamState
   );
@@ -58,13 +61,21 @@ export const TeamSelection = ({
           }),
           {}
         );
+        setExistingTeam(userTeam);
         return {
           ...currentTeam,
           ...userTeam,
         };
       });
     }
-  }, [setTeam, setTeamName, setCaptain, setViceCaptain, currentUser]);
+  }, [
+    setTeam,
+    setTeamName,
+    setCaptain,
+    setViceCaptain,
+    setExistingTeam,
+    currentUser,
+  ]);
 
   React.useEffect(() => {
     const selectedPlayerIds = Object.values(team);
@@ -283,9 +294,10 @@ export const TeamSelection = ({
                     {players
                       .filter(
                         (player) =>
-                          player.position &&
-                          player.position.length &&
-                          player.position.includes(key)
+                          (player.position &&
+                            player.position.length &&
+                            player.position.includes(key)) ||
+                          player._id === existingTeam[key]
                       )
                       .map((player) => {
                         const isSelectedInAnotherPosition =
