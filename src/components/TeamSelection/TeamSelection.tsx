@@ -24,12 +24,14 @@ interface TeamSelectionProps {
   players: Player[];
   currentUser: CurrentUser;
   isInjuryUpdate?: boolean;
+  isTransferWindow?: boolean;
 }
 
 export const TeamSelection = ({
   players = [],
   currentUser,
   isInjuryUpdate = false,
+  isTransferWindow = true,
 }: TeamSelectionProps): ReactElement => {
   const [existingTeam, setExistingTeam] = React.useState<
     Record<string, string>
@@ -44,6 +46,9 @@ export const TeamSelection = ({
   const [viceCaptainName, setViceCaptainName] = React.useState('');
   const [selectedPlayersTeams, setSelectedPlayersTeams] = React.useState([]);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [shooterTransferred, setShooterTransferred] = React.useState(false);
+  const [defenderTransferred, setDefenderTransferred] = React.useState(false);
+  const [midTransferred, setMidTransferred] = React.useState(false);
   const router = useRouter();
 
   React.useEffect(() => {
@@ -212,7 +217,7 @@ export const TeamSelection = ({
             >
               Team name:
             </label>
-            {isInjuryUpdate ? (
+            {isInjuryUpdate || isTransferWindow ? (
               <input
                 type="text"
                 id="teamname"
@@ -234,7 +239,7 @@ export const TeamSelection = ({
               />
             )}
             {POSITIONS.map((key) => {
-              if (isInjuryUpdate) {
+              if (isInjuryUpdate || isTransferWindow) {
                 const teamPlayer = currentUser.teamPlayers.find(
                   ({ position }) => position === key
                 );
@@ -261,6 +266,11 @@ export const TeamSelection = ({
                         value={`${player.team ? `[${player.team}]: ` : ''}${
                           player.name
                         }`}
+                        onChange={(event) => {
+                          //if(player is a shooter/defender/mid and shooter/defender/mid has not already been swapped, do the handleTeamPlayerSelect)
+                          handleTeamPlayerSelect(key, event.target.value);
+                          //if(player is shooter/defender/mid and shooter/defender/mid has already been swapped, do nothing )
+                        }}
                       />
                     </div>
                   );
