@@ -267,6 +267,9 @@ export const TeamSelection = ({
                           player.name
                         }`}
                         onChange={(event) => {
+                          // shooter = GS or GK
+                          // defendder is GD or GK
+                          // mid is C, WA or WD
                           //if(player is a shooter/defender/mid and shooter/defender/mid has not already been swapped, do the handleTeamPlayerSelect)
                           handleTeamPlayerSelect(key, event.target.value);
                           //if(player is shooter/defender/mid and shooter/defender/mid has already been swapped, do nothing )
