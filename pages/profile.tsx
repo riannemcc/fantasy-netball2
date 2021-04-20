@@ -76,12 +76,22 @@ export default function Profile({ players }: ProfileProps): ReactElement {
     }
   });
 
-  console.log('Pirngle included', included);
-
   return (
     <div className="m-2 self-center flex flex-col">
       {currentUser.teamPlayers ? (
         <>
+          <div className="m-4 p-2 bg-blue-200 opacity-1 border border-blue-900 text-black text-lg font-bold px-4 py-3 rounded relative">
+            <div className="flex">
+              <Exclaim className="w-7 mr-2" />
+              <span>
+                The mid-season transfer window is open! Head to
+                <Link href="/team-selection">
+                  <a className="text-pink ml-1 mr-1">Team Selection</a>
+                </Link>
+                to select your players.
+              </span>
+            </div>
+          </div>
           <div className="m-4 flex flex-row">
             <span className="text-xl text-black font-bold ">Your Team</span>
             <div className="border-t-2 flex-1 ml-2 leading-9 text-base font-semibold mt-3.5 border-pink opacity-80" />
@@ -145,7 +155,7 @@ export default function Profile({ players }: ProfileProps): ReactElement {
         <h2 className="text-xl text-black font-bold ">Top 10 Fantasy Teams</h2>
       </div>
 
-      <div className="overflow-x-auto w-auto bg-gray-300 m-2 p-4 flex flex-col">
+      <div className="w-auto bg-gray-200 shadow p-6 mx-4 mb-6 px-4 flex flex-col items-center">
         {currentUser.teamPlayers ? (
           <LeaderboardTable users={users} players={players} tenRows />
         ) : null}
@@ -161,13 +171,13 @@ export default function Profile({ players }: ProfileProps): ReactElement {
         <HighestScoring players={players} />
       </div>
 
-      <div className="m-4 flex flex-row">
+      {/* <div className="m-4 flex flex-row">
         <div className="border-t-2 flex-1 ml-2 mr-2 leading-9 text-base font-semibold mt-3.5 border-pink opacity-80" />
         <span className="text-xl text-black font-bold ">Upcoming Games</span>
-      </div>
-      <div className="w-auto bg-gray-300 m-10 p-4 flex flex-col">
+      </div> */}
+      {/* <div className="w-auto bg-gray-300 m-10 p-4 flex flex-col">
         <GameSchedule />
-      </div>
+      </div> */}
     </div>
   );
 }

@@ -5,6 +5,7 @@ import { POSITIONS, START_OF_SEASON_DATE } from '_util/constants';
 import { findPlayerById } from '_util/helpers';
 import { Player } from '_src/types/players';
 import { CurrentUser } from '_src/types/users';
+import Exclaim from '_public/exclaim.svg';
 
 function checkForDuplicates(array) {
   return new Set(array).size !== array.length;
@@ -24,12 +25,14 @@ interface TeamSelectionProps {
   players: Player[];
   currentUser: CurrentUser;
   isInjuryUpdate?: boolean;
+  isTransferWindow?: boolean;
 }
 
 export const TeamSelection = ({
   players = [],
   currentUser,
   isInjuryUpdate = false,
+  isTransferWindow = true,
 }: TeamSelectionProps): ReactElement => {
   const [existingTeam, setExistingTeam] = React.useState<
     Record<string, string>
@@ -44,6 +47,9 @@ export const TeamSelection = ({
   const [viceCaptainName, setViceCaptainName] = React.useState('');
   const [selectedPlayersTeams, setSelectedPlayersTeams] = React.useState([]);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [shooterTransferred, setShooterTransferred] = React.useState(false);
+  const [defenderTransferred, setDefenderTransferred] = React.useState(false);
+  const [midTransferred, setMidTransferred] = React.useState(false);
   const router = useRouter();
 
   React.useEffect(() => {
@@ -101,6 +107,20 @@ export const TeamSelection = ({
       setViceCaptainName(viceCaptainPlayer.name);
     }
   }, [viceCaptain, setViceCaptainName]);
+
+  React.useEffect(() => {
+    setShooterTransferred(
+      team['GS'] !== existingTeam['GS'] || team['GA'] !== existingTeam['GA']
+    );
+    setMidTransferred(
+      team['WA'] !== existingTeam['WA'] ||
+        team['C'] !== existingTeam['C'] ||
+        team['WD'] !== existingTeam['WD']
+    );
+    setDefenderTransferred(
+      team['GD'] !== existingTeam['GD'] || team['GK'] !== existingTeam['GK']
+    );
+  }, [team, existingTeam]);
 
   const handleTeamPlayerSelect = React.useCallback(
     (positionKey, playerId) => {
@@ -198,13 +218,32 @@ export const TeamSelection = ({
           <div className="border-t-2 flex-1 ml-2 leading-9 text-base font-semibold mt-3.5 border-pink opacity-80" />
         </div>
         <ul className="ml-4 mb-2">
-          <li>Select one player for each position</li>
+          {isTransferWindow ? (
+            <>
+              <div className="m-4 p-2 bg-blue-200 opacity-1 border border-blue-900 text-black text-lg font-bold px-4 py-3 rounded relative">
+                <div className="flex">
+                  <Exclaim className="w-7 mr-2" />
+                  <span>
+                    Transfer window is now open! You can change one player from
+                    each area of the court - shooter, mid-court and defence.
+                  </span>
+                </div>
+              </div>
+              <li className="m-4 p-2 bg-blue-200 opacity-1 border border-blue-900 text-pink text-lg font-bold px-4 py-3 rounded relative">
+                {Number(!shooterTransferred) +
+                  Number(!midTransferred) +
+                  Number(!defenderTransferred)}
+                /3 changes remaining
+              </li>
+            </>
+          ) : null}
+          <li>Select one player for each position.</li>
           <li>You may only select a player once.</li>
           <li>
             You may only select a maximum of two players from any one VNSL team.
           </li>
         </ul>
-        <div className="bg-gray-200 m-2 pb-4 border-black border-2 w-auto">
+        <div className="bg-gray-200 m-4 pb-4 border-black border-2 w-auto rounded relative">
           <form id="formy" className="flex flex-col" onSubmit={handleSubmit}>
             <label
               htmlFor="teamname"
@@ -212,7 +251,7 @@ export const TeamSelection = ({
             >
               Team name:
             </label>
-            {isInjuryUpdate ? (
+            {isInjuryUpdate || isTransferWindow ? (
               <input
                 type="text"
                 id="teamname"
@@ -234,12 +273,22 @@ export const TeamSelection = ({
               />
             )}
             {POSITIONS.map((key) => {
-              if (isInjuryUpdate) {
+              if (isInjuryUpdate || isTransferWindow) {
                 const teamPlayer = currentUser.teamPlayers.find(
                   ({ position }) => position === key
                 );
                 const player = findPlayerById(teamPlayer.playerId, players);
-                if (player && !player.isInjured) {
+                const positionNotAvailableForTransfer =
+                  !isTransferWindow ||
+                  (team[key] === existingTeam[key] &&
+                    ((['GS', 'GA'].includes(key) && shooterTransferred) ||
+                      (['WA', 'C', 'WD'].includes(key) && midTransferred) ||
+                      (['GD', 'GK'].includes(key) && defenderTransferred)));
+                if (
+                  player &&
+                  !player.isInjured &&
+                  positionNotAvailableForTransfer
+                ) {
                   return (
                     <div
                       key={`select-position-${key}`}
@@ -346,7 +395,7 @@ export const TeamSelection = ({
             >
               Captain
             </label>
-            {isInjuryUpdate ? (
+            {isInjuryUpdate && !isTransferWindow ? (
               <input
                 type="text"
                 name="captain"
@@ -385,7 +434,7 @@ export const TeamSelection = ({
             >
               Vice Captain
             </label>
-            {isInjuryUpdate ? (
+            {isInjuryUpdate && !isTransferWindow ? (
               <input
                 type="text"
                 name="viceCaptain"
