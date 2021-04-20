@@ -5,6 +5,7 @@ import { POSITIONS, START_OF_SEASON_DATE } from '_util/constants';
 import { findPlayerById } from '_util/helpers';
 import { Player } from '_src/types/players';
 import { CurrentUser } from '_src/types/users';
+import Exclaim from '_public/exclaim.svg';
 
 function checkForDuplicates(array) {
   return new Set(array).size !== array.length;
@@ -219,12 +220,16 @@ export const TeamSelection = ({
         <ul className="ml-4 mb-2">
           {isTransferWindow ? (
             <>
-              <li className="font-bold">Tranfer window is now open!</li>
-              <li className="font-bold">
-                You can change one player from each area of the court - shooter,
-                mid and defence.
-              </li>
-              <li className="font-bold">
+              <div className="m-4 p-2 bg-blue-200 opacity-1 border border-blue-900 text-black text-lg font-bold px-4 py-3 rounded relative">
+                <div className="flex">
+                  <Exclaim className="w-7 mr-2" />
+                  <span>
+                    Transfer window is now open! You can change one player from
+                    each area of the court - shooter, mid-court and defence.
+                  </span>
+                </div>
+              </div>
+              <li className="m-4 p-2 bg-blue-200 opacity-1 border border-blue-900 text-pink text-lg font-bold px-4 py-3 rounded relative">
                 {Number(!shooterTransferred) +
                   Number(!midTransferred) +
                   Number(!defenderTransferred)}
@@ -238,7 +243,7 @@ export const TeamSelection = ({
             You may only select a maximum of two players from any one VNSL team.
           </li>
         </ul>
-        <div className="bg-gray-200 m-2 pb-4 border-black border-2 w-auto">
+        <div className="bg-gray-200 m-4 pb-4 border-black border-2 w-auto rounded relative">
           <form id="formy" className="flex flex-col" onSubmit={handleSubmit}>
             <label
               htmlFor="teamname"
