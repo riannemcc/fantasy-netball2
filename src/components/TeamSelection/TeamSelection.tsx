@@ -107,6 +107,20 @@ export const TeamSelection = ({
     }
   }, [viceCaptain, setViceCaptainName]);
 
+  React.useEffect(() => {
+    setShooterTransferred(
+      team['GS'] !== existingTeam['GS'] || team['GA'] !== existingTeam['GA']
+    );
+    setMidTransferred(
+      team['WA'] !== existingTeam['WA'] ||
+        team['C'] !== existingTeam['C'] ||
+        team['WD'] !== existingTeam['WD']
+    );
+    setDefenderTransferred(
+      team['GD'] !== existingTeam['GD'] || team['GK'] !== existingTeam['GK']
+    );
+  }, [team, existingTeam]);
+
   const handleTeamPlayerSelect = React.useCallback(
     (positionKey, playerId) => {
       setTeam((currentTeam) => {
@@ -203,7 +217,22 @@ export const TeamSelection = ({
           <div className="border-t-2 flex-1 ml-2 leading-9 text-base font-semibold mt-3.5 border-pink opacity-80" />
         </div>
         <ul className="ml-4 mb-2">
-          <li>Select one player for each position</li>
+          {isTransferWindow ? (
+            <>
+              <li className="font-bold">Tranfer window is now open!</li>
+              <li className="font-bold">
+                You can change one player from each area of the court - shooter,
+                mid and defence.
+              </li>
+              <li className="font-bold">
+                {Number(!shooterTransferred) +
+                  Number(!midTransferred) +
+                  Number(!defenderTransferred)}
+                /3 changes remaining
+              </li>
+            </>
+          ) : null}
+          <li>Select one player for each position.</li>
           <li>You may only select a player once.</li>
           <li>
             You may only select a maximum of two players from any one VNSL team.
@@ -244,7 +273,17 @@ export const TeamSelection = ({
                   ({ position }) => position === key
                 );
                 const player = findPlayerById(teamPlayer.playerId, players);
-                if (player && !player.isInjured) {
+                const positionNotAvailableForTransfer =
+                  !isTransferWindow ||
+                  (team[key] === existingTeam[key] &&
+                    ((['GS', 'GA'].includes(key) && shooterTransferred) ||
+                      (['WA', 'C', 'WD'].includes(key) && midTransferred) ||
+                      (['GD', 'GK'].includes(key) && defenderTransferred)));
+                if (
+                  player &&
+                  !player.isInjured &&
+                  positionNotAvailableForTransfer
+                ) {
                   return (
                     <div
                       key={`select-position-${key}`}
@@ -266,14 +305,6 @@ export const TeamSelection = ({
                         value={`${player.team ? `[${player.team}]: ` : ''}${
                           player.name
                         }`}
-                        onChange={(event) => {
-                          // shooter = GS or GK
-                          // defendder is GD or GK
-                          // mid is C, WA or WD
-                          //if(player is a shooter/defender/mid and shooter/defender/mid has not already been swapped, do the handleTeamPlayerSelect)
-                          handleTeamPlayerSelect(key, event.target.value);
-                          //if(player is shooter/defender/mid and shooter/defender/mid has already been swapped, do nothing )
-                        }}
                       />
                     </div>
                   );
@@ -359,7 +390,7 @@ export const TeamSelection = ({
             >
               Captain
             </label>
-            {isInjuryUpdate ? (
+            {isInjuryUpdate && !isTransferWindow ? (
               <input
                 type="text"
                 name="captain"
@@ -398,7 +429,7 @@ export const TeamSelection = ({
             >
               Vice Captain
             </label>
-            {isInjuryUpdate ? (
+            {isInjuryUpdate && !isTransferWindow ? (
               <input
                 type="text"
                 name="viceCaptain"

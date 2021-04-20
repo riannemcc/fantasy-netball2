@@ -1,4 +1,6 @@
 import React, { ReactElement } from 'react';
+import moment from 'moment';
+import Moment from 'react-moment';
 import { connectToDatabase } from '_util/mongodb';
 import { TeamSelection } from '_components/TeamSelection';
 import { useCurrentUser } from '_src/hooks/useCurrentUser';
@@ -8,6 +10,9 @@ import { Player } from '_src/types/players';
 interface TeamSelectionPageProps {
   players: Player[];
 }
+
+const IS_TRANFER_WINDOW_OPEN = true;
+const POST_TRANSFER_DATE = '2021-04-20T18:00:00.000Z';
 
 export default function TeamSelectionPage({
   players = [],
@@ -24,12 +29,34 @@ export default function TeamSelectionPage({
     }
   );
 
-  if (currentUser.teamPlayers && hasInjuredPlayers) {
+  const dateLastPlayerAdded = (currentUser.teamPlayers || [])
+    .filter(({ dateAdded }) => !!dateAdded)
+    .map(({ dateAdded }) => dateAdded)
+    .sort((a, b) => {
+      if (moment(a).isBefore(b)) {
+        return 1;
+      }
+      if (moment(a).isAfter(b)) {
+        return -1;
+      }
+      return 0;
+    })[0];
+
+  let isTransferWindow = IS_TRANFER_WINDOW_OPEN;
+  if (
+    dateLastPlayerAdded &&
+    moment(dateLastPlayerAdded).isAfter(POST_TRANSFER_DATE)
+  ) {
+    isTransferWindow = false;
+  }
+
+  if (currentUser.teamPlayers && (hasInjuredPlayers || isTransferWindow)) {
     return (
       <TeamSelection
         players={players}
         currentUser={currentUser}
-        isInjuryUpdate
+        isInjuryUpdate={hasInjuredPlayers}
+        isTransferWindow={isTransferWindow}
       />
     );
   }
@@ -40,8 +67,20 @@ export default function TeamSelectionPage({
         className="m-6 p-2 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
         role="alert"
       >
-        You have already selected your team and cannot amend until the
-        mid-season swap window.
+        {IS_TRANFER_WINDOW_OPEN &&
+        dateLastPlayerAdded &&
+        moment(dateLastPlayerAdded).isAfter(POST_TRANSFER_DATE) ? (
+          <>
+            You already submitted your mid-season transfer changes on{' '}
+            <Moment format="Do MMMM">{dateLastPlayerAdded}</Moment> and cannot
+            make any further changes.
+          </>
+        ) : (
+          <>
+            The mid-season transfer window is now closed and you cannot make any
+            further changes.
+          </>
+        )}
       </div>
     );
   }
