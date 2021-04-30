@@ -11,7 +11,7 @@ interface TeamSelectionPageProps {
   players: Player[];
 }
 
-const IS_TRANFER_WINDOW_OPEN = true;
+const IS_TRANFER_WINDOW_OPEN = false;
 const POST_TRANSFER_DATE = '2021-04-20T18:00:00.000Z';
 
 export default function TeamSelectionPage({
