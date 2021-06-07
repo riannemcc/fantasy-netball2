@@ -54,6 +54,22 @@ export const StatsTable = ({ players }: StatsTableProps): ReactElement => {
                   <th className="border border-black px-4 py-2">
                     Game Fifteen
                   </th>
+                  <th className="border border-black px-4 py-2">
+                    Game Sixteen
+                  </th>
+                  <th className="border border-black px-4 py-2">
+                    Game Seventeen
+                  </th>
+                  <th className="border border-black px-4 py-2">
+                    Game Eighteen
+                  </th>
+                  <th className="border border-black px-4 py-2">
+                    Game Nineteen
+                  </th>
+                  <th className="border border-black px-4 py-2">Game Twenty</th>
+                  <th className="border border-black px-4 py-2">
+                    Game Twenty One
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -123,6 +139,24 @@ export const StatsTable = ({ players }: StatsTableProps): ReactElement => {
                         </td>
                         <td className="border border-black px-4 py-2">
                           {games && games[14] && games[14].points}
+                        </td>
+                        <td className="border border-black px-4 py-2">
+                          {games && games[15] && games[15].points}
+                        </td>
+                        <td className="border border-black px-4 py-2">
+                          {games && games[16] && games[16].points}
+                        </td>
+                        <td className="border border-black px-4 py-2">
+                          {games && games[17] && games[17].points}
+                        </td>
+                        <td className="border border-black px-4 py-2">
+                          {games && games[18] && games[18].points}
+                        </td>
+                        <td className="border border-black px-4 py-2">
+                          {games && games[19] && games[19].points}
+                        </td>
+                        <td className="border border-black px-4 py-2">
+                          {games && games[20] && games[20].points}
                         </td>
                       </tr>
                     );
