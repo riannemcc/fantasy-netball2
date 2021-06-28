@@ -68,10 +68,10 @@ export const StatsTable = ({ players }: StatsTableProps): ReactElement => {
                   </th>
                   <th className="border border-black px-4 py-2">Game Twenty</th>
                   <th className="border border-black px-4 py-2">
-                    Game Twenty One
+                    Game Twenty-One
                   </th>
                   <th className="border border-black px-4 py-2">
-                    Game Twenty Two
+                    Game Twenty-Two
                   </th>
                 </tr>
               </thead>
