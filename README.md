@@ -62,13 +62,11 @@ https://dev.to/andrewespejo/how-to-design-a-simple-and-beautiful-navbar-using-ne
 
 TO DO:
 
+- Display user's points for a each week
+- automate calculation of points
 - FIX SIGN IN
-
-- points system
 - fix purge so in tailwind.config so it does what it's meant to. Last time tried to change to js files, stopped all tailwing styles from building in production
-- use tailwind to position homepage image
-
-- Add loading state to buttons
+- Add loading state
 - Change games schedule to come from db
 - Dropdown menu to select team on stats page
 - Pagination on leaderboard
