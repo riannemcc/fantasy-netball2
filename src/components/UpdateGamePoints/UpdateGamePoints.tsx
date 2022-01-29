@@ -3,16 +3,10 @@ import moment from 'moment';
 import { Game } from '_src/types/games';
 import { Player } from '_src/types/players';
 
-// add input for each category of scores for each player
-// add function to calculate points for each score  based on value of activity
-// thisGoalsScored + thisGoalsMissed = thisGamePoints (? not sure what this means)
-// rturn additional points categories in handleChangePlayerPoints
-// use calculated numbers to become total thisGamePoints for the game
-
 interface UpdateGamePlayer extends Player {
-  thisGamePoints: number | string;
-  thisGoalsScored: number | string;
-  thisGoalsMissed: number | string;
+  thisGamePoints: string;
+  thisGoalsScored: string;
+  thisGoalsMissed: string;
 }
 
 function getGameHeading(game) {
@@ -24,9 +18,8 @@ function getGameHeading(game) {
 interface TeamPlayerPointsInputProps {
   teamName: string;
   players: UpdateGamePlayer[];
-  onChange: (playerId: string, points: number | string) => void;
-  onGoalsScoredChange: (playerId: string, goalsScored: number | string) => void;
-  onGoalsMissedChange: (playerId: string, goalsMissed: number | string) => void;
+  onGoalsScoredChange: (playerId: string, goalsScored: string) => void;
+  onGoalsMissedChange: (playerId: string, goalsMissed: string) => void;
 }
 
 function TeamPlayerPointsInput({
@@ -34,52 +27,61 @@ function TeamPlayerPointsInput({
   players,
   onGoalsScoredChange,
   onGoalsMissedChange,
-  onChange,
 }: TeamPlayerPointsInputProps): ReactElement {
   return (
     <div className="flex w-full flex-wrap flex-col items-center flex-1">
-      <h2>{teamName}</h2>
+      <h1 className="font-sans font-bold text-lg text-black m-2">{teamName}</h1>
       {players
         .filter((player) => player.team === teamName)
         .map((player) => (
-          <label
-            className="font-sans font-bold text-xl text-black m-4"
-            key={player._id}
-          >
-            {player.name}
-            <p>Goals scored</p>
-            <input
-              className="border-2 border-black w-6/12 ml-4"
-              type="number"
-              required
-              value={player.thisGoalsScored}
-              onChange={(event) =>
-                onGoalsScoredChange(player._id, event.target.value)
-              }
-            />
-            <p>Goals missed</p>
-            <input
-              className="border-2 border-black w-6/12 ml-4"
-              type="number"
-              required
-              value={player.thisGoalsMissed}
-              onChange={(event) =>
-                onGoalsMissedChange(player._id, event.target.value)
-              }
-            />
+          <label className="font-sans text-lg text-black m-4" key={player._id}>
+            <div className="flex flex-row w-min">
+              <p className="font-sans font-bold text-base text-black m-2">
+                {player.name}
+              </p>
+              <div className="flex flex-col mr-2 mx-2 w-min">
+                <p className="font-sans text-sm text-black m-2">Goals scored</p>
+                <input
+                  className="border-2 border-black text-sm w-full p-1"
+                  type="number"
+                  required
+                  value={player.thisGoalsScored}
+                  onChange={(event) =>
+                    onGoalsScoredChange(player._id, event.target.value)
+                  }
+                />
+                <p className="border-2 border-black text-sm w-full p-1">
+                  Points:
+                  {parseInt(player.thisGoalsScored) * 3}
+                </p>
+              </div>
+              <div className="flex flex-col w-min">
+                <p className="font-sans text-sm text-black m-2">Goals missed</p>
+                <input
+                  className="border-2 border-black text-sm w-full p-1"
+                  type="number"
+                  required
+                  value={player.thisGoalsMissed}
+                  onChange={(event) =>
+                    onGoalsMissedChange(player._id, event.target.value)
+                  }
+                />
+                <p className="border-2 border-black text-sm w-full p-1">
+                  Points:
+                  {parseInt(player.thisGoalsMissed) * -2}
+                </p>
+              </div>
+              <p className="border-2 border-black text-sm w-full p-1">
+                Total points:
+                {parseInt(player.thisGoalsMissed) +
+                  parseInt(player.thisGoalsScored)}
+              </p>
+            </div>
           </label>
         ))}
     </div>
   );
 }
-
-//function
-
-// goals scored*  3
-// golas missed * -2
-
-// add  all of  these up?
-// return number for thisGamePoints
 
 async function updatePoints(game, players) {
   const playersGames = players.map((player) => {
@@ -93,8 +95,8 @@ async function updatePoints(game, players) {
         gameId: game._id,
         startDateTime: game.startDateTime,
         points: parseInt(player.thisGamePoints, 10),
-        goalsScored: parseInt(player.thisGoalsScored, 10),
-        goalsMissed: parseInt(player.thisGoalsMissed, 10),
+        goalsScored: parseInt(player.thisGoalsScored, 10) * 3,
+        goalsMissed: parseInt(player.thisGoalsMissed, 10) * -2,
       },
     ];
 
@@ -147,29 +149,19 @@ export function UpdateGamePoints({
           const playerGameRef =
             player.games &&
             player.games.find((game) => game.gameId === selectedGame._id);
-          const points = (playerGameRef && playerGameRef.points) || 0;
-          const goalsScored = (playerGameRef && playerGameRef.goalsScored) || 0;
-          const goalsMissed = (playerGameRef && playerGameRef.goalsMissed) || 0;
+          const goalsScored =
+            (playerGameRef && playerGameRef.goalsScored) || '0';
+          const goalsMissed =
+            (playerGameRef && playerGameRef.goalsMissed) || '0';
+          const points =
+            parseInt(goalsScored) * 3 + parseInt(goalsMissed) + -2 || 0;
           return {
             ...player,
             thisGamePoints: points,
-            thisGoalsScored: goalsScored,
+            thisGoalsScored: parseInt(goalsScored) * 3,
             thisGoalsMissed: goalsMissed,
           };
         }),
-    });
-  };
-
-  const handleChangePlayerPoints = (playerId, points) => {
-    setSelected((state) => {
-      return {
-        ...state,
-        players: state.players.map((player) => ({
-          ...player,
-          thisGamePoints:
-            player._id === playerId ? points : player.thisGamePoints,
-        })),
-      };
     });
   };
 
@@ -221,10 +213,7 @@ export function UpdateGamePoints({
   };
 
   return (
-    <form
-      className="flex w-screen flex-col items-center"
-      onSubmit={handleSubmit}
-    >
+    <form className="flex w-screen flex-col" onSubmit={handleSubmit}>
       <label htmlFor="select-game">Select a game</label>
       <select
         id="select-game"
@@ -242,18 +231,16 @@ export function UpdateGamePoints({
       </select>
       {selected.game ? (
         <>
-          <div className="flex w-screen justify-center">
+          <div className="flex flex-col w-screen justify-center">
             <TeamPlayerPointsInput
               teamName={selected.game.homeTeam}
               players={selected.players}
-              onChange={handleChangePlayerPoints}
               onGoalsScoredChange={handleChangeGoalsScored}
               onGoalsMissedChange={handleChangeGoalsMissed}
             />
             <TeamPlayerPointsInput
               teamName={selected.game.awayTeam}
               players={selected.players}
-              onChange={handleChangePlayerPoints}
               onGoalsScoredChange={handleChangeGoalsScored}
               onGoalsMissedChange={handleChangeGoalsMissed}
             />
