@@ -18,10 +18,14 @@ export const HomePage = (): ReactElement => {
         <h2 className="font-sans font-bold text-3xl text-gray-600 text-center mb-5">
           Choose your team. Watch them play. Win some points.
         </h2>
-        <div className="w=6/12 self-center flex flex-col ">
+        {/* <div className="w=6/12 self-center flex flex-col ">
           <ProfileButton />
           <SessionButton />
-        </div>
+        </div> */}
+        <h2 className="font-sans font-bold text-3xl text-pink text-center mb-5">
+          Re-opening for team selection from 9am 7th February until midnight
+          10th February!
+        </h2>
       </div>
     </div>
   );
