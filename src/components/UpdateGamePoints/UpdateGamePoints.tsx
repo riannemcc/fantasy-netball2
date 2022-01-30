@@ -4,29 +4,38 @@ import { Game } from '_src/types/games';
 import { Player } from '_src/types/players';
 
 interface UpdateGamePlayer extends Player {
-  thisGamePoints: string;
-  thisGoalsScored: string;
-  thisGoalsMissed: string;
+  thisGamePoints: number;
+  thisGoalsScored: number;
+  thisGoalsMissed: number;
+}
+
+function convertGoalsScoredToPoints(goalsScored: number) {
+  return goalsScored * 3;
+}
+
+function convertGoalsMissedToPoints(goalsMissed: number) {
+  return goalsMissed * -2;
 }
 
 function getGameHeading(game) {
-  return `[${moment(game.startDateTime).format('DD MMM HH:mm')}] ${
-    game.homeTeam
-  } vs ${game.awayTeam}`;
+  return `[${moment(game.startDateTime).format('DD MMM HH:mm')}] \
+${game.homeTeam} vs ${game.awayTeam}`;
 }
 
 interface TeamPlayerPointsInputProps {
   teamName: string;
   players: UpdateGamePlayer[];
-  onGoalsScoredChange: (playerId: string, goalsScored: string) => void;
-  onGoalsMissedChange: (playerId: string, goalsMissed: string) => void;
+  onChangePoints: (
+    playerId: string,
+    pointsKey: string,
+    pointsValue: string
+  ) => void;
 }
 
 function TeamPlayerPointsInput({
   teamName,
   players,
-  onGoalsScoredChange,
-  onGoalsMissedChange,
+  onChangePoints,
 }: TeamPlayerPointsInputProps): ReactElement {
   return (
     <div className="flex w-full flex-wrap flex-col items-center flex-1">
@@ -34,7 +43,7 @@ function TeamPlayerPointsInput({
       {players
         .filter((player) => player.team === teamName)
         .map((player) => (
-          <label className="font-sans text-lg text-black m-4" key={player._id}>
+          <div className="font-sans text-lg text-black m-4" key={player._id}>
             <div className="flex flex-row w-min">
               <p className="font-sans font-bold text-base text-black m-2">
                 {player.name}
@@ -47,12 +56,16 @@ function TeamPlayerPointsInput({
                   required
                   value={player.thisGoalsScored}
                   onChange={(event) =>
-                    onGoalsScoredChange(player._id, event.target.value)
+                    onChangePoints(
+                      player._id,
+                      'thisGoalsScored',
+                      event.target.value
+                    )
                   }
                 />
                 <p className="border-2 border-black text-sm w-full p-1">
                   Points:
-                  {parseInt(player.thisGoalsScored) * 3}
+                  {convertGoalsScoredToPoints(player.thisGoalsScored)}
                 </p>
               </div>
               <div className="flex flex-col w-min">
@@ -63,21 +76,25 @@ function TeamPlayerPointsInput({
                   required
                   value={player.thisGoalsMissed}
                   onChange={(event) =>
-                    onGoalsMissedChange(player._id, event.target.value)
+                    onChangePoints(
+                      player._id,
+                      'thisGoalsMissed',
+                      event.target.value
+                    )
                   }
                 />
                 <p className="border-2 border-black text-sm w-full p-1">
                   Points:
-                  {parseInt(player.thisGoalsMissed) * -2}
+                  {convertGoalsMissedToPoints(player.thisGoalsMissed)}
                 </p>
               </div>
               <p className="border-2 border-black text-sm w-full p-1">
                 Total points:
-                {parseInt(player.thisGoalsMissed) +
-                  parseInt(player.thisGoalsScored)}
+                {convertGoalsScoredToPoints(player.thisGoalsScored) +
+                  convertGoalsMissedToPoints(player.thisGoalsMissed)}
               </p>
             </div>
-          </label>
+          </div>
         ))}
     </div>
   );
@@ -94,9 +111,11 @@ async function updatePoints(game, players) {
       {
         gameId: game._id,
         startDateTime: game.startDateTime,
-        points: parseInt(player.thisGamePoints, 10),
-        goalsScored: parseInt(player.thisGoalsScored, 10) * 3,
-        goalsMissed: parseInt(player.thisGoalsMissed, 10) * -2,
+        points:
+          convertGoalsScoredToPoints(player.thisGoalsScored) +
+          convertGoalsMissedToPoints(player.thisGoalsMissed),
+        goalsScored: player.thisGoalsScored,
+        goalsMissed: player.thisGoalsMissed,
       },
     ];
 
@@ -149,43 +168,33 @@ export function UpdateGamePoints({
           const playerGameRef =
             player.games &&
             player.games.find((game) => game.gameId === selectedGame._id);
-          const goalsScored =
-            (playerGameRef && playerGameRef.goalsScored) || '0';
-          const goalsMissed =
-            (playerGameRef && playerGameRef.goalsMissed) || '0';
-          const points =
-            parseInt(goalsScored) * 3 + parseInt(goalsMissed) + -2 || 0;
+          const goalsScored = (playerGameRef && playerGameRef.goalsScored) || 0;
+          const goalsMissed = (playerGameRef && playerGameRef.goalsMissed) || 0;
+          const points = (playerGameRef && playerGameRef.points) || 0;
           return {
             ...player,
             thisGamePoints: points,
-            thisGoalsScored: parseInt(goalsScored) * 3,
+            thisGoalsScored: goalsScored,
             thisGoalsMissed: goalsMissed,
           };
         }),
     });
   };
 
-  const handleChangeGoalsScored = (playerId, goalsScored) => {
+  const handleChangePoints = (
+    playerId: string,
+    pointsKey: string,
+    pointsValue: string
+  ) => {
     setSelected((state) => {
       return {
         ...state,
         players: state.players.map((player) => ({
           ...player,
-          thisGoalsScored:
-            player._id === playerId ? goalsScored : player.thisGoalsScored,
-        })),
-      };
-    });
-  };
-
-  const handleChangeGoalsMissed = (playerId, goalsMissed) => {
-    setSelected((state) => {
-      return {
-        ...state,
-        players: state.players.map((player) => ({
-          ...player,
-          thisGoalsMissed:
-            player._id === playerId ? goalsMissed : player.thisGoalsMissed,
+          [pointsKey]:
+            player._id === playerId
+              ? parseInt(pointsValue, 10)
+              : player[pointsKey],
         })),
       };
     });
@@ -235,14 +244,12 @@ export function UpdateGamePoints({
             <TeamPlayerPointsInput
               teamName={selected.game.homeTeam}
               players={selected.players}
-              onGoalsScoredChange={handleChangeGoalsScored}
-              onGoalsMissedChange={handleChangeGoalsMissed}
+              onChangePoints={handleChangePoints}
             />
             <TeamPlayerPointsInput
               teamName={selected.game.awayTeam}
               players={selected.players}
-              onGoalsScoredChange={handleChangeGoalsScored}
-              onGoalsMissedChange={handleChangeGoalsMissed}
+              onChangePoints={handleChangePoints}
             />
           </div>
           <button
