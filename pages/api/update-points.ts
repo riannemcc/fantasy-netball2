@@ -14,7 +14,7 @@ handler.post(async (req: ApiRequest, res: ApiResponse) => {
   if (session && session.userId) {
     currentUser = await req.db
       .collection('users')
-      .findOne({ _id: new ObjectId(session.userId) });
+      .findOne({ _id: new ObjectId(session.userId as string) });
   }
 
   if (currentUser && currentUser.isAdmin) {

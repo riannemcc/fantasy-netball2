@@ -34,12 +34,10 @@ export const TeamSelection = ({
   isInjuryUpdate = false,
   isTransferWindow = false,
 }: TeamSelectionProps): ReactElement => {
-  const [existingTeam, setExistingTeam] = React.useState<
-    Record<string, string>
-  >(initialTeamState);
-  const [team, setTeam] = React.useState<Record<string, string>>(
-    initialTeamState
-  );
+  const [existingTeam, setExistingTeam] =
+    React.useState<Record<string, string>>(initialTeamState);
+  const [team, setTeam] =
+    React.useState<Record<string, string>>(initialTeamState);
   const [teamName, setTeamName] = React.useState('');
   const [captain, setCaptain] = React.useState('');
   const [captainName, setCaptainName] = React.useState('');
