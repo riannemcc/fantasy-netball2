@@ -1,9 +1,9 @@
 interface PlayerGame {
   gameId: string;
   startDateTime: string;
-  points: number | string;
-  goalsScored: string;
-  goalsMissed: string;
+  points: number;
+  goalsScored: number;
+  goalsMissed: number;
 }
 
 export interface Player {
