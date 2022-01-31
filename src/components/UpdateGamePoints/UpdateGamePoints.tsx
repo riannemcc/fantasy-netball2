@@ -9,6 +9,10 @@ interface UpdateGamePlayer extends Player {
   thisGoalsMissed: number;
 }
 
+function parseToIntIfString(value: number | string): number {
+  return typeof value === 'string' ? parseInt(value, 10) : value;
+}
+
 function convertGoalsScoredToPoints(goalsScored: number) {
   return goalsScored * 3;
 }
@@ -173,9 +177,9 @@ export function UpdateGamePoints({
           const points = (playerGameRef && playerGameRef.points) || 0;
           return {
             ...player,
-            thisGamePoints: points,
-            thisGoalsScored: goalsScored,
-            thisGoalsMissed: goalsMissed,
+            thisGamePoints: parseToIntIfString(points),
+            thisGoalsScored: parseToIntIfString(goalsScored),
+            thisGoalsMissed: parseToIntIfString(goalsMissed),
           };
         }),
     });
