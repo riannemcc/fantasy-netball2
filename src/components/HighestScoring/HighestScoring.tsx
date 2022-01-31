@@ -41,6 +41,9 @@ export const HighestScoring = ({
     defendersWithPointsSorted[0] && defendersWithPointsSorted[0].points;
   const midsName = midsWithPointsSorted[0] && midsWithPointsSorted[0].name;
   const midsPoints = midsWithPointsSorted[0] && midsWithPointsSorted[0].points;
+  console.log('HIGHSHOTOERS', shootersWithPointsSorted);
+  console.log('HIGH-DEFENDER', defendersWithPointsSorted);
+  console.log('HIGH-MIDS', midsWithPointsSorted);
 
   return (
     <div className="flex flex-row flex-wrap justify-center">
