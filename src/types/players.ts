@@ -2,6 +2,17 @@ interface PlayerGame {
   gameId: string;
   startDateTime: string;
   points: number | string;
+  goalsScored: number | string;
+  goalsMissed: number | string;
+  penalties: number | string;
+  offensiveRebounds: number | string;
+  defensiveRebounds: number | string;
+  interceptions: number | string;
+  deflections: number | string;
+  turnovers: number | string;
+  unforcedErrors: number | string;
+  cautions: number | string;
+  mvp: number | string;
 }
 
 export interface Player {

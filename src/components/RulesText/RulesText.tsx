@@ -8,14 +8,14 @@ export const RulesText = (): ReactElement => {
         <span className="text-2xl text-black font-bold ml-2">The Rules*</span>
       </div>
       <ul className="bg-gray-200 shadow m-2 p-4 font-bold">
-        <li>Goals +4</li>
+        <li>Goals +3</li>
         <li>Misses -3</li>
         <li>Penalties -3</li>
         <li>Rebounds(offensive) +3</li>
         <li>Rebounds(defensive) +3</li>
         <li>Interceptions +10</li>
-        <li>Deflections +3</li>
-        <li>Turnovers +5</li>
+        <li>Deflections +5</li>
+        <li>Turnovers +8</li>
         <li>Unforced error -2</li>
         <li>Caution -10</li>
         <li>MVP +20</li>
