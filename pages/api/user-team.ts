@@ -13,7 +13,7 @@ handler.post(async (req: ApiRequest, res: ApiResponse) => {
     const data = req.body;
 
     await req.db.collection('users').updateOne(
-      { _id: new ObjectId(session.userId) },
+      { _id: new ObjectId(session.userId as string) },
       {
         $set: {
           teamname: data.teamName,

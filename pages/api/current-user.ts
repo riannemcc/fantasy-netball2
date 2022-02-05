@@ -14,7 +14,7 @@ handler.get(async (req: ApiRequest, res: ApiResponse) => {
   if (session && session.userId) {
     currentUser = await req.db
       .collection<UserDb>('users')
-      .findOne({ _id: new ObjectId(session.userId) });
+      .findOne({ _id: new ObjectId(session.userId as string) });
   }
   res.status(200).json(JSON.parse(JSON.stringify(currentUser)));
 });
