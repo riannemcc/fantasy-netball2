@@ -22,13 +22,13 @@ export default function TeamSelectionPage({
     return null;
   }
 
-  if ((currentUser.teamPlayers || []).length === 0) {
-    return (
-      <div className="m-6 p-2 bg-green-100 border border-green-400 text-black text-xl font-bold px-4 py-3 rounded relative">
-        Team selection is now closed. Come back next year!
-      </div>
-    );
-  }
+  // if ((currentUser.teamPlayers || []).length === 0) {
+  //   return (
+  //     <div className="m-6 p-2 bg-green-100 border border-green-400 text-black text-xl font-bold px-4 py-3 rounded relative">
+  //       Team selection is now closed. Come back next year!
+  //     </div>
+  //   );
+  // }
 
   const hasInjuredPlayers = (currentUser.teamPlayers || []).some(
     ({ playerId }) => {

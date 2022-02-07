@@ -143,7 +143,7 @@ export default function Profile({ players }: ProfileProps): ReactElement {
           </span>
           <button className="bg-pink hover:bg-pink-700 text-white font-bold py-2 px-4 rounded-full w-32 m-2">
             <Link href="/team-selection">
-              <a className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-pink font-bold items-center justify-center w=6/12 self-center flex flex-col">
+              <a className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded font-bold items-center justify-center w=6/12 self-center flex flex-col">
                 Team Selection
               </a>
             </Link>
