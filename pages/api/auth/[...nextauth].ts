@@ -3,7 +3,7 @@ import NextAuth from 'next-auth';
 import Providers from 'next-auth/providers';
 
 const options = {
-  debug: process.env.NODE_ENV === 'development' ? true : false,
+  // debug: process.env.NODE_ENV === 'development' ? true : false,
   providers: [
     Providers.Email({
       server: {
@@ -19,10 +19,6 @@ const options = {
     Providers.Google({
       clientId: process.env.GOOGLE_ID,
       clientSecret: process.env.GOOGLE_SECRET,
-    }),
-    Providers.Twitter({
-      clientId: process.env.TWITTER_ID,
-      clientSecret: process.env.TWITTER_SECRET,
     }),
   ],
   database: process.env.DATABASE_URL,
@@ -46,7 +42,7 @@ const options = {
       return session;
     },
 
-    redirect: async (url) => {
+    redirect: async (url, baseurl) => {
       if (url === '/api/auth/signin') {
         return Promise.resolve('/profile');
       }
