@@ -124,13 +124,19 @@ export const TeamSelection = ({
     (positionKey, playerId) => {
       setTeam((currentTeam) => {
         setCaptain((currentCaptain) => {
-          if (currentTeam[positionKey] === currentCaptain) {
+          if (
+            currentTeam[positionKey] &&
+            currentTeam[positionKey] === currentCaptain
+          ) {
             return playerId;
           }
           return currentCaptain;
         });
         setViceCaptain((currentViceCaptain) => {
-          if (currentTeam[positionKey] === currentViceCaptain) {
+          if (
+            currentTeam[positionKey] &&
+            currentTeam[positionKey] === currentViceCaptain
+          ) {
             return playerId;
           }
           return currentViceCaptain;
