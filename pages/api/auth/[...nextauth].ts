@@ -3,19 +3,19 @@ import NextAuth from 'next-auth';
 import Providers from 'next-auth/providers';
 
 const options = {
-  // debug: process.env.NODE_ENV === "development" ? true : false,
+  debug: process.env.NODE_ENV === 'development' ? true : false,
   providers: [
-    // Providers.Email({
-    //   server: {
-    //     port: 465,
-    //     host: 'smtp.gmail.com',
-    //     auth: {
-    //       user: process.env.EMAIL_USERNAME,
-    //       pass: process.env.EMAIL_PASSWORD,
-    //     },
-    //   },
-    //   from: process.env.EMAIL_FROM,
-    // }),
+    Providers.Email({
+      server: {
+        port: 465,
+        host: 'smtp.gmail.com',
+        auth: {
+          user: process.env.EMAIL_USERNAME,
+          pass: process.env.EMAIL_PASSWORD,
+        },
+      },
+      from: process.env.EMAIL_FROM,
+    }),
     Providers.Google({
       clientId: process.env.GOOGLE_ID,
       clientSecret: process.env.GOOGLE_SECRET,
