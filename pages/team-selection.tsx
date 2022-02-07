@@ -58,7 +58,10 @@ export default function TeamSelectionPage({
     isTransferWindow = false;
   }
 
-  if (currentUser.teamPlayers && (hasInjuredPlayers || isTransferWindow)) {
+  if (
+    currentUser.teamPlayers
+    // && (hasInjuredPlayers || isTransferWindow)
+  ) {
     return (
       <TeamSelection
         players={players}
@@ -69,29 +72,29 @@ export default function TeamSelectionPage({
     );
   }
 
-  if (currentUser.teamPlayers) {
-    return (
-      <div
-        className="m-6 p-2 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
-        role="alert"
-      >
-        {IS_TRANFER_WINDOW_OPEN &&
-        dateLastPlayerAdded &&
-        moment(dateLastPlayerAdded).isAfter(POST_TRANSFER_DATE) ? (
-          <>
-            You already submitted your mid-season transfer changes on{' '}
-            <Moment format="Do MMMM">{dateLastPlayerAdded}</Moment> and cannot
-            make any further changes.
-          </>
-        ) : (
-          <>
-            The mid-season transfer window is now closed and you cannot make any
-            further changes.
-          </>
-        )}
-      </div>
-    );
-  }
+  // if (currentUser.teamPlayers) {
+  //   return (
+  //     <div
+  //       className="m-6 p-2 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+  //       role="alert"
+  //     >
+  //       {IS_TRANFER_WINDOW_OPEN &&
+  //       dateLastPlayerAdded &&
+  //       moment(dateLastPlayerAdded).isAfter(POST_TRANSFER_DATE) ? (
+  //         <>
+  //           You already submitted your mid-season transfer changes on{' '}
+  //           <Moment format="Do MMMM">{dateLastPlayerAdded}</Moment> and cannot
+  //           make any further changes.
+  //         </>
+  //       ) : (
+  //         <>
+  //           The mid-season transfer window is now closed and you cannot make any
+  //           further changes.
+  //         </>
+  //       )}
+  //     </div>
+  //   );
+  // }
 
   return (
     <TeamSelection players={players} currentUser={currentUser} />
