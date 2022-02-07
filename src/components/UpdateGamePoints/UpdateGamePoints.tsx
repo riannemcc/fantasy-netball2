@@ -88,7 +88,7 @@ function TeamPlayerPointsInput({
 }: TeamPlayerPointsInputProps): ReactElement {
   return (
     <div className="flex w-full flex-wrap flex-col items-center flex-1">
-      <p>Hello Rianne</p>
+      {/* <p>Hello Rianne</p> */}
       <h1 className="font-sans font-bold text-lg text-black m-2">{teamName}</h1>
       {players
         .filter((player) => player.team === teamName)
