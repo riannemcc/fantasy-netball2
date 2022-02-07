@@ -22,10 +22,6 @@ export const HomePage = (): ReactElement => {
           <ProfileButton />
           <SessionButton />
         </div>
-        <h2 className="font-sans font-bold text-3xl text-pink text-center mb-5">
-          Re-opening for team selection 2022 from 9am 7th February - midnight
-          10th February!
-        </h2>
       </div>
     </div>
   );
