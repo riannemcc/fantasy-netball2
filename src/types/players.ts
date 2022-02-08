@@ -3,6 +3,8 @@ interface PlayerGame {
   startDateTime: string;
   points: number | string;
   goalsScored: number | string;
+  goalAssists: number | string;
+  feeds: number | string;
   goalsMissed: number | string;
   penalties: number | string;
   offensiveRebounds: number | string;

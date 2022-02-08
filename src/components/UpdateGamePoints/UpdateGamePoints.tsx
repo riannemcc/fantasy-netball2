@@ -6,6 +6,8 @@ import { Player } from '_src/types/players';
 interface UpdateGamePlayer extends Player {
   thisGamePoints: number;
   thisGoalsScored: number;
+  thisGoalAssists: number;
+  thisFeeds: number;
   thisGoalsMissed: number;
   thisPenalties: number;
   thisOffensiveRebounds: number;
@@ -24,6 +26,14 @@ function parseToIntIfString(value: number | string): number {
 
 function convertGoalsScoredToPoints(goalsScored: number) {
   return goalsScored * 3;
+}
+
+function convertGoalAssistsToPoints(goalAssists: number) {
+  return goalAssists * 2;
+}
+
+function convertFeedsToPoints(feeds: number) {
+  return feeds * 2;
 }
 
 function convertGoalsMissedToPoints(goalsMissed: number) {
@@ -118,6 +128,44 @@ function TeamPlayerPointsInput({
                 <p className="border-2 border-black text-sm w-full p-1">
                   Points:
                   {convertGoalsScoredToPoints(player.thisGoalsScored)}
+                </p>
+              </div>
+              <div className="flex flex-col w-min">
+                <p className="font-sans text-sm text-black m-2 h-10">
+                  Goal assists
+                </p>
+                <input
+                  className="border-2 border-black text-sm w-full p-1"
+                  type="number"
+                  required
+                  value={player.thisGoalAssists}
+                  onChange={(event) =>
+                    onChangePoints(
+                      player._id,
+                      'thisGoalAssists',
+                      event.target.value
+                    )
+                  }
+                />
+                <p className="border-2 border-black text-sm w-full p-1">
+                  Points:
+                  {convertGoalAssistsToPoints(player.thisGoalAssists)}
+                </p>
+              </div>
+              <div className="flex flex-col w-min">
+                <p className="font-sans text-sm text-black m-2 h-10">Feeds</p>
+                <input
+                  className="border-2 border-black text-sm w-full p-1"
+                  type="number"
+                  required
+                  value={player.thisFeeds}
+                  onChange={(event) =>
+                    onChangePoints(player._id, 'thisFeeds', event.target.value)
+                  }
+                />
+                <p className="border-2 border-black text-sm w-full p-1">
+                  Points:
+                  {convertFeedsToPoints(player.thisFeeds)}
                 </p>
               </div>
               <div className="flex flex-col w-min">
@@ -341,6 +389,8 @@ function TeamPlayerPointsInput({
               <p className="border-2 border-black text-sm w-full p-1">
                 Total points:
                 {convertGoalsScoredToPoints(player.thisGoalsScored) +
+                  convertGoalAssistsToPoints(player.thisGoalAssists) +
+                  convertFeedsToPoints(player.thisFeeds) +
                   convertGoalsMissedToPoints(player.thisGoalsMissed) +
                   convertPenaltiesToPoints(player.thisPenalties) +
                   convertOffensiveReboundsToPoints(
@@ -376,6 +426,8 @@ async function updatePoints(game, players) {
         startDateTime: game.startDateTime,
         points:
           convertGoalsScoredToPoints(player.thisGoalsScored) +
+          convertGoalAssistsToPoints(player.thisGoalAssists) +
+          convertFeedsToPoints(player.thisFeeds) +
           convertGoalsMissedToPoints(player.thisGoalsMissed) +
           convertPenaltiesToPoints(player.thisPenalties) +
           convertOffensiveReboundsToPoints(player.thisOffensiveRebounds) +
@@ -387,6 +439,8 @@ async function updatePoints(game, players) {
           convertCautionsToPoints(player.thisCautions) +
           convertMVPToPoints(player.thisMVP),
         goalsScored: player.thisGoalsScored,
+        goalAssists: player.thisGoalAssists,
+        feeds: player.thisFeeds,
         goalsMissed: player.thisGoalsMissed,
         penalties: player.thisPenalties,
         offensiveRebounds: player.thisOffensiveRebounds,
@@ -450,6 +504,8 @@ export function UpdateGamePoints({
             player.games &&
             player.games.find((game) => game.gameId === selectedGame._id);
           const goalsScored = (playerGameRef && playerGameRef.goalsScored) || 0;
+          const goalAssists = (playerGameRef && playerGameRef.goalAssists) || 0;
+          const feeds = (playerGameRef && playerGameRef.feeds) || 0;
           const goalsMissed = (playerGameRef && playerGameRef.goalsMissed) || 0;
           const penalties = (playerGameRef && playerGameRef.penalties) || 0;
           const offensiveRebounds =
@@ -469,6 +525,8 @@ export function UpdateGamePoints({
             ...player,
             thisGamePoints: parseToIntIfString(points),
             thisGoalsScored: parseToIntIfString(goalsScored),
+            thisGoalAssists: parseToIntIfString(goalAssists),
+            thisFeeds: parseToIntIfString(feeds),
             thisGoalsMissed: parseToIntIfString(goalsMissed),
             thisPenalties: parseToIntIfString(penalties),
             thisOffensiveRebounds: parseToIntIfString(offensiveRebounds),
