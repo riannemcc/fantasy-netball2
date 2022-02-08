@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import { useSession } from 'next-auth/client';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { connectToDatabase } from '_util/mongodb';
 import { LeaderboardTable } from '_components/LeaderboardTable';
@@ -19,11 +19,11 @@ interface ProfileProps {
 }
 
 export default function Profile({ players }: ProfileProps): ReactElement {
-  const [, loading] = useSession();
+  const { status } = useSession();
   const { currentUser } = useCurrentUser();
   const { users } = useUsers();
 
-  if (loading || !currentUser || !users) {
+  if (status === 'loading' || !currentUser || !users) {
     return <p>Loading...</p>;
   }
 

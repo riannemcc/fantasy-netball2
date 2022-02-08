@@ -1,9 +1,9 @@
-import { useSession } from 'next-auth/client';
+import { useSession } from 'next-auth/react';
 import { ReactElement } from 'react';
 import Link from 'next/link';
 
 export const ProfileButton = (): ReactElement => {
-  const [session] = useSession();
+  const { data: session } = useSession();
 
   return (
     <>

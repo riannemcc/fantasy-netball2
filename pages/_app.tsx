@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 import Head from 'next/head';
 import { AppProps } from 'next/app';
 import { NavBar } from '_components/NavBar';
-import { Provider } from 'next-auth/client';
+import { SessionProvider } from 'next-auth/react';
 
 import '_styles/tailwind.css';
 
@@ -19,12 +19,12 @@ const MyApp = ({ Component, pageProps }: AppProps): ReactElement => {
         {/* <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="description" content="Fantasy Netball" /> */}
       </Head>
-      <Provider session={pageProps.session}>
+      <SessionProvider session={pageProps.session}>
         <NavBar />
         <main>
           <Component {...pageProps} />
         </main>
-      </Provider>
+      </SessionProvider>
     </>
   );
 };

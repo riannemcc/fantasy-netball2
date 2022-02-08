@@ -1,5 +1,5 @@
 import nextConnect from 'next-connect';
-import { getSession } from 'next-auth/client';
+import { getSession } from 'next-auth/react';
 import { ObjectId } from 'mongodb';
 import middleware from '../../middleware/database';
 import { ApiRequest, ApiResponse } from '_src/types/api';
@@ -10,11 +10,12 @@ handler.use(middleware);
 handler.post(async (req: ApiRequest, res: ApiResponse) => {
   const session = await getSession({ req });
   let currentUser = null;
+  const userEmail = session?.user?.email;
 
-  if (session && session.userId) {
+  if (userEmail) {
     currentUser = await req.db
       .collection('users')
-      .findOne({ _id: new ObjectId(session.userId as string) });
+      .findOne({ email: userEmail });
   }
 
   if (currentUser && currentUser.isAdmin) {

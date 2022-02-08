@@ -1,11 +1,11 @@
-import { useSession } from 'next-auth/client';
+import { useSession } from 'next-auth/react';
 import { ReactElement } from 'react';
 import { HomePage } from '_components/HomePage';
 
 export default function Page(): ReactElement {
-  const [, loading] = useSession();
+  const { status } = useSession();
 
-  if (loading) {
+  if (status === 'loading') {
     return <p>Loading...</p>;
   }
 

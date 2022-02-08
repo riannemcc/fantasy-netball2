@@ -1,8 +1,8 @@
 import { ReactElement } from 'react';
-import { signIn, signOut, useSession } from 'next-auth/client';
+import { signIn, signOut, useSession } from 'next-auth/react';
 
 export const SessionButton = (): ReactElement => {
-  const [session] = useSession();
+  const { data: session } = useSession();
 
   return (
     <>
