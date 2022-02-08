@@ -152,7 +152,11 @@ function TeamPlayerPointsInput({
                   required
                   value={player.thisPenalties}
                   onChange={(event) =>
-                    onChangePoints(player._id, 'penalties', event.target.value)
+                    onChangePoints(
+                      player._id,
+                      'thisPenalties',
+                      event.target.value
+                    )
                   }
                 />
                 <p className="border-2 border-black text-sm w-full p-1">
@@ -172,7 +176,7 @@ function TeamPlayerPointsInput({
                   onChange={(event) =>
                     onChangePoints(
                       player._id,
-                      'offensiveRebounds',
+                      'thisOffensiveRebounds',
                       event.target.value
                     )
                   }
@@ -196,7 +200,7 @@ function TeamPlayerPointsInput({
                   onChange={(event) =>
                     onChangePoints(
                       player._id,
-                      'thisGoalsMissed',
+                      'thisDefensiveRebounds',
                       event.target.value
                     )
                   }
@@ -220,7 +224,7 @@ function TeamPlayerPointsInput({
                   onChange={(event) =>
                     onChangePoints(
                       player._id,
-                      'interceptions',
+                      'thisInterceptions',
                       event.target.value
                     )
                   }
@@ -242,7 +246,7 @@ function TeamPlayerPointsInput({
                   onChange={(event) =>
                     onChangePoints(
                       player._id,
-                      'deflections',
+                      'thisDeflections',
                       event.target.value
                     )
                   }
@@ -262,7 +266,11 @@ function TeamPlayerPointsInput({
                   required
                   value={player.thisTurnovers}
                   onChange={(event) =>
-                    onChangePoints(player._id, 'turnovers', event.target.value)
+                    onChangePoints(
+                      player._id,
+                      'thisTurnovers',
+                      event.target.value
+                    )
                   }
                 />
                 <p className="border-2 border-black text-sm w-full p-1">
