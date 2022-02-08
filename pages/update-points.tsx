@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import { useSession } from 'next-auth/client';
+import { useSession } from 'next-auth/react';
 import { connectToDatabase } from '_util/mongodb';
 import { UpdateGamePoints } from '_components/UpdateGamePoints';
 import { useCurrentUser } from '_src/hooks/useCurrentUser';
@@ -15,10 +15,10 @@ export default function UpdatePointsPage({
   games,
   players,
 }: UpdatePointsPageProps): ReactElement {
-  const [, loading] = useSession();
+  const { status } = useSession();
   const { currentUser } = useCurrentUser();
 
-  if (loading) {
+  if (status === 'loading') {
     return <div>...loading</div>;
   }
 

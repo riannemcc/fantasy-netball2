@@ -1,11 +1,14 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import NextAuth from 'next-auth';
-import Providers from 'next-auth/providers';
+import NextAuth, { SessionStrategy } from 'next-auth';
+import GoogleProvider from 'next-auth/providers/google';
+import EmailProvider from 'next-auth/providers/email';
+import { MongoDBAdapter } from '@next-auth/mongodb-adapter';
+import clientPromise from '_util/mongodb-adapter-callback';
 
 const options = {
-  // debug: process.env.NODE_ENV === 'development' ? true : false,
+  debug: process.env.NODE_ENV === 'development' ? true : false,
   providers: [
-    Providers.Email({
+    EmailProvider({
       server: {
         port: 465,
         host: 'smtp.gmail.com',
@@ -16,33 +19,18 @@ const options = {
       },
       from: process.env.EMAIL_FROM,
     }),
-    Providers.Google({
+    GoogleProvider({
       clientId: process.env.GOOGLE_ID,
       clientSecret: process.env.GOOGLE_SECRET,
     }),
   ],
   database: process.env.DATABASE_URL,
-  // session: {
-  //   jwt: true,
-  //   maxAge: 30 * 24 * 60 * 60, // 30 days
-  // },
-
+  adapter: MongoDBAdapter(clientPromise),
+  session: {
+    strategy: 'jwt' as SessionStrategy,
+  },
   callbacks: {
-    // jwt: async (token, user) => {
-    //   if (user) {
-    //     token.uid = user.id;
-    //   }
-    //   return Promise.resolve(token);
-    // },
-    session: async (session, user) => {
-      if (user) {
-        session.userId = user.id;
-        session.userName = user.name;
-      }
-      return session;
-    },
-
-    redirect: async (url, baseurl) => {
+    redirect: async ({ url }) => {
       if (url === '/api/auth/signin') {
         return Promise.resolve('/profile');
       }

@@ -1,13 +1,13 @@
 import Link from 'next/link';
 import { ReactElement, useState } from 'react';
 import { SessionButton } from '../SessionButton';
-import { useSession } from 'next-auth/client';
+import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { useCurrentUser } from '../../hooks/useCurrentUser';
 
 export const NavBar = (): ReactElement => {
   const [active, setActive] = useState(false);
-  const [session, loading] = useSession();
+  const { data: session, status } = useSession();
   const { currentUser } = useCurrentUser();
 
   const handleClick = () => {
@@ -106,7 +106,7 @@ export const NavBar = (): ReactElement => {
               </a>
             </Link>
           ) : null}
-          {loading ? null : <SessionButton />}
+          {status === 'loading' ? null : <SessionButton />}
         </div>
       </div>
     </nav>
