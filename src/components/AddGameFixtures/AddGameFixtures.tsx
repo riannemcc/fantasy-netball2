@@ -53,15 +53,24 @@ export const AddGameFixtures = (): ReactElement => {
             >
               Home Team:
             </label>
-            <input
-              type="text"
-              id="homeTeam"
-              name="homeTeam"
-              className="border-2 border-black w-6/12 ml-4"
-              required
+            <select
+              id="home-team-select"
               value={homeTeam}
               onChange={(event) => setHomeTeam(event.target.value)}
-            />
+            >
+              <option value="">--Please choose an option--</option>
+              <option value="leeds">Leeds Rhinos</option>
+              <option value="wasps">Wasps</option>
+              <option value="mavs">Saracens Mavericks</option>
+              <option value="bath">Team Bath</option>
+              <option value="thunder">Manchester Thunder</option>
+              <option value="lightning">Loughborough Lightning</option>
+              <option value="stars">Severn Stars</option>
+              <option value="storm">Surrey Storm</option>
+              <option value="sirens">Strathclyde Sirens</option>
+              <option value="dragons">Celtic Dragons</option>
+              <option value="pulse">London Pulse</option>
+            </select>
 
             <label
               htmlFor="awayTeam"
@@ -69,15 +78,24 @@ export const AddGameFixtures = (): ReactElement => {
             >
               Away Team:
             </label>
-            <input
-              type="text"
-              id="awayTeam"
-              name="awayTeam"
-              className="border-2 border-black w-6/12 ml-4"
-              required
-              value={awayTeam}
-              onChange={(event) => setAwayTeam(event.target.value)}
-            />
+            <select
+              id="home-team-select"
+              value={homeTeam}
+              onChange={(event) => setHomeTeam(event.target.value)}
+            >
+              <option value="">--Please choose an option--</option>
+              <option value="leeds">Leeds Rhinos</option>
+              <option value="wasps">Wasps</option>
+              <option value="mavs">Saracens Mavericks</option>
+              <option value="bath">Team Bath</option>
+              <option value="thunder">Manchester Thunder</option>
+              <option value="lightning">Loughborough Lightning</option>
+              <option value="stars">Severn Stars</option>
+              <option value="storm">Surrey Storm</option>
+              <option value="sirens">Strathclyde Sirens</option>
+              <option value="dragons">Celtic Dragons</option>
+              <option value="pulse">London Pulse</option>
+            </select>
 
             <label
               htmlFor="startDateTime"
@@ -86,7 +104,7 @@ export const AddGameFixtures = (): ReactElement => {
               Date:
             </label>
             <input
-              type="text"
+              type="date"
               id="startDateTime"
               name="startDateTime"
               className="border-2 border-black w-6/12 ml-4"
