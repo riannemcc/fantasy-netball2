@@ -1,6 +1,5 @@
 import nextConnect from 'next-connect';
-import { getSession } from 'next-auth/client';
-import { ObjectId } from 'mongodb';
+import { getSession } from 'next-auth/react';
 import middleware from '../../middleware/database';
 import { ApiRequest, ApiResponse } from '_src/types/api';
 
@@ -9,19 +8,17 @@ handler.use(middleware);
 
 handler.post(async (req: ApiRequest, res: ApiResponse) => {
   const session = await getSession({ req });
-  if (session.userId) {
+  const userEmail = session?.user?.email;
+
+  //if i take this if statement out i get a type error about  no overload matches
+  if (userEmail && session.user.isAdmin) {
     const data = req.body;
 
-    await req.db.collection('games').updateOne(
-      { _id: new ObjectId() },
-      {
-        $set: {
-          hometeam: data.homeTeam,
-          awayTeam: data.awayTeam,
-          startDateTime: data.startDateTime,
-        },
-      }
-    );
+    await req.db.collection('games').insertOne({
+      hometeam: data.homeTeam,
+      awayTeam: data.awayTeam,
+      startDateTime: data.startDateTime,
+    });
     res.status(204).json({
       message: 'ok',
     });

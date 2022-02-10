@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement } from 'react';
 import { useRouter } from 'next/router';
 import moment from 'moment';
 import { Game } from '_src/types/games';
@@ -10,7 +10,7 @@ interface GameFixture extends Game {
   startDateTime: string;
 }
 
-export const UpdateGameFixtures = (): ReactElement => {
+export const AddGameFixtures = (): ReactElement => {
   const [homeTeam, setHomeTeam] = React.useState('');
   const [awayTeam, setAwayTeam] = React.useState('');
   const [startDateTime, setStartDateTime] = React.useState('');

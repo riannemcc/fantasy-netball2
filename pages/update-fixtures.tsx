@@ -1,23 +1,23 @@
 import { ReactElement } from 'react';
-import { useSession } from 'next-auth/client';
+import { useSession } from 'next-auth/react';
 import { connectToDatabase } from '_util/mongodb';
-import { UpdateGameFixtures } from '_components/UpdateGameFixtures';
+import { AddGameFixtures } from '_components/AddGameFixtures';
 import { Game } from '_src/types/games';
 import { useCurrentUser } from '_src/hooks/useCurrentUser';
 
-interface UpdateGamesProps {
-  game: Game[];
+interface AddGamesProps {
+  games: Game[];
 }
-export default function UpdateGames({ game }: UpdateGamesProps): ReactElement {
-  const [, loading] = useSession();
+export default function AddGames({ games }: AddGamesProps): ReactElement {
+  const { status } = useSession();
   const { currentUser } = useCurrentUser();
 
-  if (loading) {
+  if (status === 'loading') {
     return <div>...loading</div>;
   }
 
   if (currentUser && currentUser.isAdmin) {
-    return <UpdateGameFixtures game={game} />;
+    return <AddGameFixtures games={games} />;
   }
 
   return <div>This page is not for you ⛔</div>;
@@ -35,7 +35,7 @@ export async function getServerSideProps(): Promise<{}> {
 
   return {
     props: {
-      game: JSON.parse(JSON.stringify(games)),
+      games: JSON.parse(JSON.stringify(games)),
     },
   };
 }
