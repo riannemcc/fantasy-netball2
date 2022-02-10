@@ -10,7 +10,6 @@ handler.post(async (req: ApiRequest, res: ApiResponse) => {
   const session = await getSession({ req });
   const userEmail = session?.user?.email;
 
-  //if i take this if statement out i get a type error about  no overload matches
   if (userEmail && session.user.isAdmin) {
     const data = req.body;
 
