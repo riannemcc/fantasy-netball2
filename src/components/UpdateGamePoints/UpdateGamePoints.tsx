@@ -472,6 +472,7 @@ async function updatePoints(game, players) {
 }
 
 async function sendEmail() {
+  console.log('api');
   return fetch('/api/send-email', {
     method: 'POST',
     cache: 'no-cache',
@@ -595,11 +596,12 @@ export function UpdateGamePoints({
 
   const handleEmailSubmit = async (event) => {
     event.preventDefault();
+    console.log('handleemailsubmit', handleEmailSubmit);
 
     try {
       const res = await sendEmail();
       if (res.status === 204) {
-        alert('Email sentt 🎉');
+        alert('Email sent 🎉');
       } else {
         throw new Error(`Response status: ${res.status}`);
       }
@@ -651,7 +653,7 @@ export function UpdateGamePoints({
         ) : null}
       </form>
 
-      <button className="flex w-screen flex-col" onSubmit={handleEmailSubmit}>
+      <button className="flex w-screen flex-col" onClick={handleEmailSubmit}>
         Send email
       </button>
     </>
