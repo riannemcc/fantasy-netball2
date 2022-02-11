@@ -16,7 +16,7 @@ const sesClient = new SESClient({
 
 const buildEmail = (emailTo: string) => {
   return mailcomposer({
-    to: ['riannemccartney@hotmail.com'], // success@simulator.amazonses.com (can be used for testing)
+    to: [emailTo], // success@simulator.amazonses.com (can be used for testing)
     from: process.env.EMAIL_FROM,
     html: `
           <h1>Hello these are your points</h1>
@@ -35,15 +35,17 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   try {
     // mailcomposer doesn't have type definitions. I could have created them but I decided to be a bit lazy here :)
-    buildEmail('Your points update').build(async (err: any, message: any) => {
-      if (err) {
-        throw `Error sending raw email: ${err}`;
+    buildEmail('riannemccartney@hotmail.com').build(
+      async (err: any, message: any) => {
+        if (err) {
+          throw `Error sending raw email: ${err}`;
+        }
+        const data = await sesClient.send(
+          new SendRawEmailCommand({ RawMessage: { Data: message } })
+        );
+        console.log('Email Message Id: ', data.MessageId);
       }
-      const data = await sesClient.send(
-        new SendRawEmailCommand({ RawMessage: { Data: message } })
-      );
-      console.log('Email Message Id: ', data.MessageId);
-    });
+    );
 
     res.status(200).json({ sent: 'ok' });
   } catch (error) {
