@@ -1,13 +1,13 @@
 import moment from 'moment';
 import { Player } from '_src/types/players';
-import { User } from '_src/types/users';
+import { User, UserDb } from '_src/types/users';
 import { DEFAULT_GAME_START_DATE, START_OF_SEASON_DATE } from './constants';
 
 export function findPlayerById(
   playerId: string,
   players: Player[]
 ): Player | undefined {
-  return players.find((player) => player._id === playerId);
+  return players.find((player) => player._id.toString() === playerId);
 }
 
 export function calculatePlayerPoints(
@@ -37,14 +37,14 @@ export function calculatePlayerPoints(
 }
 
 export function calculateUserPlayerPoints(
-  user: User,
+  user: User | UserDb,
   player: Player,
   dateAdded: string
 ): number {
   let playerPoints = calculatePlayerPoints(player, dateAdded);
-  if (player._id === user.captain && playerPoints > 0) {
+  if (player._id.toString() === user.captain && playerPoints > 0) {
     playerPoints = playerPoints * 2;
-  } else if (player._id === user.viceCaptain && playerPoints > 0) {
+  } else if (player._id.toString() === user.viceCaptain && playerPoints > 0) {
     playerPoints = playerPoints * 1.5;
   }
   return playerPoints;
@@ -66,10 +66,13 @@ export function calculateExPlayerPoints(
   return playerPoints;
 }
 
-export function calculateUserPoints(user: User, players: Player[]): number {
+export function calculateUserPoints(
+  user: User | UserDb,
+  players: Player[]
+): number {
   let userPoints = 0;
   if (user) {
-    userPoints += (user.teamPlayers || []).reduce(
+    userPoints += (user.teamPlayers?.length ? user.teamPlayers : []).reduce(
       (userPointsAcc, { playerId, dateAdded }) => {
         const player = findPlayerById(playerId, players);
         const playerPoints = calculateUserPlayerPoints(user, player, dateAdded);
@@ -78,7 +81,7 @@ export function calculateUserPoints(user: User, players: Player[]): number {
       0
     );
 
-    userPoints += (user.exPlayers || []).reduce(
+    userPoints += (user.exPlayers?.length ? user.exPlayers : []).reduce(
       (
         userPointsAcc,
         { playerId, dateAdded, dateRemoved, wasCaptain, wasViceCaptain }

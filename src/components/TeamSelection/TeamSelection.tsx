@@ -86,7 +86,8 @@ export const TeamSelection = ({
     setSelectedPlayersTeams(
       players
         .filter(
-          (player) => selectedPlayerIds.includes(player._id) && player.team
+          (player) =>
+            selectedPlayerIds.includes(player._id.toString()) && player.team
         )
         .map((player) => player.team)
     );
@@ -350,30 +351,31 @@ export const TeamSelection = ({
                           (player.position &&
                             player.position.length &&
                             player.position.includes(key)) ||
-                          player._id === existingTeam[key]
+                          player._id.toString() === existingTeam[key]
                       )
                       .map((player) => {
                         const isSelectedInAnotherPosition =
-                          Object.values(team).includes(player._id) &&
-                          team[key] !== player._id;
+                          Object.values(team).includes(player._id.toString()) &&
+                          team[key] !== player._id.toString();
 
                         const isMaximumTeammatesSelected =
                           selectedPlayersTeams.filter(
                             (team) => player.team === team
                           ).length >= MAX_TEAMMATES_ALLOWED &&
-                          team[key] !== player._id;
+                          team[key] !== player._id.toString();
 
                         const isInjured = player.isInjured;
 
                         return (
                           <option
-                            key={`player-${player._id}`}
-                            value={player._id}
+                            key={`player-${player._id.toString()}`}
+                            value={player._id.toString()}
                             disabled={
                               isSelectedInAnotherPosition ||
                               isMaximumTeammatesSelected ||
                               isInjured ||
-                              player._id === '60195c482bdff032e549977f'
+                              player._id.toString() ===
+                                '60195c482bdff032e549977f'
                             }
                           >{`${player.team ? `[${player.team}]: ` : ''}${
                             player.name

@@ -103,7 +103,10 @@ function TeamPlayerPointsInput({
       {players
         .filter((player) => player.team === teamName)
         .map((player) => (
-          <div className="font-sans text-lg text-black m-4" key={player._id}>
+          <div
+            className="font-sans text-lg text-black m-4"
+            key={player._id.toString()}
+          >
             <div className="flex flex-row w-min">
               <p className="font-sans font-bold text-base text-black m-4 w-20">
                 {player.name}
@@ -119,7 +122,7 @@ function TeamPlayerPointsInput({
                   value={player.thisGoalsScored}
                   onChange={(event) =>
                     onChangePoints(
-                      player._id,
+                      player._id.toString(),
                       'thisGoalsScored',
                       event.target.value
                     )
@@ -141,7 +144,7 @@ function TeamPlayerPointsInput({
                   value={player.thisGoalAssists}
                   onChange={(event) =>
                     onChangePoints(
-                      player._id,
+                      player._id.toString(),
                       'thisGoalAssists',
                       event.target.value
                     )
@@ -160,7 +163,11 @@ function TeamPlayerPointsInput({
                   required
                   value={player.thisFeeds}
                   onChange={(event) =>
-                    onChangePoints(player._id, 'thisFeeds', event.target.value)
+                    onChangePoints(
+                      player._id.toString(),
+                      'thisFeeds',
+                      event.target.value
+                    )
                   }
                 />
                 <p className="border-2 border-black text-sm w-full p-1">
@@ -179,7 +186,7 @@ function TeamPlayerPointsInput({
                   value={player.thisGoalsMissed}
                   onChange={(event) =>
                     onChangePoints(
-                      player._id,
+                      player._id.toString(),
                       'thisGoalsMissed',
                       event.target.value
                     )
@@ -201,7 +208,7 @@ function TeamPlayerPointsInput({
                   value={player.thisPenalties}
                   onChange={(event) =>
                     onChangePoints(
-                      player._id,
+                      player._id.toString(),
                       'thisPenalties',
                       event.target.value
                     )
@@ -223,7 +230,7 @@ function TeamPlayerPointsInput({
                   value={player.thisOffensiveRebounds}
                   onChange={(event) =>
                     onChangePoints(
-                      player._id,
+                      player._id.toString(),
                       'thisOffensiveRebounds',
                       event.target.value
                     )
@@ -247,7 +254,7 @@ function TeamPlayerPointsInput({
                   value={player.thisDefensiveRebounds}
                   onChange={(event) =>
                     onChangePoints(
-                      player._id,
+                      player._id.toString(),
                       'thisDefensiveRebounds',
                       event.target.value
                     )
@@ -271,7 +278,7 @@ function TeamPlayerPointsInput({
                   value={player.thisInterceptions}
                   onChange={(event) =>
                     onChangePoints(
-                      player._id,
+                      player._id.toString(),
                       'thisInterceptions',
                       event.target.value
                     )
@@ -293,7 +300,7 @@ function TeamPlayerPointsInput({
                   value={player.thisDeflections}
                   onChange={(event) =>
                     onChangePoints(
-                      player._id,
+                      player._id.toString(),
                       'thisDeflections',
                       event.target.value
                     )
@@ -315,7 +322,7 @@ function TeamPlayerPointsInput({
                   value={player.thisTurnovers}
                   onChange={(event) =>
                     onChangePoints(
-                      player._id,
+                      player._id.toString(),
                       'thisTurnovers',
                       event.target.value
                     )
@@ -337,7 +344,7 @@ function TeamPlayerPointsInput({
                   value={player.thisUnforcedErrors}
                   onChange={(event) =>
                     onChangePoints(
-                      player._id,
+                      player._id.toString(),
                       'thisUnforcedErrors',
                       event.target.value
                     )
@@ -359,7 +366,7 @@ function TeamPlayerPointsInput({
                   value={player.thisCautions}
                   onChange={(event) =>
                     onChangePoints(
-                      player._id,
+                      player._id.toString(),
                       'thisCautions',
                       event.target.value
                     )
@@ -378,7 +385,11 @@ function TeamPlayerPointsInput({
                   required
                   value={player.thisMVP}
                   onChange={(event) =>
-                    onChangePoints(player._id, 'thisMVP', event.target.value)
+                    onChangePoints(
+                      player._id.toString(),
+                      'thisMVP',
+                      event.target.value
+                    )
                   }
                 />
                 <p className="border-2 border-black text-sm w-full p-1">
@@ -417,12 +428,14 @@ async function updatePoints(game, players) {
   const playersGames = players.map((player) => {
     const otherGames =
       (player.games &&
-        player.games.filter((playerGame) => game._id !== playerGame.gameId)) ||
+        player.games.filter(
+          (playerGame) => game._id.toString() !== playerGame.gameId
+        )) ||
       [];
     const allPlayerGames = [
       ...otherGames,
       {
-        gameId: game._id,
+        gameId: game._id.toString(),
         startDateTime: game.startDateTime,
         points:
           convertGoalsScoredToPoints(player.thisGoalsScored) +
@@ -455,7 +468,7 @@ async function updatePoints(game, players) {
     ];
 
     return {
-      id: player._id,
+      id: player._id.toString(),
       games: allPlayerGames,
     };
   });
@@ -468,6 +481,17 @@ async function updatePoints(game, players) {
     },
     referrerPolicy: 'no-referrer',
     body: JSON.stringify({ playersGames }),
+  });
+}
+
+async function sendEmail() {
+  return fetch('/api/send-email', {
+    method: 'POST',
+    cache: 'no-cache',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    referrerPolicy: 'no-referrer',
   });
 }
 
@@ -489,7 +513,7 @@ export function UpdateGamePoints({
   });
 
   const handleSelectGame = (gameId) => {
-    const selectedGame = games.find((game) => game._id === gameId);
+    const selectedGame = games.find((game) => game._id.toString() === gameId);
 
     setSelected({
       game: selectedGame,
@@ -502,7 +526,9 @@ export function UpdateGamePoints({
         .map((player) => {
           const playerGameRef =
             player.games &&
-            player.games.find((game) => game.gameId === selectedGame._id);
+            player.games.find(
+              (game) => game.gameId === selectedGame._id.toString()
+            );
           const goalsScored = (playerGameRef && playerGameRef.goalsScored) || 0;
           const goalAssists = (playerGameRef && playerGameRef.goalAssists) || 0;
           const feeds = (playerGameRef && playerGameRef.feeds) || 0;
@@ -553,7 +579,7 @@ export function UpdateGamePoints({
         players: state.players.map((player) => ({
           ...player,
           [pointsKey]:
-            player._id === playerId
+            player._id.toString() === playerId
               ? parseInt(pointsValue, 10)
               : player[pointsKey],
         })),
@@ -582,45 +608,67 @@ export function UpdateGamePoints({
     }
   };
 
+  const handleEmailSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      const res = await sendEmail();
+      if (res.status === 200) {
+        alert('Email sent 🎉');
+      } else {
+        throw new Error(`Response status: ${res.status}`);
+      }
+    } catch (error) {
+      console.error(error);
+      alert('Sorry, something went wrong.');
+    }
+  };
+
   return (
-    <form className="flex w-screen flex-col" onSubmit={handleSubmit}>
-      <label htmlFor="select-game">Select a game</label>
-      <select
-        id="select-game"
-        className="w-8/12 ml-6 mb-6 border-2 border-black"
-        onChange={(event) => {
-          handleSelectGame(event.target.value);
-        }}
-      >
-        <option value="">--- No game selected ---</option>
-        {games.map((game) => (
-          <option key={game._id} value={game._id}>
-            {getGameHeading(game)}
-          </option>
-        ))}
-      </select>
-      {selected.game ? (
-        <>
-          <div className="flex flex-col w-screen justify-center">
-            <TeamPlayerPointsInput
-              teamName={selected.game.homeTeam}
-              players={selected.players}
-              onChangePoints={handleChangePoints}
-            />
-            <TeamPlayerPointsInput
-              teamName={selected.game.awayTeam}
-              players={selected.players}
-              onChangePoints={handleChangePoints}
-            />
-          </div>
-          <button
-            className="bg-pink hover:bg-pink-700 text-white font-bold py-2 px-4 rounded-full self-center"
-            type="submit"
-          >
-            Update points
-          </button>
-        </>
-      ) : null}
-    </form>
+    <>
+      <form className="flex w-screen flex-col" onSubmit={handleSubmit}>
+        <label htmlFor="select-game">Select a game</label>
+        <select
+          id="select-game"
+          className="w-8/12 ml-6 mb-6 border-2 border-black"
+          onChange={(event) => {
+            handleSelectGame(event.target.value);
+          }}
+        >
+          <option value="">--- No game selected ---</option>
+          {games.map((game) => (
+            <option key={game._id.toString()} value={game._id.toString()}>
+              {getGameHeading(game)}
+            </option>
+          ))}
+        </select>
+        {selected.game ? (
+          <>
+            <div className="flex flex-col w-screen justify-center">
+              <TeamPlayerPointsInput
+                teamName={selected.game.homeTeam}
+                players={selected.players}
+                onChangePoints={handleChangePoints}
+              />
+              <TeamPlayerPointsInput
+                teamName={selected.game.awayTeam}
+                players={selected.players}
+                onChangePoints={handleChangePoints}
+              />
+            </div>
+            <button
+              className="bg-pink hover:bg-pink-700 text-white font-bold py-2 px-4 rounded-full self-center"
+              type="submit"
+            >
+              Update points
+            </button>
+          </>
+        ) : null}
+      </form>
+
+      <button className="flex w-screen flex-col" onClick={handleEmailSubmit}>
+        Send email
+      </button>
+    </>
   );
 }

@@ -45,13 +45,14 @@ export default function Profile({ players }: ProfileProps): ReactElement {
       return [...playersAcc, ...userPlayers];
     }, [])
     .reduce((playersMap, player) => {
-      if (playersMap[player._id]) {
-        playersMap[player._id].count = playersMap[player._id].count + 1;
+      if (playersMap[player._id.toString()]) {
+        playersMap[player._id.toString()].count =
+          playersMap[player._id.toString()].count + 1;
         return playersMap;
       }
       return {
         ...playersMap,
-        [player._id]: {
+        [player._id.toString()]: {
           ...player,
           count: 1,
         },

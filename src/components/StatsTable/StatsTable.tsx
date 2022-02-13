@@ -91,7 +91,7 @@ export const StatsTable = ({ players }: StatsTableProps): ReactElement => {
                         return 0;
                       });
                     return (
-                      <tr key={`${team}-${player._id}`}>
+                      <tr key={`${team}-${player._id.toString()}`}>
                         <td className="border border-black px-4 py-2">
                           {player.name}
                         </td>

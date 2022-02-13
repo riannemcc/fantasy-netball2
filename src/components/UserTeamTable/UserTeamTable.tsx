@@ -56,14 +56,14 @@ export const UserTeamTable = ({
                   {player ? (
                     <>
                       {player.name}
-                      {player._id === currentUser.captain ? (
+                      {player._id.toString() === currentUser.captain ? (
                         <span className="w-6 bg-pink text-white rounded p-1 m-2">
                           C
                         </span>
                       ) : (
                         ''
                       )}
-                      {player._id === currentUser.viceCaptain ? (
+                      {player._id.toString() === currentUser.viceCaptain ? (
                         <span className="w-6 bg-pink text-white rounded p-1 m-2">
                           VC
                         </span>
