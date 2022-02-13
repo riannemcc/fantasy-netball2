@@ -1,39 +1,47 @@
 import React, { ReactElement } from 'react';
-import { useRouter } from 'next/router';
 import moment from 'moment';
-import { Game } from '_src/types/games';
 
-interface GameFixture extends Game {
-  id: string;
-  homeTeam: string;
-  awayTeam: string;
-  startDateTime: string;
+interface AddGameFixturesProps {
+  teams: string[];
 }
 
-export const AddGameFixtures = (): ReactElement => {
+export const AddGameFixtures = ({
+  teams,
+}: AddGameFixturesProps): ReactElement => {
   const [homeTeam, setHomeTeam] = React.useState('');
   const [awayTeam, setAwayTeam] = React.useState('');
   const [startDateTime, setStartDateTime] = React.useState('');
   const [isSubmitting, setIsSubmitting] = React.useState(false);
-  const router = useRouter();
+  const homeTeams = React.useMemo(() => {
+    return teams.filter((team) => team !== awayTeam);
+  }, [teams, awayTeam]);
+  const awayTeams = React.useMemo(() => {
+    return teams.filter((team) => team !== homeTeam);
+  }, [teams, homeTeam]);
+
+  const resetValues = React.useCallback(() => {
+    setHomeTeam('');
+    setAwayTeam('');
+    setStartDateTime('');
+  }, [setHomeTeam, setAwayTeam, setStartDateTime]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     setIsSubmitting(true);
     try {
-      const res = await updateGameFixture(homeTeam, awayTeam, startDateTime);
-      if (res.status === 204) {
-        alert('Fixture updated 🎉');
+      const res = await addGameFixture(homeTeam, awayTeam, startDateTime);
+      if (res.status === 201) {
+        alert('Fixture added 🎉');
+        resetValues();
       } else {
-        setIsSubmitting(false);
         throw new Error(`Response status: ${res.status}`);
       }
     } catch (error) {
-      setIsSubmitting(false);
       console.error(error);
       alert('Sorry, something went wrong');
     }
+    setIsSubmitting(false);
   };
 
   return (
@@ -48,7 +56,7 @@ export const AddGameFixtures = (): ReactElement => {
         <div className="bg-gray-200 m-4 pb-4 border-black border-2 w-auto rounded relative">
           <form id="formy" className="flex flex-col" onSubmit={handleSubmit}>
             <label
-              htmlFor="homeTeam"
+              htmlFor="home-team-select"
               className="font-sans font-bold text-xl text-black m-4"
             >
               Home Team:
@@ -56,45 +64,35 @@ export const AddGameFixtures = (): ReactElement => {
             <select
               id="home-team-select"
               value={homeTeam}
+              required
               onChange={(event) => setHomeTeam(event.target.value)}
             >
               <option value="">--Please choose an option--</option>
-              <option value="leeds">Leeds Rhinos</option>
-              <option value="wasps">Wasps</option>
-              <option value="mavs">Saracens Mavericks</option>
-              <option value="bath">Team Bath</option>
-              <option value="thunder">Manchester Thunder</option>
-              <option value="lightning">Loughborough Lightning</option>
-              <option value="stars">Severn Stars</option>
-              <option value="storm">Surrey Storm</option>
-              <option value="sirens">Strathclyde Sirens</option>
-              <option value="dragons">Celtic Dragons</option>
-              <option value="pulse">London Pulse</option>
+              {homeTeams.map((team, index) => (
+                <option key={`home-option-${team}-${index}`} value={team}>
+                  {team}
+                </option>
+              ))}
             </select>
 
             <label
-              htmlFor="awayTeam"
+              htmlFor="away-team-select"
               className="font-sans font-bold text-xl text-black m-4"
             >
               Away Team:
             </label>
             <select
-              id="home-team-select"
-              value={homeTeam}
-              onChange={(event) => setHomeTeam(event.target.value)}
+              id="away-team-select"
+              value={awayTeam}
+              required
+              onChange={(event) => setAwayTeam(event.target.value)}
             >
               <option value="">--Please choose an option--</option>
-              <option value="leeds">Leeds Rhinos</option>
-              <option value="wasps">Wasps</option>
-              <option value="mavs">Saracens Mavericks</option>
-              <option value="bath">Team Bath</option>
-              <option value="thunder">Manchester Thunder</option>
-              <option value="lightning">Loughborough Lightning</option>
-              <option value="stars">Severn Stars</option>
-              <option value="storm">Surrey Storm</option>
-              <option value="sirens">Strathclyde Sirens</option>
-              <option value="dragons">Celtic Dragons</option>
-              <option value="pulse">London Pulse</option>
+              {awayTeams.map((team, index) => (
+                <option key={`away-option-${team}-${index}`} value={team}>
+                  {team}
+                </option>
+              ))}
             </select>
 
             <label
@@ -104,13 +102,15 @@ export const AddGameFixtures = (): ReactElement => {
               Date:
             </label>
             <input
-              type="date"
+              type="datetime-local"
               id="startDateTime"
               name="startDateTime"
               className="border-2 border-black w-6/12 ml-4"
               required
-              value={startDateTime}
-              onChange={(event) => setStartDateTime(event.target.value)}
+              value={moment(startDateTime).format('YYYY-MM-DDTHH:mm')}
+              onChange={(event) =>
+                setStartDateTime(moment(event.target.value).toISOString())
+              }
             />
 
             <button
@@ -127,7 +127,11 @@ export const AddGameFixtures = (): ReactElement => {
   );
 };
 
-async function updateGameFixture(homeTeam, awayTeam, startDateTime) {
+async function addGameFixture(
+  homeTeam: string,
+  awayTeam: string,
+  startDateTime: string
+) {
   return fetch('/api/update-fixtures', {
     method: 'POST',
     cache: 'no-cache',

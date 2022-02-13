@@ -8,21 +8,32 @@ handler.use(middleware);
 
 handler.post(async (req: ApiRequest, res: ApiResponse) => {
   const session = await getSession({ req });
+  let currentUser = null;
   const userEmail = session?.user?.email;
 
-  if (userEmail && session.user.isAdmin) {
-    const data = req.body;
+  if (userEmail) {
+    currentUser = await req.db
+      .collection('users')
+      .findOne({ email: userEmail });
+  }
 
-    await req.db.collection('games').insertOne({
-      hometeam: data.homeTeam,
-      awayTeam: data.awayTeam,
-      startDateTime: data.startDateTime,
-    });
-    res.status(204).json({
-      message: 'ok',
-    });
+  if (currentUser && currentUser.isAdmin) {
+    const { homeTeam, awayTeam, startDateTime } = req.body;
+
+    if (homeTeam && awayTeam && startDateTime) {
+      await req.db.collection('games').insertOne({
+        homeTeam,
+        awayTeam,
+        startDateTime,
+      });
+      res.status(201).json({
+        message: 'ok',
+      });
+    } else {
+      res.status(400).end('Bad Request');
+    }
   } else {
-    res.status(401).end(`Not allowed`);
+    res.status(401).end('Not allowed');
   }
 });
 

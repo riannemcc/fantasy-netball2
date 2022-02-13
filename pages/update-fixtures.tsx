@@ -5,10 +5,14 @@ import { AddGameFixtures } from '_components/AddGameFixtures';
 import { Game } from '_src/types/games';
 import { useCurrentUser } from '_src/hooks/useCurrentUser';
 
-interface AddGamesProps {
+interface FixturesPageProps {
   games: Game[];
+  teams: string[];
 }
-export default function AddGames({ games }: AddGamesProps): ReactElement {
+
+export default function FixturesPage({
+  teams,
+}: FixturesPageProps): ReactElement {
   const { status } = useSession();
   const { currentUser } = useCurrentUser();
 
@@ -17,25 +21,26 @@ export default function AddGames({ games }: AddGamesProps): ReactElement {
   }
 
   if (currentUser && currentUser.isAdmin) {
-    return <AddGameFixtures games={games} />;
+    return <AddGameFixtures teams={teams} />;
   }
 
   return <div>This page is not for you ⛔</div>;
 }
 
-export async function getServerSideProps(): Promise<{}> {
+export async function getServerSideProps(): Promise<{
+  props: FixturesPageProps;
+}> {
   const { db } = await connectToDatabase();
 
-  const games = await db
-    .collection('games')
-    .find({})
-    .sort({})
-    .limit(300)
-    .toArray();
+  const gamesPromise = db.collection('games').find({}).toArray();
+  const teamsPromise = db.collection('players').distinct('team');
+
+  const [games, teams] = await Promise.all([gamesPromise, teamsPromise]);
 
   return {
     props: {
       games: JSON.parse(JSON.stringify(games)),
+      teams: JSON.parse(JSON.stringify(teams.sort())),
     },
   };
 }
