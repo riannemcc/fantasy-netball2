@@ -97,14 +97,24 @@ export const NavBar = (): ReactElement => {
             </a>
           </Link>
           {currentUser && currentUser.isAdmin ? (
-            <Link href="/update-points">
-              <a
-                onClick={handleClick}
-                className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-pink font-bold items-center justify-center hover:bg-green-600 hover:text-white"
-              >
-                Update Points
-              </a>
-            </Link>
+            <>
+              <Link href="/update-points">
+                <a
+                  onClick={handleClick}
+                  className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-pink font-bold items-center justify-center hover:bg-green-600 hover:text-white"
+                >
+                  Update Points
+                </a>
+              </Link>
+              <Link href="/update-fixtures">
+                <a
+                  onClick={handleClick}
+                  className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-pink font-bold items-center justify-center hover:bg-green-600 hover:text-white"
+                >
+                  Update Fixtures
+                </a>
+              </Link>
+            </>
           ) : null}
           {status === 'loading' ? null : <SessionButton />}
         </div>
