@@ -25,8 +25,8 @@ function sendEmail({
     from: process.env.EMAIL_FROM,
     to: user.email,
     html: `
-      <h1 style="color: #000; font-size: 20px;">
-        Hello! Here's the latest update for your Fantasy Netball team
+      <h1 style="color: #000; font-size: 18px;">
+        Hello! Here's the week two update for your Fantasy Netball team.
       </h1>
       <p style="color: #000; font-size: 16px;">
         Team: ${user.teamname}
@@ -35,10 +35,11 @@ function sendEmail({
         Points: ${points}
       </p>
       <p style="color: #000; font-size: 16px;">Go check out your leaderboard position at&nbsp;
-        <a href="https://fantasynetballuk.com/" style="color: #03989e;">
+        <a href="https://fantasynetballuk.com/leaderboard" style="color: #03989e;">
           fantasynetballuk.com
         </a>
       </p>
+      <h2 style="color: #000; font-size: 18px;">Fantasy Netball HQ</h2>
       `,
     subject: `Fantasy Netball Update: ${user.teamname}`,
   });
@@ -78,8 +79,8 @@ handler.post(async (req: ApiRequest, res: ApiResponse) => {
         req.db.collection<Player>('players').find({}).toArray(),
         req.db
           .collection<UserDb>('users')
-          .find({ email: { $in: emails } })
-          // .find({ teamPlayers: { $size: 7 } }) // get all users with 7 players in team
+          // .find({ email: { $in: emails } })
+          .find({ teamPlayers: { $size: 7 } }) // get all users with 7 players in team
           .toArray(),
       ]);
 
