@@ -29,14 +29,6 @@ const options = {
   session: {
     strategy: 'jwt' as SessionStrategy,
   },
-  callbacks: {
-    redirect: async ({ url }) => {
-      if (url === '/api/auth/signin') {
-        return Promise.resolve('/profile');
-      }
-      return Promise.resolve('/api/auth/signin');
-    },
-  },
 };
 
 export default (
