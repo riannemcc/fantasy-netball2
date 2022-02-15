@@ -69,6 +69,17 @@ export default function TeamSelectionPage({
     );
   }
 
+  if (currentUser.email === 'melanie.robinson184@gmail.com') {
+    return (
+      <TeamSelection
+        players={players}
+        currentUser={currentUser}
+        isInjuryUpdate={hasInjuredPlayers}
+        isTransferWindow={isTransferWindow}
+      />
+    );
+  }
+
   // if (currentUser.teamPlayers) {
   //   return (
   //     <div
