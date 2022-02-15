@@ -69,7 +69,7 @@ export default function TeamSelectionPage({
     );
   }
 
-  if (currentUser.email === 'melanie.robinson184@gmail.com') {
+  if (currentUser.email === 'melanie.robinson184@gmail.com ') {
     return (
       <TeamSelection
         players={players}
