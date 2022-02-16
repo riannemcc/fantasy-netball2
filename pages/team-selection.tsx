@@ -22,13 +22,13 @@ export default function TeamSelectionPage({
     return null;
   }
 
-  if ((currentUser.teamPlayers || []).length === 0) {
-    return (
-      <div className="m-6 p-2 bg-green-100 border border-green-400 text-black text-xl font-bold px-4 py-3 rounded relative">
-        Team selection is now closed. Come back next year!
-      </div>
-    );
-  }
+  // if ((currentUser.teamPlayers || []).length === 0) {
+  //   return (
+  //     <div className="m-6 p-2 bg-green-100 border border-green-400 text-black text-xl font-bold px-4 py-3 rounded relative">
+  //       Team selection is now closed. Come back next year!
+  //     </div>
+  //   );
+  // }
 
   const hasInjuredPlayers = (currentUser.teamPlayers || []).some(
     ({ playerId }) => {
@@ -69,17 +69,6 @@ export default function TeamSelectionPage({
     );
   }
 
-  if (currentUser.email === 'melanie.robinson184@gmail.com ') {
-    return (
-      <TeamSelection
-        players={players}
-        currentUser={currentUser}
-        isInjuryUpdate={hasInjuredPlayers}
-        isTransferWindow={isTransferWindow}
-      />
-    );
-  }
-
   // if (currentUser.teamPlayers) {
   //   return (
   //     <div
@@ -105,10 +94,10 @@ export default function TeamSelectionPage({
   // }
 
   return (
-    // <TeamSelection players={players} currentUser={currentUser} />
-    <div className="m-6 p-2 bg-green-100 border border-green-400 text-black text-xl font-bold px-4 py-3 rounded relative">
-      Team selection is now closed. Come back next year!
-    </div>
+    <TeamSelection players={players} currentUser={currentUser} />
+    // <div className="m-6 p-2 bg-green-100 border border-green-400 text-black text-xl font-bold px-4 py-3 rounded relative">
+    //   Team selection is now closed. Come back next year!
+    // </div>
   );
 }
 
