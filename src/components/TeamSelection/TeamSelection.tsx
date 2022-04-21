@@ -32,7 +32,7 @@ export const TeamSelection = ({
   players = [],
   currentUser,
   isInjuryUpdate = false,
-  isTransferWindow = false,
+  isTransferWindow = true,
 }: TeamSelectionProps): ReactElement => {
   const [existingTeam, setExistingTeam] =
     React.useState<Record<string, string>>(initialTeamState);

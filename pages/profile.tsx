@@ -80,7 +80,7 @@ export default function Profile({ players }: ProfileProps): ReactElement {
     <div className="m-2 self-center flex flex-col">
       {currentUser.teamPlayers ? (
         <>
-          {/* <div className="m-4 p-2 bg-blue-200 opacity-1 border border-blue-900 text-black text-lg font-bold px-4 py-3 rounded relative">
+          <div className="m-4 p-2 bg-blue-200 opacity-1 border border-blue-900 text-black text-lg font-bold px-4 py-3 rounded relative">
             <div className="flex">
               <Exclaim className="w-7 mr-2" />
               <span>
@@ -91,7 +91,7 @@ export default function Profile({ players }: ProfileProps): ReactElement {
                 to select your players.
               </span>
             </div>
-          </div> */}
+          </div>
           <div className="m-4 flex flex-row">
             <span className="text-xl text-black font-bold ">Your Team</span>
             <div className="border-t-2 flex-1 ml-2 leading-9 text-base font-semibold mt-3.5 border-pink opacity-80" />
