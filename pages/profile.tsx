@@ -122,7 +122,7 @@ export default function Profile({ players }: ProfileProps): ReactElement {
               currentUser={currentUser}
               players={players}
             />
-            {currentUser.exPlayers ? (
+            {currentUser.exPlayers && currentUser.exPlayers.length > 0 ? (
               <>
                 <span className="text-xl text-pink font-bold m-2">
                   Previous players
