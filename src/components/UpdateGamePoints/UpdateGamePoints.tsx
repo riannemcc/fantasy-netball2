@@ -471,6 +471,18 @@ async function updatePoints(game, players) {
   });
 }
 
+async function sendEmail() {
+  console.log('api');
+  return fetch('/api/send-email', {
+    method: 'POST',
+    cache: 'no-cache',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    referrerPolicy: 'no-referrer',
+  });
+}
+
 interface UpdateGamePointsProps {
   games: Game[];
   players: Player[];
@@ -582,45 +594,68 @@ export function UpdateGamePoints({
     }
   };
 
+  const handleEmailSubmit = async (event) => {
+    event.preventDefault();
+    console.log('handleemailsubmit', handleEmailSubmit);
+
+    try {
+      const res = await sendEmail();
+      if (res.status === 204) {
+        alert('Email sent 🎉');
+      } else {
+        throw new Error(`Response status: ${res.status}`);
+      }
+    } catch (error) {
+      console.error(error);
+      alert('Sorry, something went wrong.');
+    }
+  };
+
   return (
-    <form className="flex w-screen flex-col" onSubmit={handleSubmit}>
-      <label htmlFor="select-game">Select a game</label>
-      <select
-        id="select-game"
-        className="w-8/12 ml-6 mb-6 border-2 border-black"
-        onChange={(event) => {
-          handleSelectGame(event.target.value);
-        }}
-      >
-        <option value="">--- No game selected ---</option>
-        {games.map((game) => (
-          <option key={game._id} value={game._id}>
-            {getGameHeading(game)}
-          </option>
-        ))}
-      </select>
-      {selected.game ? (
-        <>
-          <div className="flex flex-col w-screen justify-center">
-            <TeamPlayerPointsInput
-              teamName={selected.game.homeTeam}
-              players={selected.players}
-              onChangePoints={handleChangePoints}
-            />
-            <TeamPlayerPointsInput
-              teamName={selected.game.awayTeam}
-              players={selected.players}
-              onChangePoints={handleChangePoints}
-            />
-          </div>
-          <button
-            className="bg-pink hover:bg-pink-700 text-white font-bold py-2 px-4 rounded-full self-center"
-            type="submit"
-          >
-            Update points
-          </button>
-        </>
-      ) : null}
-    </form>
+    <>
+      <form className="flex w-screen flex-col" onSubmit={handleSubmit}>
+        <label htmlFor="select-game">Select a game</label>
+        <select
+          id="select-game"
+          className="w-8/12 ml-6 mb-6 border-2 border-black"
+          onChange={(event) => {
+            handleSelectGame(event.target.value);
+          }}
+        >
+          <option value="">--- No game selected ---</option>
+          {games.map((game) => (
+            <option key={game._id} value={game._id}>
+              {getGameHeading(game)}
+            </option>
+          ))}
+        </select>
+        {selected.game ? (
+          <>
+            <div className="flex flex-col w-screen justify-center">
+              <TeamPlayerPointsInput
+                teamName={selected.game.homeTeam}
+                players={selected.players}
+                onChangePoints={handleChangePoints}
+              />
+              <TeamPlayerPointsInput
+                teamName={selected.game.awayTeam}
+                players={selected.players}
+                onChangePoints={handleChangePoints}
+              />
+            </div>
+            <button
+              className="bg-pink hover:bg-pink-700 text-white font-bold py-2 px-4 rounded-full self-center"
+              type="submit"
+            >
+              Update points
+            </button>
+          </>
+        ) : null}
+      </form>
+
+      <button className="flex w-screen flex-col" onClick={handleEmailSubmit}>
+        Send email
+      </button>
+    </>
   );
 }
